@@ -1,4 +1,4 @@
-<span id="a">grant@grant-laptop</span>:<span id="b">~</span><span id="c">$</span><!-- asdjf;salkdjf;kjdsa;fljsa;dlkfj --> cat grantshandy.md<br/># Hi, I'm Grant Handy.<!-- laglaglaglaglaglaglaglaglaglaglaglag --><p>I'm a high school student, self-taught programmer, linux/unix user, and Rust enthusiast.</p><!-- laglaglaglaglaglaglaglaglaglaglaglag -->
+<span id="a">grant@grant-laptop</span>:<span id="b">~</span><span id="c">$</span><!-- asdjf;salkdjf;kjdsa;fljsa;dlkfj --> cat grantshandy.md<br/># Hi, I'm Grant Handy.<!-- laglaglaglaglaglaglaglaglaglaglaglag --><p>I'm a high school student, self-taught programmer, linux/unix user, and Rust enthusiast.</p>
 <p> - I’m currently working on... </p>
 <p>     - <a href="https://github.com/skylinecc/ferride">ferride</a>, a Rust IDE written in GTK.</p>
 <p>     - <a href="https://github.com/grantshandy/alacritty-gobject">alacritty-gobject</a>, a GObject for using the <a href="https://github.com/alacritty/alacritty">alacritty</a> terminal emulator in GTK applications.</p>
