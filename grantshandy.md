@@ -2,7 +2,7 @@
 <p>
 ## I’m currently working on...
 - <a href="https://github.com/skylinecc/ferride">ferride</a>, a Rust IDE written in GTK.
-- <a href="https://github.com/grantshandy/alacritty-gobject">alacritty-gobject</a>, a GObject for using the [alacritty](https://github.com/alacritty/alacritty) terminal emulator in GTK applications.
+- <a href="https://github.com/grantshandy/alacritty-gobject">alacritty-gobject</a>, a GObject for using the <a href="https://github.com/alacritty/alacritty">alacritty</a> terminal emulator in GTK applications.
 ## I've contributed to...
 - <a href="https://github.com/gtk-rs/gtk4-rs/commits?author=grantshandy">gtk4-rs</a>
 - <a href="https://github.com/skylinecc/ipmap/commits?author=grantshandy">ipmap</a>
