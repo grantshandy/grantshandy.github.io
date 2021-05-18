@@ -16,5 +16,6 @@
 ## How to reach me:
 - Email: <a href="mailto://grantshandy@gmail.com">grantshandy@gmail.com</a>
 - Discord: !freedo.as_str()#5620</p>
+- Github: <a href="https://github.com/grantshandy">github.com/grantshandy</a>
 
 <span id="a">grant@grant-laptop</span>:<span id="b">~</span><span id="c">$ </span>
