@@ -6,8 +6,8 @@
 - <a href="https://github.com/grantshandy/alacritty-gobject">alacritty-gobject</a>, a GObject for using the <a href="https://github.com/alacritty/alacritty">alacritty</a> terminal emulator in GTK applications.
 
 ## I've contributed to...
-- <a href="https://github.com/gtk-rs/gtk4-rs/commits?author=grantshandy">gtk4-rs</a>.
-- <a href="https://github.com/skylinecc/ipmap/commits?author=grantshandy">ipmap</a>.
+- <a href="https://github.com/gtk-rs/gtk4-rs/commits?author=grantshandy">gtk4-rs</a>
+- <a href="https://github.com/skylinecc/ipmap/commits?author=grantshandy">ipmap</a>
 
 ## About me
 - I’m currently learning C, C++, & Java.
