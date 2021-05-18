@@ -1,5 +1,5 @@
-<span id="a">grant@grant-laptop</span>:<span id="b">~</span><span id="c">$</span><!-- asdjf;salkdjf;kjdsa;fljsa;dlkfj --> cat grantshandy.md<br/># Hi, I'm Grant Handy.<!-- laglaglaglaglaglaglaglaglaglaglaglag -->
-<p>I'm a high school student, self-taught programmer, linux/unix user, and <a href="https://rust-lang.org">Rust</a> enthusiast.
+<p><span id="a">grant@grant-laptop</span>:<span id="b">~</span><span id="c">$</span><!-- asdjf;salkdjf;kjdsa;fljsa;dlkfj --> cat grantshandy.md<br/># Hi, I'm Grant Handy.<!-- laglaglaglaglaglaglaglaglaglaglaglag -->
+I'm a high school student, self-taught programmer, linux/unix user, and <a href="https://rust-lang.org">Rust</a> enthusiast.
 
 <span id="a">grant@grant-laptop</span>:<span id="b">~</span><span id="c">$</span><!-- asdjf;salkdjf;kjdsa;fljsa;dlkfj --> cat work.md<br/>## I’m currently working on...
 - <a href="https://github.com/skylinecc/ferride">ferride</a>, a Rust IDE written in GTK.
