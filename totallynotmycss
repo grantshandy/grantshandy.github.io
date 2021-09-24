@@ -1,0 +1,111 @@
+@font-face {
+    font-family: "Vulf Sans";
+    font-style: italic;
+    font-weight: 800;
+    src: url("Vulf_Sans-Black_Italic.woff2");
+}
+
+@font-face {
+    font-family: "Vulf Sans";
+    font-style: normal;
+    font-weight: 800;
+    src: url("Vulf_Sans-Black.woff2");
+}
+
+@font-face {
+    font-family: "Vulf Sans";
+    font-style: italic;
+    font-weight: 700;
+    src: url("Vulf_Sans-Bold_Italic.woff2");
+}
+
+@font-face {
+    font-family: "Vulf Sans";
+    font-style: normal;
+    font-weight: 700;
+    src: url("Vulf_Sans-Bold.woff2");
+}
+
+@font-face {
+    font-family: "Vulf Sans";
+    font-style: italic;
+    font-weight: 400;
+    src: url("Vulf_Sans-Italic.woff2");
+}
+
+@font-face {
+    font-family: "Vulf Sans";
+    font-style: italic;
+    font-weight: 300;
+    src: url("Vulf_Sans-Light_Italic.woff2");
+}
+
+@font-face {
+    font-family: "Vulf Sans";
+    font-style: normal;
+    font-weight: 300;
+    src: url("Vulf_Sans-Light.woff2");
+}
+
+@font-face {
+    font-family: "Vulf Sans";
+    font-style: Italic;
+    font-weight: 600;
+    src: url("Vulf_Sans-Medium_Italic.woff2");
+}
+
+@font-face {
+    font-family: "Vulf Sans";
+    font-style: normal;
+    font-weight: 600;
+    src: url("Vulf_Sans-Medium.woff2");
+}
+
+@font-face {
+    font-family: "Vulf Sans";
+    font-style: normal;
+    font-weight: 400;
+    src: url("Vulf_Sans-Regular.woff2");
+}
+
+:root {
+    --wayback: #ffffff;
+    --back: #f6f5f4;
+    --link: #DA0037;
+    --text: #241f31;
+  }
+
+body, html {
+    font-family: "Vulf Sans";
+    line-height: 1.8;
+
+    background-color: var(--wayback);
+    color: var(--text);
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 100%;
+}
+
+a {
+    color: var(--link);
+}
+
+.doc {
+    flex-grow: 1;
+    margin-left: 2%;
+    padding-left: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    width: 45vw;
+    background-color: var(--back);
+
+    height: auto !important;
+}
+
+.project img {
+    width: 70%;
+}
