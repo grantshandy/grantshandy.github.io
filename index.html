@@ -1,0 +1,39 @@
+<html> 
+<head> 
+  <title>Grant Handy</title>
+  <link rel="icon" href="https://avatars.githubusercontent.com/u/45475651?v=4">
+  <link rel="stylesheet" type="text/css" href="sitestyle.css" media="screen" />
+</head> 
+<body>
+<div style="text-align: center; margin-left: auto; margin-right: auto; width: 60%">
+<h1>Grant Handy</h1>
+<p>I'm a high school student, self-taught programmer, linux/unix user, and a <a href="https://rust-lang.org">Rust</a> enthusiast.</p>
+<h2>Projects</h2>
+<hr>
+<h3><a href="https://github.com/skylinecc/ipmap">Ipmap</a></h3>
+<img src="https://raw.githubusercontent.com/skylinecc/ipmap/main/data/screenshot.png">
+<p>An interactive map that shows connected IP addresses.</p>
+<h3><a href="https://github.com/grantshandy/gtktranslate">Gtktranslate</a></h3>
+<img src="https://raw.githubusercontent.com/skylinecc/gtktranslate/master/data/screenshot.png">
+<p>A Simple GTK Translator</p>
+<h3><a href="https://github.com/grantshandy/libretranslate-rs">Libretranslate</a></h3>
+<p>A LibreTranslate API client for Rust.</p>
+<pre>
+use libretranslate::{translate, Language};
+
+#[tokio::main]
+async fn main() {
+  let source = Language::French;
+  let target = Language::English;
+  let input = "Le texte français.";
+
+  let data = translate(source, target, input, None).await.unwrap();
+
+  println!("Input {}: {}", data.source.as_pretty(), data.input);
+  println!("Output {}: {}", data.target.as_pretty(), data.output);
+}
+</pre>
+</div>
+</div>
+</body> 
+</html> 
