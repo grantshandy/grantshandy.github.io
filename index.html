@@ -5,35 +5,35 @@
   <link rel="stylesheet" type="text/css" href="sitestyle.css" media="screen" />
 </head> 
 <body>
-<div style="text-align: center; margin-left: auto; margin-right: auto; width: 60%">
 <h1>Grant Handy</h1>
 <p>I'm a high school student, self-taught programmer, linux/unix user, and a <a href="https://rust-lang.org">Rust</a> enthusiast.</p>
 <h2>Projects</h2>
-<hr>
-<h3><a href="https://github.com/skylinecc/ipmap">Ipmap</a></h3>
-<img src="https://raw.githubusercontent.com/skylinecc/ipmap/main/data/screenshot.png">
-<p>An interactive map that shows connected IP addresses.</p>
-<h3><a href="https://github.com/grantshandy/gtktranslate">Gtktranslate</a></h3>
-<img src="https://raw.githubusercontent.com/skylinecc/gtktranslate/master/data/screenshot.png">
-<p>A Simple GTK Translator</p>
-<h3><a href="https://github.com/grantshandy/libretranslate-rs">Libretranslate</a></h3>
-<p>A LibreTranslate API client for Rust.</p>
-<pre>
-use libretranslate::{translate, Language};
-
-#[tokio::main]
-async fn main() {
-  let source = Language::French;
-  let target = Language::English;
-  let input = "Le texte français.";
-
-  let data = translate(source, target, input, None).await.unwrap();
-
-  println!("Input {}: {}", data.source.as_pretty(), data.input);
-  println!("Output {}: {}", data.target.as_pretty(), data.output);
-}
-</pre>
-</div>
-</div>
+  <ul>
+    <li><a href="https://github.com/grantshandy/bcdl">bcdl</a> - A command line bandcamp downloader.</li>
+    <li><a href="https://github.com/grantshandy/mmm">mmm</a> - A sprinkler control system.</li>
+    <li><a href="https://github.com/grantshandy/textrip">textrip</a> - Get perspective accurate textures for 3D modeling and graphics from any image in an easy to use website.</li>
+    <li><a href="https://github.com/grantshandy/system-config">system-config</a> - A Rust library for storing application properties on disk for persistence.</li>
+    <li><a href="https://github.com/skylinecc/ipmap">ipmap</a> - A map of connected ip addresses.</li>
+    <li><a href="https://github.com/grantshandy/elevation">elevation</a> - An elevation API in Rust.</li>
+    <li><a href="https://github.com/grantshandy/nominatim-rs">nominatim-rs</a> - Reverse geocoding in Rust.</li>
+    <li><a href="https://github.com/grantshandy/postcode-rs">postcode-rs</a> - Postcode & Geolocation API for the UK.</li>
+    <li><a href="https://github.com/grantshandy/motivate">motivate</a> - A command line tool that gets motivational quotes.</li>
+    <li><a href="https://github.com/grantshandy/webster-dictionary-json">webster-dictionary-json</a> - A script to generate a dictionary JSON file.</li>
+    <li><a href="https://github.com/grantshandy/thesaurus-rs">thesaurus-rs</a> - An offline Rust thesaurus library.</li>
+    <li><a href="https://github.com/grantshandy/webster-rs">webster-rs</a> - A Rust library containing webster's unabridged dictionary.</li>
+    <li><a href="https://github.com/grantshandy/libretranslate-rs">libretranslate-rs</a> - The LibreTranslate API client for Rust.</li>
+    <li><a href="https://github.com/grantshandy/libretrans">libretrans</a> - A command line tool for translating text.</li>
+    <li><a href="https://github.com/grantshandy/geo2city">geo2city</a> - A command line reverse geocoder.</li>
+    <li><a href="https://github.com/grantshandy/rplayer">rplayer</a> - A command line audio player.</li>
+    <li><a href="https://github.com/grantshandy/kanye-rs">kanye-rs</a> - KAAS (Kanye As A Service)(in Rust).</li>
+    <li><a href="https://github.com/grantshandy/btc">btc</a> - A CLI tool for getting the price of bitcoin.</li>
+    <li><a href="https://github.com/grantshandy/coindesk-rs">coindesk-rs</a> - A bitcoin price index API powered by coindesk.</li>
+    <li><a href="https://github.com/grantshandy/ipgeo">ipgeo</a> - A pure-rust CLI tool that finds the location of IP addresses.</li>
+    <li><a href="https://github.com/grantshandy/thes">thes</a> - A 100% offline thesaurus CLI tool.</li>
+    <li><a href="https://github.com/grantshandy/ipgeolocate">ipgeolocate</a> - A simple rust library for IP geolocation.</li>
+    <li><a href="https://github.com/grantshandy/gtktranslate">gtktranslate</a> - A simple GTK text Translator.</li>
+    <li><a href="https://github.com/grantshandy/spearmint-os">spearmint-os</a> - A live Linux distribution that fits on a 700MB CD.</li>
+    <li><a href="https://github.com/grantshandy/materia-rofi-theme">materia-rofi-theme</a> - A rofi theme based on the materia GTK theme.</li>
+  </ul>
 </body> 
 </html> 
