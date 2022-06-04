@@ -1,38 +1,169 @@
 <html> 
 <head> 
   <title>Grant Handy</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="https://avatars.githubusercontent.com/u/45475651?v=4">
-  <link rel="stylesheet" type="text/css" href="sitestyle.css" media="screen" />
 </head> 
-<body>
-<h1>Grant Handy</h1>
-<p>I'm a high school student, self-taught programmer, linux/unix user, and a <a href="https://rust-lang.org">Rust</a> enthusiast.</p>
-<h2>Projects</h2>
-  <ul>
-    <li><a href="https://artist-constellations.art">artist-constellations.art</a> - View your Spotify artists in 3D constellations.</li>
-    <li><a href="https://github.com/grantshandy/bcdl">bcdl</a> - A command line bandcamp downloader.</li>
-    <li><a href="https://github.com/grantshandy/mmm">mmm</a> - A sprinkler control system.</li>
-    <li><a href="https://github.com/grantshandy/textrip">textrip</a> - Get perspective accurate textures for 3D modeling and graphics from any image in an easy to use website.</li>
-    <li><a href="https://github.com/grantshandy/system-config">system-config</a> - A Rust library for storing application properties on disk for persistence.</li>
-    <li><a href="https://github.com/skylinecc/ipmap">ipmap</a> - A map of connected ip addresses.</li>
-    <li><a href="https://github.com/grantshandy/nominatim-rs">nominatim-rs</a> - Reverse geocoding in Rust.</li>
-    <li><a href="https://github.com/grantshandy/postcode-rs">postcode-rs</a> - Postcode & Geolocation API for the UK.</li>
-    <li><a href="https://github.com/grantshandy/motivate">motivate</a> - A command line tool that gets motivational quotes.</li>
-    <li><a href="https://github.com/grantshandy/thesaurus-rs">thesaurus-rs</a> - An offline Rust thesaurus library.</li>
-    <li><a href="https://github.com/grantshandy/webster-rs">webster-rs</a> - A Rust library containing webster's unabridged dictionary.</li>
-    <li><a href="https://github.com/grantshandy/libretranslate-rs">libretranslate-rs</a> - The LibreTranslate API client for Rust.</li>
-    <li><a href="https://github.com/grantshandy/libretrans">libretrans</a> - A command line tool for translating text.</li>
-    <li><a href="https://github.com/grantshandy/geo2city">geo2city</a> - A command line reverse geocoder.</li>
-    <li><a href="https://github.com/grantshandy/rplayer">rplayer</a> - A command line audio player.</li>
-    <li><a href="https://github.com/grantshandy/kanye-rs">kanye-rs</a> - KAAS (Kanye As A Service)(in Rust).</li>
-    <li><a href="https://github.com/grantshandy/btc">btc</a> - A CLI tool for getting the price of bitcoin.</li>
-    <li><a href="https://github.com/grantshandy/coindesk-rs">coindesk-rs</a> - A bitcoin price index API powered by coindesk.</li>
-    <li><a href="https://github.com/grantshandy/ipgeo">ipgeo</a> - A pure-rust CLI tool that finds the location of IP addresses.</li>
-    <li><a href="https://github.com/grantshandy/thes">thes</a> - A 100% offline thesaurus CLI tool.</li>
-    <li><a href="https://github.com/grantshandy/ipgeolocate">ipgeolocate</a> - A simple rust library for IP geolocation.</li>
-    <li><a href="https://github.com/grantshandy/gtktranslate">gtktranslate</a> - A simple GTK text Translator.</li>
-    <li><a href="https://github.com/grantshandy/spearmint-os">spearmint-os</a> - A live Linux distribution that fits on a 700MB CD.</li>
-    <li><a href="https://github.com/grantshandy/materia-rofi-theme">materia-rofi-theme</a> - A rofi theme based on the materia GTK theme.</li>
-  </ul>
-</body> 
+  <body>
+    <div id="app">
+      <div class="p-5 md:p-10 text-white bg-gray-900 space-y-3">
+        <h1 class="font-bold text-3xl">Grant Handy</h1>
+        <p class="text-md">I'm a self-taught programmer from Salt Lake City, UT. Most of my work is done server-side in languages like Rust, but I also do some frontend work in Javascript. All my work is free and open source.</p>
+        <h2 class="text-2xl font-semibold">Contact</h2>
+        <div class="mx-5">
+          <ul class="list-disc">
+            <li>Email: <a class="font-bold" href="mailto:grantshandy@gmail.com">grantshandy@gmail.com</a></li>
+            <li>Discord: <span class="font-bold">gsh#5260</span></li>
+          </ul>
+        </div>
+        <h2 class="text-2xl font-semibold">Skills</h2>
+        <div class="mx-5">
+          <ul class="list-disc">
+            <li>Rust</li>
+            <li>Javascript</li>
+            <li>C#</li>
+            <li>SQL</li>
+            <li>MongoDB</li>
+            <li>Linux</li>
+            <li>Vim</li>
+            <li>Tailwindcss</li>
+            <li>VueJS</li>
+          </ul>
+        </div>
+      </div>
+      <div class="p-5 text-white bg-gray-700 space-y-4">
+        <h2 class="font-semibold text-2xl xl:text-4xl xl:my-10 text-center">Projects</h2>
+        <div class="space-y-3 md:grid md:grid-cols-2 md:gap-2 md:space-y-0">
+          <div class="bg-gray-900 p-7 rounded-lg shadow-lg xl:flex">
+            <div class="space-y-3 xl:flex-1 m-4">
+              <h3 class="text-xl">Artist Constellations</h3>
+              <p>A website that allows you to visualize the artists that you listen to on Spotify. It uses Spotify's official API to get the artists you follow and listen to then links them together in a beautiful force directed graph. It has {{ artistConstellationStars }} stars on Github.</p>
+              <button class="px-4 py-2 font-bold rounded-md bg-gray-700 hover:bg-green-700" onclick="window.location = 'https://artist-constellations.art'">Visit</button>
+            </div>
+            <div class="w-full xl:w-2/3">
+              <img src="./artist-constellations.png" class="object-cover">
+            </div>
+          </div>
+          <div class="bg-gray-900 p-7 rounded-lg shadow-lg xl:flex">
+            <div class="space-y-3 xl:flex-1 m-4">
+              <h3 class="text-xl">fdg (Force Directed Graph)</h3>
+              <p>A high performance force directed graph drawing framework and visualizer for Rust. Includes my own custom force directed graph drawing algorithm. It has {{ fdgStars }} stars on Github.</p>
+              <button class="px-4 py-2 font-bold rounded-md bg-gray-700 hover:bg-green-700" onclick="window.location = 'https://grantshandy.github.io/fdg'">Visit</button>
+            </div>
+            <div class="w-full xl:w-2/3">
+              <img src="./fdg.png" class="object-cover">
+            </div>
+          </div>
+          <div class="bg-gray-900 p-7 rounded-lg shadow-lg xl:flex">
+            <div class="space-y-3 xl:flex-1 m-4">
+              <h3 class="text-xl">Grapher</h3>
+              <p>A graphing calculator for desktop and the web written in Rust. It has {{ grapherStars }} stars on Github.</p>
+              <button class="px-4 py-2 font-bold rounded-md bg-gray-700 hover:bg-green-700" onclick="window.location = 'https://grantshandy.github.io/grapher/#x^2,abs(sin(x*8))/4,cos(x)*sin(x)*sin(x*8)-0.25'">Visit</button>
+            </div>
+            <div class="w-full xl:w-2/3">
+              <img src="./grapher.png" class="object-cover">
+            </div>
+          </div>
+          <div class="bg-gray-900 p-7 rounded-lg shadow-lg xl:flex">
+            <div class="space-y-3 xl:flex-1 m-4">
+              <h3 class="text-xl">ipmap</h3>
+              <p>A live map of all the servers that your computer has connected to. It has {{ ipmapStars }} stars on Github.</p>
+              <button class="px-4 py-2 font-bold rounded-md bg-gray-700 hover:bg-green-700" onclick="window.location = 'https://github.com/grantshandy/ipmap'">Visit</button>
+            </div>
+            <div class="w-full xl:w-2/3">
+              <img src="./ipmap.png" class="object-cover">
+            </div>
+          </div>
+          <div class="bg-gray-900 p-7 rounded-lg shadow-lg xl:flex">
+            <div class="space-y-3 xl:flex-1 m-4">
+              <h3 class="text-xl">gtktranslate</h3>
+              <p>A simple GTK interface for the <a class="font-bold" href="https://libretranslate.com">libretranslate</a> API. It has {{ gtktranslateStars }} stars on Github.</p>
+              <button class="px-4 py-2 font-bold rounded-md bg-gray-700 hover:bg-green-700" onclick="window.location = 'https://github.com/grantshandy/gtktranslate'">Visit</button>
+            </div>
+            <div class="w-full xl:w-2/3">
+              <img src="https://raw.githubusercontent.com/skylinecc/gtktranslate/master/data/screenshot.png" class="object-cover">
+            </div>
+          </div>
+          <div class="bg-gray-900 p-7 rounded-lg shadow-lg xl:flex">
+            <div class="space-y-3 xl:flex-1 m-4">
+              <h3 class="text-xl">claui</h3>
+              <p>A library that automatically generates GUIs for your command line applications. It has {{ clauiStars }} stars on Github.</p>
+              <button class="px-4 py-2 font-bold rounded-md bg-gray-700 hover:bg-green-700" onclick="window.location = 'https://github.com/grantshandy/claui'">Visit</button>
+            </div>
+            <div class="w-full xl:w-2/3">
+              <img src="https://github.com/grantshandy/claui/raw/91b49baf2173b9d77ca6fc25e6289b4d06ca30de/screenshots/fizzbuzz.png" class="object-cover">
+            </div>
+          </div>
+          <div class="bg-gray-900 p-7 rounded-lg shadow-lg xl:flex">
+            <div class="space-y-3 xl:flex-1 m-4">
+              <h3 class="text-xl">Gravity Simulation</h3>
+              <p>A simple gravity simulator that I made for a school project.</p>
+              <button class="px-4 py-2 font-bold rounded-md bg-gray-700 hover:bg-green-700" onclick="window.location = 'https://grantshandy.github.io/gravity-simulation/standalone.html'">Visit</button>
+            </div>
+            <div class="w-full xl:w-2/3">
+              <img src="gravity-simulation.png" class="object-cover">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-900 py-10 px-3 space-y-5">
+        <p class="text-center text-white font-semibold text-xl">Github Commit History</p>
+        <img class="mx-auto w-full md:w-2/3 xl:w-1/2" src="http://ghchart.rshah.org/grantshandy" alt="Github chart" />
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script>
+      const app = new Vue({
+        el: '#app',
+        data: {
+          artistConstellationStars: 0,
+          fdgStars: 0,
+          grapherStars: 0,
+          ipmapStars: 0,
+          gtktranslateStars: 0,
+          clauiStars: 0,
+        },
+
+        async mounted() {
+          fetch("https://api.github.com/repos/grantshandy/artist-constellations.art")
+          .then(response => response.json())
+          .then(response => {
+            app.artistConstellationStars = response.stargazers_count;
+          });
+
+          fetch("https://api.github.com/repos/grantshandy/grapher")
+          .then(response => response.json())
+          .then(response => {
+            app.grapherStars = response.stargazers_count;
+          });
+
+          fetch("https://api.github.com/repos/grantshandy/fdg")
+          .then(response => response.json())
+          .then(response => {
+            app.fdgStars = response.stargazers_count;
+          });
+
+          fetch("https://api.github.com/repos/grantshandy/ipmap")
+          .then(response => response.json())
+          .then(response => {
+            app.ipmapStars = response.stargazers_count;
+          });
+
+          fetch("https://api.github.com/repos/grantshandy/gtktranslate")
+          .then(response => response.json())
+          .then(response => {
+            app.gtktranslateStars = response.stargazers_count;
+          });
+
+          fetch("https://api.github.com/repos/grantshandy/claui")
+          .then(response => response.json())
+          .then(response => {
+            app.clauiStars = response.stargazers_count;
+          });
+        },
+      });
+    </script>
+  </body>
 </html> 
