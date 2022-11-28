@@ -1,200 +1,40 @@
 <!DOCTYPE html>
+<html lang="en">
 
 <head>
   <title>Grant Handy</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Personal Website">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
   <link rel="icon" href="https://avatars.githubusercontent.com/u/45475651?v=4">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <style>
-    @font-face {
-      font-family: leaguemono;
-      src: url(/LeagueMono-VF.woff) format("woff");
-      font-weight: 100 900;
-      font-stretch: 50% 200%;
-      font-display: swap
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="index.css" />
 </head>
 
-<body class="font-[leaguemono] break-word">
-  <div class="min-h-screen w-full bg-slate-900 text-slate-200 flex flex-col space-y-4 md:py-5">
-    <div class="grow md:w-5/6 md:w-2/3 lg:w-1/2 mx-auto p-6 md:p-4 space-y-4 bg-slate-800"
-      style="border: 6px double">
-      <div class="flex text-center mx-auto space-x-3 justify-center items-center">
-        <img src="https://avatars.githubusercontent.com/u/45475651?v=4" class="rounded-full w-12" />
-        <h1 class="text-4xl font-semibold align-middle">Grant Handy</h1>
+<body>
+  <div class="w-full min-h-screen bg-stone-800 text-stone-100 p-5">
+    <div class="w-5/6 md:w-2/3 lg:w-1/2 mx-auto space-y-4">
+      <div class="bg-stone-600 rounded-md shadow-lg p-4 space-y-2 text-center">
+        <div class="flex mx-auto space-x-5 justify-center items-center">
+          <img class="rounded-full h-10 w-10" src="https://avatars.githubusercontent.com/u/45475651?v=4">
+          <h1 class="text-2xl font-semibold">Grant Handy</h1>
+        </div>
+        <p class="italic">Hi, I'm a programmer who tries to write fast software.</p>
       </div>
-      <p class="italic">I'm a self taught programmer from Salt Lake City, Utah. I like writing libraries and backend
-        software in <a class="underline" href="https://rust-lang.org/">Rust</a>, though I don't do it very often.</p>
-      <p><a class="italic underline" href="https://www.gnu.org/philosophy/philosophy.html">Support Free Software</a>
-      </p>
-    </div>
-    <div class="grow md:w-5/6 md:w-2/3 lg:w-1/2 md:mx-auto p-6 space-y-4 bg-slate-800"
-      style="border: 6px double">
-      <h2 class="text-2xl font-semibold text-center">What I Use</h2>
-      <div class="w-fit mx-auto p-0.5 bg-slate-200 break-all">
-        <div class="gap-0.5 grid grid-cols-2">
-          <p class="bg-slate-800 p-2">Editor</p>
-          <p class="bg-slate-800 p-2 text-right"><a class="underline" href="https://helix-editor.com/">Helix</a></p>
-          <p class="bg-slate-800 p-2">Terminal</p>
-          <p class="bg-slate-800 p-2 text-right"><a class="underline" href="https://sw.kovidgoyal.net/kitty/">Kitty</a>
-          </p>
-          <p class="bg-slate-800 p-2">Desktop Environment</p>
-          <p class="bg-slate-800 p-2 text-right"><a class="underline" href="https://gnome.org/">Gnome</a></p>
-          <p class="bg-slate-800 p-2">OS</p>
-          <p class="bg-slate-800 p-2 text-right"><a class="underline" href="https://archlinux.org/">Arch Linux</a></p>
-        </div>
-      </div>
-      <h2 class="text-2xl font-semibold text-center">Contact</h2>
-      <div class="w-fit mx-auto p-0.5 bg-slate-200 break-all">
-        <div class="gap-0.5 grid grid-cols-2">
-          <p class="bg-slate-800 p-2">Email</p>
-          <p class="bg-slate-800 p-2 text-right"><a class="underline"
-              href="mailto:granthandy@proton.me">granthandy@proton.me</a></p>
-          <p class="bg-slate-800 p-2">Discord</p>
-          <p class="bg-slate-800 p-2 text-right">gsh#5620</p>
-        </div>
-      </div>
-    </div>
-    <div class="grow md:w-5/6 md:w-2/3 lg:w-1/2 md:mx-auto p-6 md:p-4 space-y-4 bg-slate-800"
-      style="border: 6px double">
-      <h2 class="text-2xl font-semibold text-center">Projects</h2>
-      <div class="md:w-5/6 mx-auto space-y-5">
-        <div class="bg-slate-700 p-3 space-y-2">
-          <div class="w-full flow-root">
-            <h2 class="float-left font-semibold text-xl">Javascript-less Forum</h2>
-            <p class="float-right"><a class="github-button" href="https://github.com/grantshandy/nojs-forum"
-                data-color-scheme="no-preference: dark; light: light; dark: dark;" data-size="large"
-                data-show-count="true" aria-label="Star grantshandy/nojs-forum on GitHub">Star</a></p>
+      <div class="bg-stone-600 rounded-md shadow-lg p-4 space-y-2 text-center">
+        <h2 class="text-lg font-semibold">Things I Use</h2>
+        <div class="grid grid-cols-1 bg-stone-100 gap-y-[1px] rounded-md border">
+          <h3 class="p-2 bg-stone-700 rounded-tr-md rounded-tl-md">Software</h3>
+          <div class="grid grid-cols-2 bg-stone-100 gap-[1px]">
+            <p class="table-item">Operating System</p>
+            <a class="table-item" href="https://archlinux.org">Arch Linux</a>
+            <p class="table-item">Desktop Environment</p>
+            <a class="table-item" href="https://gnome.org">Gnome</a>
+            <p class="table-item">Terminal Emulator</p>
+            <a class="table-item" href="https://sw.kovidgoyal.net/kitty/">Kitty</a>
+            <p class="table-item">Text Editor</p>
+            <a class="table-item" href="https://helix-editor.com">Helix</a>
           </div>
-          <hr>
-          <div class="md:grid md:grid-cols-2 space-x-2">
-            <img src="https://raw.githubusercontent.com/grantshandy/nojs-forum/main/screenshot.png">
-            <div class="p-2">
-              <p>A simple anonymous forum, completely server-side rendered from scratch. It has a Rust backend with
-                an <a class="underline" href="https://actix.rs">actix-web</a> webserver, <a class="underline"
-                  href="https://crates.io/crates/sqlx">sqlite</a> database, and <a class="underline"
-                  href="https://crates.io/crates/handlebars">handlebars</a> templating.</p>
-            </div>
-          </div>
-        </div>
-        <div class="bg-slate-700 p-3 space-y-2">
-          <div class="w-full flow-root">
-            <h2 class="float-left font-semibold text-xl">Artist Constellations</h2>
-            <p class="float-right"><a class="github-button"
-                href="https://github.com/grantshandy/artist-constellations.art"
-                data-color-scheme="no-preference: dark; light: light; dark: dark;" data-size="large"
-                data-show-count="true" aria-label="Star grantshandy/artist-constellations.art on GitHub">Star</a></p>
-          </div>
-          <hr>
-          <div class="md:grid md:grid-cols-2 space-x-2">
-            <img
-              src="https://user-images.githubusercontent.com/45475651/201239041-17b77df0-df8d-4264-a4a8-5462944f29b6.png">
-            <div class="p-2">
-              <p>A website that allows you to view and share the artists you listen to on Spotify in 3D constellations.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="bg-slate-700 p-3 space-y-2">
-          <div class="w-full flow-root">
-            <h2 class="float-left font-semibold text-xl">Ipmap</h2>
-            <p class="float-right"><a class="github-button" href="https://github.com/grantshandy/ipmap"
-                data-color-scheme="no-preference: dark; light: light; dark: dark;" data-size="large"
-                data-show-count="true" aria-label="Star grantshandy/ipmap on GitHub">Star</a></p>
-          </div>
-          <hr>
-          <div class="md:grid md:grid-cols-2 space-x-2">
-            <img src="https://github.com/grantshandy/ipmap/raw/main/data/screenshot-linux.png">
-            <div class="p-2">
-              <p>A simple program that shows the servers that your computer has connected to. It uses <a
-                  class="underline" href="https://www.tcpdump.org/">libpcap</a> to capture all the incoming and outgoing
-                packets, then geolocates them with various web APIs.</p>
-            </div>
-          </div>
-        </div>
-        <div class="bg-slate-700 p-3 space-y-2">
-          <div class="w-full flow-root">
-            <h2 class="float-left font-semibold text-xl">fdg</h2>
-            <p class="float-right"><a class="github-button" href="https://github.com/grantshandy/fdg"
-                data-color-scheme="no-preference: dark; light: light; dark: dark;" data-size="large"
-                data-show-count="true" aria-label="Star grantshandy/fdg on GitHub">Star</a></p>
-          </div>
-          <hr>
-          <div class="md:grid md:grid-cols-2 space-x-2">
-            <img src="https://raw.githubusercontent.com/grantshandy/fdg/main/fdg-macroquad/screenshots/screenshot.png">
-            <div class="p-2">
-              <p>A high-performance force-directed graph drawing framework with multiple visualizers for Rust. Includes
-                my own custom force-directed graph drawing algorithm.</p>
-            </div>
-          </div>
-        </div>
-        <div class="bg-slate-700 p-3 space-y-2">
-          <div class="w-full flow-root">
-            <h2 class="float-left font-semibold text-xl">claui</h2>
-            <p class="float-right"><a class="github-button" href="https://github.com/grantshandy/claui"
-                data-color-scheme="no-preference: dark; light: light; dark: dark;" data-size="large"
-                data-show-count="true" aria-label="Star grantshandy/claui on GitHub">Star</a></p>
-          </div>
-          <hr>
-          <div class="md:grid md:grid-cols-2 space-x-2">
-            <img src="https://github.com/grantshandy/claui/raw/main/screenshots/fizzbuzz.png">
-            <div class="p-2">
-              <p>A library that automatically generates GUIs for your command-line applications. It can easily adapt any
-                command line program that uses <a class="underline" href="https://crates.io/crates/clap">clap</a> into a
-                simple GUI program powered by <a class="underline" href="https://crates.io/crates/egui">egui</a>.</p>
-            </div>
-          </div>
-        </div>
-        <div class="bg-slate-700 p-3 space-y-2">
-          <div class="w-full flow-root">
-            <h2 class="float-left font-semibold text-xl">Grapher</h2>
-            <p class="float-right"><a class="github-button" href="https://github.com/grantshandy/grapher"
-                data-color-scheme="no-preference: dark; light: light; dark: dark;" data-size="large"
-                data-show-count="true" aria-label="Star grantshandy/grapher on GitHub">Star</a></p>
-          </div>
-          <hr>
-          <div class="md:grid md:grid-cols-2 space-x-2">
-            <img src="https://github.com/grantshandy/grapher/raw/main/public/screenshot.png">
-            <div class="p-2">
-              <p>A simple graphing calculator for both desktop and the web.</p>
-            </div>
-          </div>
-        </div>
-        <div class="bg-slate-700 p-3 space-y-2">
-          <div class="w-full flow-root">
-            <h2 class="float-left font-semibold text-xl">Gtktranslate</h2>
-            <p class="float-right"><a class="github-button" href="https://github.com/grantshandy/gtktranslate"
-                data-color-scheme="no-preference: dark; light: light; dark: dark;" data-size="large"
-                data-show-count="true" aria-label="Star grantshandy/gtktranslate on GitHub">Star</a></p>
-          </div>
-          <hr>
-          <div class="md:grid md:grid-cols-2 space-x-2">
-            <img src="https://raw.githubusercontent.com/skylinecc/gtktranslate/master/data/screenshot.png">
-            <div class="p-2">
-              <p>A simple GTK wrapper for <a class="underline" href="https://libretranslate.org/">libretranslate</a>.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="bg-slate-700 p-3 space-y-2">
-          <div class="w-full flow-root">
-            <h2 class="float-left font-semibold text-xl">Minesweeper</h2>
-            <p class="float-right"><a class="github-button" href="https://github.com/grantshandy/minesweeper"
-                data-color-scheme="no-preference: dark; light: light; dark: dark;" data-size="large"
-                data-show-count="true" aria-label="Star grantshandy/minesweeper on GitHub">Star</a></p>
-          </div>
-          <hr>
-          <div class="md:grid md:grid-cols-2 space-x-2">
-            <img
-              src="https://user-images.githubusercontent.com/45475651/201245542-21f87e29-c43c-4902-9ded-f62f1b99cf21.png">
-            <div class="p-2">
-              <p>An implementation of minesweeper in Rust that runs entirely in your terminal.</p>
-            </div>
-          </div>
+          <h3 class="p-2 bg-stone-700">Programming</h3>
         </div>
       </div>
     </div>
