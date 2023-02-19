@@ -1,9 +1,7 @@
 +++
 title = "Creating a tiny FPS in Rust"
-date = "2023-02-15"
-author = "Grant"
-showFullContent = false
-readingTime = true
+description = "Learn raycasting by writing a tiny FPS game."
+date = "2023-02-18"
 draft = true
 +++
 

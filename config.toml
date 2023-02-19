@@ -2,8 +2,7 @@ baseURL = "https://grantshandy.github.io/"
 languageCode = "en-US"
 theme = "friend"
 
-title = "grantshandy"
-subtitle = ""
+title = "grantsh"
 copyright = "&copy; 2023 Grant Handy"
 
 [params]
@@ -11,8 +10,7 @@ defaultTheme = "dark"
 toc = true
 showMenuItems = 3
 showReadingTime = true
-logo = { logoText = "grantshandy" }
-favicon = "/profile.jpeg"
+logo = { logoText = "grantsh" }
 
 [languages.en]
 menuMore = "Show more"

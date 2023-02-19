@@ -1,7 +1,6 @@
----
-title: "Showcase"
-draft: false
----
++++
+title = "Showcase"
++++
 
 ## Wasm4 Playground
 
