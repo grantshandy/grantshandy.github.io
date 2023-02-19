@@ -5,3 +5,7 @@
 .light-theme .logo__cursor {
   background: #222222 !important;
 }
+
+img {
+  border-radius: 8px !important;
+}

@@ -1,9 +1,9 @@
 baseURL = "https://grantshandy.github.io/"
 languageCode = "en-US"
 theme = "friend"
-
 title = "grantsh"
 copyright = "&copy; 2023 Grant Handy"
+math = true
 
 [params]
 defaultTheme = "dark"
