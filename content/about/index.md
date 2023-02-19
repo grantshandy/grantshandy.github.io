@@ -1,7 +1,11 @@
----
-title: "About"
-draft: false
----
++++
+title = "About"
+readingtime = false
+toc = false
+draft = false
+useRelativeCover = true
+cover = "cover.jpg"
++++
 
 I'm a programmer from Salt Lake City, Utah, United States. This site is about programming,
 but I also like hiking, mountain biking, skiing, and camping.

@@ -1,5 +1,5 @@
 ---
-title: "Project Showcase"
+title: "Showcase"
 draft: false
 ---
 
@@ -34,7 +34,7 @@ It's fascinating to see that your computer regularly receives information from t
 Ipmap works by capturing all incoming packets with [`libpcap`](https://www.tcpdump.org/), then sending the packet's source IP address off to an
 ip-geolocation REST API. Once it gets the response, it simply puts it on the map with some metadata in a context menu.
 
-Unlike other desktop applications with web frontends (I'm looking at you [electron](https://www.electronjs.org/)),
+Unlike other desktop applications with web frontends,
 Ipmap is a tiny Rust executable that uses your operating system's preinstalled webview library.
 
 ![screenshot](./ipmap.png)

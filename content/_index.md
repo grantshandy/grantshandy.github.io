@@ -4,7 +4,7 @@ framed = true
 
 ## Homepage
 
-![cover image](./cover.jpg)
+{{< image src="cover.jpg" alt="Cover Image" style="border-radius: 8px; box-shadow: 0 12px 40px rgb(0 0 0 / 15%);" >}}
 
 I'm Grant, this is where I host my project showcase and contact info,
 as well as (future) blog posts where I explore programming concepts and quirks.

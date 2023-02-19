@@ -1,17 +1,16 @@
 baseURL = "https://grantshandy.github.io/"
-languageCode = "en-us"
-theme = "terminal"
-pagnate = 5
+languageCode = "en-US"
+theme = "friend"
 
 title = "grantshandy"
 subtitle = ""
 copyright = "&copy; 2023 Grant Handy"
 
 [params]
-themeColor = "red"
-autoCover = true
-centerTheme = true
+defaultTheme = "dark"
+toc = true
 showMenuItems = 3
+showReadingTime = true
 logo = { logoText = "grantshandy" }
 favicon = "/profile.jpeg"
 
@@ -28,7 +27,7 @@ words = "words"
 
 [[menu.main]]
 identifier = "showcase"
-name = "Project Showcase"
+name = "Showcase"
 url = "/showcase"
 
 [[menu.main]]
