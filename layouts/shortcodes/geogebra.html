@@ -1,1 +1,16 @@
-<iframe src="https://www.geogebra.org/geometry/{{ .Get "code" }}?embed" width="800" height="600" allowfullscreen style="border: 1px solid #e4e4e4;border-radius: 4px;" frameborder="0"></iframe>
+{{ .Page.Store.Set "hasGeogebra" true }}
+
+<script>
+  window.addEventListener("load", function() { 
+    new GGBApplet({
+      appName: "geometry",
+      width: 800,
+      height: 600,
+      showToolBar: false,
+      showAlgebraInput: false,
+      showMenuBar: false,
+      filename: '{{ .Site.BaseURL }}{{ .Get "file" }}'
+    }).inject('{{ .Get "name" }}');
+  });
+</script>
+<div id="{{ .Get "name" }}" style="border-radius: 8px; overflow: hidden;"></div>

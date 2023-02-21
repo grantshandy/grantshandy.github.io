@@ -18,3 +18,7 @@
   });
 </script>
 {{ end }}
+
+{{ if .Page.Store.Get "hasGeogebra" }}
+<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+{{ end }}

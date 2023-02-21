@@ -1,8 +1,8 @@
 +++
-title = "FPS in 2KB with Rust"
+title = "Work In Progress - Write a 2KB FPS with Rust"
 description = "Learn about raycasting and discover some elegant math by creating a tiny 4KB game with Rust."
 date = "2023-02-18"
-draft = true
+draft = false
 math = true
 useRelativeCover = true
 cover = "cover.png"
@@ -86,7 +86,7 @@ First, we'll extend the ray along horizontal grid intersections, then we'll exte
 After this we can simply choose the smaller of the two to find how far the wall is away from the player!
 
 ### Horizontal Intersections
-{{< geogebra code="p5a6ekwk" >}}
+{{< geogebra file="ggb/horizontal.ggb" name="horizontal" >}}
 
 The nice thing about an evenly spaced grid is that the distance between grid intersections is constant.
 In the case of horizontal grid intersections, the height between intersections is always 1, while the width can be derived from the angle of the ray.
@@ -98,8 +98,7 @@ I'm going to save you the work and just give you the definition: [^3]
 $$ \Delta H = \begin{cases} 1 &\text{if } \pi > \theta \ge 0  \text{ (facing up)} \\\ -1 &\text{if } \tau > \theta \ge \pi \text{ (facing down)} \end{cases} $$
 $$ \Delta W = \frac{\Delta H}{\tan(\theta)} $$
 ### Vertical Intersections
-{{< figure src="figure-vertical-intersections.svg" position="center" caption="Vertical Intersections" >}}
-{{< newtabref href="https://www.geogebra.org/geometry/hasdnz4p" title="View Interactive Demo" >}}
+{{< geogebra file="ggb/vertical.ggb" name="vertical" >}}
 
 Vertical grid intersections are the same as horizontal grid intersections, just rotated 90°.
 In vertical grid intersections the width between our "ray extensions" is the constant, while the height is created from the angle of the ray.
