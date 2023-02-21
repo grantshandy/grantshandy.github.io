@@ -2,7 +2,7 @@
 title = "FPS in 2KB with Rust"
 description = "Learn about raycasting and discover some elegant math by creating a tiny 4KB game with Rust."
 date = "2023-02-18"
-draft = false
+draft = true
 math = true
 useRelativeCover = true
 cover = "cover.png"
@@ -86,8 +86,7 @@ First, we'll extend the ray along horizontal grid intersections, then we'll exte
 After this we can simply choose the smaller of the two to find how far the wall is away from the player!
 
 ### Horizontal Intersections
-{{< figure src="figure-horizontal-intersections.svg" position="center" caption="Horizontal Intersections" >}}
-{{< newtabref  href="https://www.geogebra.org/geometry/p5a6ekwk" title="View Interactive Demo" >}}
+{{< geogebra code="p5a6ekwk" >}}
 
 The nice thing about an evenly spaced grid is that the distance between grid intersections is constant.
 In the case of horizontal grid intersections, the height between intersections is always 1, while the width can be derived from the angle of the ray.
