@@ -1,0 +1,11 @@
+.dark-theme .logo__cursor {
+  background: #a9a9b3 !important;
+}
+
+.light-theme .logo__cursor {
+  background: #222222 !important;
+}
+
+img {
+  border-radius: 8px !important;
+}
