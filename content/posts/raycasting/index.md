@@ -2,7 +2,7 @@
 title = "Work In Progress - Write a 2KB FPS with Rust"
 description = "Learn about raycasting and discover some elegant math by creating a tiny 4KB game with Rust."
 date = "2023-02-18"
-draft = false
+draft = true
 math = true
 useRelativeCover = true
 cover = "cover.png"
