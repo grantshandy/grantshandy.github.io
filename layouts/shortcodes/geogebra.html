@@ -4,13 +4,26 @@
   window.addEventListener("load", function() { 
     new GGBApplet({
       appName: "geometry",
+      id: '{{ .Get "name" }}',
       width: 800,
       height: 600,
       showToolBar: false,
+      showZoomButtons: false,
       showAlgebraInput: false,
+      showLogging: false,
+      enableRightClick: false,
+      enableShiftDragZoom: false,
+      preventFocus: true,
       showMenuBar: false,
+      appletOnLoad: (api) => {
+        api.setCoordSystem({{ .Get "coords" | safeJS }});  
+      },
       filename: '{{ .Site.BaseURL }}{{ .Get "file" }}'
     }).inject('{{ .Get "name" }}');
   });
 </script>
-<div id="{{ .Get "name" }}" style="border-radius: 8px; overflow: hidden;"></div>
+
+<figure class="center">
+  <div id="{{ .Get "name" }}" style="border-radius: 8px; overflow: hidden;"></div>
+  <figcaption class="center">{{ .Get "caption" | safeHTML }}</figcaption>
+</figure>

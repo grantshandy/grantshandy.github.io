@@ -79,14 +79,18 @@ The best answer, as you might have guessed from the earlier foreshadowing, is to
 If we align each wall to a grid section, we know that the ray can only intersect with the wall along grid lines.
 With this information, we can just repeatedly extend the ray out to the next grid line (integer) and check to see if it's about to intersect with a wall.
 
-{{< figure src="figure-solution.svg" position="center" caption="Wall-Line Intersection Checking" >}}
+{{< figure src="figure-solution.svg" position="center" caption="Grid-Line Intersection Checking" >}}
 
 The way we'll implement this takes strategies from both of the approaches previously mentioned.
 First, we'll extend the ray along horizontal grid intersections, then we'll extend along vertical grid intersections.
 After this we can simply choose the smaller of the two to find how far the wall is away from the player!
 
 ### Horizontal Intersections
-{{< geogebra file="ggb/horizontal.ggb" name="horizontal" >}}
+{{< geogebra
+    file="ggb/horizontal.ggb"
+    name="horizontal"
+    caption="Drag the player around to see how the ray intersects with the grid lines."
+    coords="-2.78, 13.18, -4.48, 7.48" >}}
 
 The nice thing about an evenly spaced grid is that the distance between grid intersections is constant.
 In the case of horizontal grid intersections, the height between intersections is always 1, while the width can be derived from the angle of the ray.
@@ -98,7 +102,12 @@ I'm going to save you the work and just give you the definition: [^3]
 $$ \Delta H = \begin{cases} 1 &\text{if } \pi > \theta \ge 0  \text{ (facing up)} \\\ -1 &\text{if } \tau > \theta \ge \pi \text{ (facing down)} \end{cases} $$
 $$ \Delta W = \frac{\Delta H}{\tan(\theta)} $$
 ### Vertical Intersections
-{{< geogebra file="ggb/vertical.ggb" name="vertical" >}}
+{{< geogebra
+    file="ggb/vertical.ggb"
+    name="vertical"
+    caption="Drag the player around to see how the ray intersects with the grid lines."
+    coords="-3.097, 8.238, 2.274, 10.769"
+>}}
 
 Vertical grid intersections are the same as horizontal grid intersections, just rotated 90°.
 In vertical grid intersections the width between our "ray extensions" is the constant, while the height is created from the angle of the ray.
@@ -160,14 +169,13 @@ target = "wasm32-unknown-unknown"
 
 [target.wasm32-unknown-unknown]
 rustflags = [
-    # Import memory from WASM-4
     "-C", "link-arg=--import-memory",
     "-C", "link-arg=--initial-memory=65536",
     "-C", "link-arg=--max-memory=65536",
     "-C", "link-arg=-zstack-size=14752",
 ]
 ```
-This will tell cargo to compile our project to WebAssembly by default, and pass some flags to `rustc` telling our program to reserve some memory for the game.
+This will tell cargo to use WebAssembly by default, and pass some flags to `rustc` telling our program to reserve some memory for the game.
 
 ### Horizontal Intersections
 
