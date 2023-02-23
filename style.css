@@ -9,3 +9,8 @@
 img {
   border-radius: 8px !important;
 }
+
+.GeoGebraFrame {
+  border-width: 0px !important;
+  user-select: none !important;
+}
