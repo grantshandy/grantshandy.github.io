@@ -25,5 +25,5 @@
 
 <figure class="center">
   <div id="{{ .Get "name" }}" style="border-radius: 8px; overflow: hidden;"></div>
-  <figcaption class="center">{{ .Get "caption" | safeHTML }}</figcaption>
+  <figcaption class="center">{{ .Get "caption" | markdownify }}</figcaption>
 </figure>
