@@ -9,11 +9,11 @@ cover = "cover.png"
 +++
 
 ## Introduction
-In this post we'll uncover an elegant algorithm and create tiny first-person "game" with Rust.
+In this post, we'll uncover an elegant algorithm and create a tiny first-person "game" with Rust.
 My goal here is to show how something that looks complicated can be broken down into simple pieces.
 If I've done my job right, it should feel like you've *discovered* how to make the game.
 
-First we'll explore how the algorithm behind the game works, then we'll write it out line by line.
+First, we'll explore how the algorithm behind the game works, then we'll write it out line by line.
 I tried to make this as accessible as possible but a healthy understanding of programming as well as Rust and trigonometry will help.
 
 Here's a quick preview of what we'll be making:
@@ -25,7 +25,7 @@ ZDoom (while probably not as fun as {{< newtabref href="https://www.ticalc.org/a
 
 {{< figure src="zdoom.png" position="center" >}}
 
-zDoom was only an imitation of the original game Doom, in reality it was much closer to Doom's predecesor, Wolfenstein 3D.
+zDoom was only an imitation of the original game Doom, in reality, it was much closer to Doom's predecessor, Wolfenstein 3D.
 
 ### Wolfenstein 3D
 Most articles and videos about ray casting start with Wolfenstein 3D, and for good reason.
@@ -34,41 +34,41 @@ Back then, computers didn't have hardware 3D acceleration, let alone dedicated g
 
 {{< figure src="https://upload.wikimedia.org/wikipedia/en/6/69/Wolf3d_pc.png" position="center" caption="A screenshot from wolfenstein 3D" >}}
 
-Well, I should have said {{< newtabref href="https://en.wikipedia.org/wiki/2.5D" >}}*pseudo*-3D{{</ newtabref >}} because no part of the game actually ran in three-dimensions.
+Well, I should have said {{< newtabref href="https://en.wikipedia.org/wiki/2.5D" >}}*pseudo*-3D{{</ newtabref >}} because no part of the game ran in three dimensions.
 The core of the game was an algorithm called ray casting[^1], a process of projecting a 2D game into a 3D perspective.
 
 All the game entities were located at simple x and y positions on the map and could not move vertically.
-Upon release, I'm sure that this didn't matter, but with our current standards it definitely shows it's age.
+Upon release, I'm sure that this didn't matter, but with our current standards, it shows its age.
 The player could not look up or down, let alone crouch or jump.
 
 {{< figure src="wolfenstein-map.png" position="center" caption="A top-down view of the first level of Wolfenstein 3D" >}}
 
 To add to that, all the levels were composed of single floors of buildings with no windows.
-Also, all walls were perfectly straight with corners placed at even intervals (something that will definitely not come up later).
-These design features were all put here because of some of the essential restrictions of it's simple ray casting algorithm.
+Also, all walls were perfectly straight with corners placed at even intervals (something that will absolutely not come up later).
+These design features were all put here because of some of the essential restrictions of its simple ray-casting algorithm.
 
 ## The Algorithm
 ### The Basics
 At the most fundamental level, ray casting depends on the simple fact that objects that are further away from us appear smaller while objects that are closer appear larger.
-Ray casting uses this fact to draw draw walls at shorter heights the further away they from the player and at taller heights the closer they are.
+Ray casting uses this fact to draw walls at shorter heights the further away they are from the player and at taller heights the closer they are.
 
 Just this simple idea alone creates a convincing illusion of depth and allows us to move our player around just as if it were being rendered in actual 3D.
 
 Ray casting *works* by tracing a path from the player to the closest wall for each column in the player's view.
-It then records the distances of each path before converting it into the height of a wall and drawing it on screen as a vertical line.
+It then records the distances of each path before converting it into the height of a wall and drawing it on the screen as a vertical line.
 
 {{< figure src="figure-overview.svg" position="center" >}}
 
 From what we know so far about the raycasting algorithm we can deduce that we will need to:
 
  - Cast a ray from the player and stop at the nearest wall
- - Calculate the distance from the player to that nearest wall
- - Convert that distance into the height of a wall and draw it on screen
- - Repeat that for each column on screen ↺
+ - Calculate the distance from the player to the nearest wall
+ - Convert that distance into the height of a wall and draw it on the screen
+ - Repeat that for each column on the screen ↺
 
 ### Digging Deeper
 The hardest part of this is "cast a ray from the player and stop at the nearest wall".
-This seems simple on paper but in practice it can be {{< newtabref href="https://en.wikipedia.org/wiki/Collision_detection" >}}pretty difficult{{</ newtabref >}}.
+This seems simple on paper but in practice, it can be {{< newtabref href="https://en.wikipedia.org/wiki/Collision_detection" >}}pretty difficult{{</ newtabref >}}.
 If you had to come up with a ray casting implementation yourself, how would you approach it?
 
 {{< figure src="figure-question.svg" position="center" caption="The Intersection Problem" >}}
@@ -80,11 +80,11 @@ If the ray does hit the wall correctly it will have very low accuracy because it
 {{< figure src="figure-naive.svg" position="center" caption="The Naive Solution" >}}
 
 What we need is to find a way that we can *guarantee* that the ray will intersect with a wall and that it will stop right on the border of that wall.
-In math land we might be able to do this by extending the ray an infinitely small distance infinitely many times.
+In math land, we might be able to do this by extending the ray an infinitely small distance infinitely many times.
 Sadly, we're not in math land so we can't do that.
 
 The solution to this, as you might have guessed from the foreshadowing earlier, is to align all the walls to a grid. 
-If we know that the walls fall on predictable intervals we can calculate a reliable distance to extend our ray each time.
+If we know that the walls fall at predictable intervals we can calculate a reliable distance to extend our ray each time.
 
 {{< figure src="figure-solution.svg" position="center" caption="Notice a pattern?" >}}
 
@@ -93,8 +93,8 @@ But how do we calculate this distance?
 If you get out some grid paper and sketch out the lines between the player to various walls you'll start to notice some patterns.
 "Ray extensions" on their way to walls that fall on horizontal grid lines all share a common width while "ray extensions" that land on vertical grid lines all share a common height.
 
-We can calculate these shared "extension widths" and heights then extend them to get the closest wall we intersect on a vertical grid line and the closest wall on we intersect on a horizontal grid line.
-After that we can make the "official" distance to the wall the shorter of the two because that's the one it intersected with first.
+We can calculate these shared "extension widths" and heights then extend them to get the closest wall we intersect on a vertical grid line and the closest wall we intersect on a horizontal grid line.
+After that, we can make the "official" distance to the wall the shorter of the two because that's the one it intersected with first.
 
 I admit this is a bit confusing so I'll explain what this means in more depth:
 
@@ -127,7 +127,7 @@ This figure is also interactive, try dragging around the player!
 >}}
 
 Vertical grid intersections are the same as horizontal grid intersections, just rotated 90°.
-In vertical grid intersections the *width* between our "ray extensions" is the constant while the *height* is created from the angle of the ray.
+In vertical grid intersections the *width* between our "ray extensions" is constant while the *height* is created from the angle of the ray.
 Like last time, I'm going to skip ahead and define our variables for you.
 
 $$ \Delta W = \begin{cases} 1 &\text{if } \pi/2 > \theta > -\pi/2 \text{ (facing right)} \\\ -1 &\text{if } 3\pi/4 > \theta > \pi/2 \text{ (facing left)} \end{cases} $$
@@ -136,22 +136,22 @@ $$ \Delta H = \Delta W * \tan(\theta) $$
 ### Summary
 Now that we know pretty much exactly how we'll do this we can compile it into a more detailed step-by-step list for our program to execute on each frame.
 
-For each vertical line on screen:
+For each column on the screen:
 1. Find the angle for the ray from the player's angle and field of view.
 2. Determine the distance to the nearest wall that the ray intersects with:
    - Repeatedly extend the ray between horizontal grid lines, stopping when it hits a wall.
    - Now do the same again, but stop on vertical grid lines instead.
    - Choose the closest of those two intersections for the distance to the wall.
-3. Convert that distance into the height of a wall on screen and draw it.
+3. Convert that distance into the height of a wall on the screen and draw it.
 
 ## Implementation
 Now that we understand how the underlying algorithm works we can write a program that implements it using Rust and WASM-4.
 
 Wait why WASM-4?
-The official answer is because we need a way for our program to accept user input and draw to the screen.
+The official answer is that we need a way for our program to accept user input and draw to the screen.
 The real answer is because I like it a lot.
 
-{{< newtabref href="https://wasm4.org" >}}WASM-4{{</ newtabref >}} is a tiny game engine which runs WebAssembly (`.wasm`) files.
+{{< newtabref href="https://wasm4.org" >}}WASM-4{{</ newtabref >}} is a tiny game engine that runs WebAssembly (`.wasm`) files.
 Most compiled programming languages (C, C++, Rust, Zig, etc.) can compile to WebAssembly which means games for WASM-4 can be written in any of those languages!
 WASM-4 is *extremely* minimal, the "4" in "WASM-4" is there because you can only draw four colors on screen at once.
 
@@ -164,7 +164,7 @@ graph LR
     wasm4--> player[Player]
 {{< /mermaid >}}
 
-WASM-4 will let us create *tiny* games because it provides a simple platform for us to build our game off of.
+WASM-4 will let us create *tiny* games because it provides a simple platform for us to build our game.
 WASM-4 handles windowing, graphics rendering, and gamepad input, we have to do everything else.
 
 Here are the specs for the WASM-4 "fantasy console" from the website:
@@ -177,10 +177,10 @@ Here are the specs for the WASM-4 "fantasy console" from the website:
  >  - Disk Storage: 1024 bytes.
 
 If you know a bit about computer hardware you'll know this is an *incredibly* restrictive environment for a game to run in.
-That's the fun of it though, seeing how much you can cram into 160x160px, 4 colors and 64KB of disk space.
+That's the fun of it though, seeing how much you can cram into 160x160px, 4 colors, and 64KB of disk space.
 If you want to see what people are able to create with it, check out the {{< newtabref href="https://wasm4.org/play" >}}WASM-4 site{{</ newtabref >}} for some very impressive games (including a flight simulator!).
 
-I'll probably make a more in-depth blog post on WASM-4 in the future, but for now this explanation should be good enough for our case.
+I'll probably make a more in-depth blog post on WASM-4 in the future, but for now, this explanation should be good enough for our case.
 All you need to run WASM-4 games is to [download and install the minimal runtime](https://wasm4.org/docs/getting-started/setup).
 
 ### Project Setup
@@ -206,9 +206,9 @@ panic = "abort"
 libm = "0.2"
 ```
 This will tell cargo that we want to produce a C-like dynamic library (`.wasm`), and optimize the binary for size.
-We also import {{< newtabref href="https://crates.io/crates/libm" >}}`libm`{{< /newtabref >}}, a library which will provide us some `no_std` implementations of functions we need like `sin`, `tan`, and `floor`. (more on that later)
+We also import {{< newtabref href="https://crates.io/crates/libm" >}}`libm`{{< /newtabref >}}, a library that will provide us with some `no_std` implementations of functions we need like `sin`, `tan`, and `floor`. (more on that later)
 
-In our crate configuration file named `.cargo/config.toml` lets add:
+In our crate configuration file named `.cargo/config.toml` let's add:
 ```toml
 [build]
 target = "wasm32-unknown-unknown"
@@ -221,9 +221,9 @@ rustflags = [
     "-C", "link-arg=-zstack-size=14752",
 ]
 ```
-This will tell cargo to use WebAssembly by default and to pass some flags to rustc which tell our program to reserve some memory for the game.
+This will tell cargo to use WebAssembly by default and to pass some flags to rustc which tells our program to reserve some memory for the game.
 
-Now, lets add some simple boilerplate to our source file `src/lib.rs`:
+Now, let's add some simple boilerplate to our source file `src/lib.rs`:
 ```rust
 #![no_std]
 
@@ -268,7 +268,7 @@ We can use these to check if `GAMEPAD1` says that a button is down, that's what 
 
  - `#[panic_handler] fn phandler` is a little bit of boilerplate that Rust requires we provide if we choose to use `#![no_std]`. This function will run when the program panics. Because WASM-4 is such a restrictive environment the only thing we can really do is call `wasm32::unreachable()`.
 
- - {{< newtabref href="https://wasm4.org/docs/reference/functions/#update-" >}}`fn update`{{</ newtabref >}} is the main entrypoint into our program, WASM-4 calls this function on each frame.
+ - {{< newtabref href="https://wasm4.org/docs/reference/functions/#update-" >}}`fn update`{{</ newtabref >}} is the main entry point into our program, WASM-4 calls this function on each frame.
 
 To compile our game we can build it just like any other crate:
 ```sh
@@ -280,11 +280,11 @@ And to run it we can use `w4 run-native`:
  $ w4 run-native target/wasm32-unknown-unknown/release/raycaster.wasm
 ```
 
-This will launch an empty window, and if we press the up arrow on the keyboard a vertical line will appear in all its green gameboy-ish glory.
+This will launch an empty window, and if we press the up arrow on the keyboard a vertical line will appear in all its green Gameboy-ish glory.
 
 {{< figure src="screenshot-one.png" position="center" caption="It's alive!" >}}
 
-One thing I like to do in a situation like this commands we're going to call often is to put these commands in a simple `Makefile` so we don't have to re-type the commands or over use the up arrow.
+One thing I like to do in a situation with commands like this that we’re going to call often is to put these commands in a simple Makefile so we don’t have to re-type the commands or overuse the up arrow.
 After that all we have to do to build and run the program is type `make run`.
 ```makefile
 all:
@@ -318,8 +318,8 @@ const MAP: [u16; 8] = [
 ```
 
 The more difficult thing about this way of storing the map is accessing it.
-In order to do this we have to write a function which first indexes into the row then into the specific column by masking and then shifting the row.
-This post is already long as it is so for the sake of time I'm not going to go in depth about how the X coordinate lookup works in this function.
+To do this we have to write a function that first indexes into the row then into the specific column by masking and then shifting the row.
+This post is already long as it is so for the sake of time I'm not going to go in-depth about how the X coordinate lookup bit operations works in this function.
 ```rust
 /// Check if the map contains a wall at a point.
 fn coord_contains_wall(x: f32, y: f32) -> bool {
@@ -335,9 +335,9 @@ One thing to note about `coord_contains_wall` is that the Y axis is "flipped" me
 This is not only faster but reflects the {{< newtabref href="http://www.e-cartouche.ch/content_reg/cartouche/graphics/en/html/Screen_learningObject3.html" >}}coordinate system software most commonly uses{{</ newtabref >}}.
 
 ### Maintaining Game State
-The map stays constant throughout the runtime of the program, but the player's position and angle changes.
+The map stays constant throughout the runtime of the program, but the player's position and angle change.
 Because WASM-4 calls `update` on each frame the only way to store our game state across frames is via something like Rust's {{< newtabref href="https://doc.rust-lang.org/reference/items/static-items.html">}}`static mut`{{</ newtabref >}}.
-Because `static mut` is {{< newtabref href="https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html" >}}`unsafe`{{</ newtabref >}} we should consolidate our game logic and state in a single `struct` so we minimize the number of times we modify our state throught `static mut`.
+Because `static mut` is {{< newtabref href="https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html" >}}`unsafe`{{</ newtabref >}} we should consolidate our game logic and state in a single `struct` so we minimize the number of times we modify our state through `static mut`.
 
 Only three variables are required to describe the player's view: the X and Y position and viewing angle.
 ```rust
@@ -348,7 +348,7 @@ struct State {
 }    
 ```
 
-Lets put the `State` in memory:
+Let's put the `State` in memory:
 
 ```rust
 static mut STATE: State = State {
@@ -359,7 +359,7 @@ static mut STATE: State = State {
 ```
  > *`player_x` and `player_y` are both initially set at 1.5 so the player starts in the center of a cell and not inside a wall.*
 
-Not only is accessing `State` `unsafe` behavior, most interactions with WASM-4 are. (dereferencing raw pointers, calling external functions, etc.)
+Not only is accessing `State` `unsafe` behavior, but most interactions with WASM-4 are also. (dereferencing raw pointers, calling external functions, etc.)
 
 If we consolidate `unsafe` behavior into `fn update` and game logic into `State` we isolate our state and give some structure to our program.
 It gives us a pretty clear line: `unsafe` I/O in `fn update` which calls game logic in `State`.
@@ -375,7 +375,7 @@ flowchart
 
 ### Moving the Character
 One of the easier parts of this game is moving the character.
-Because accessing `STATE` from outside is `unsafe`, lets create a method inside of `State` to move the character and pass in the inputs on each frame.
+Because accessing `STATE` from outside is `unsafe`, let's create a method inside of `State` to move the character and pass in the inputs on each frame.
 
 ```rust
 impl State {
@@ -413,7 +413,7 @@ impl State {
 If you've ever moved a player in a game and know some basic trigonometry this should all look familiar.
 Note that calls to `sinf` are negative, this is because our Y-axis is flipped.
 
-If the player is asking us to move the player forwards or backwards we modify the player's x and y positions based on the `cosf` and `sinf` values of the player's angle multiplied by a constant `STEP_SIZE`.
+If the player is asking us to move the player forwards or backward we modify the player's x and y positions based on the `cosf` and `sinf` values of the player's angle multiplied by a constant `STEP_SIZE`.
 
 Just for you, I'll give you a magic number you can change later if you'd like:
 ```rust
@@ -445,14 +445,14 @@ unsafe fn update() {
 ```
 
 ### Horizontal Intersections
-Before we draw the walls on the screen we need to implement the core of our algorithm, horizontal and vertical intersection checks.
+Before we draw the walls on the screen we need to implement the core of our algorithm: horizontal and vertical intersection checks.
 
 First, we need to expand our `libm` import statement from earlier:
 ```rust
 use libm::{ceilf, cosf, fabsf, floorf, sinf, sqrtf, tanf};
 ```
 
-From `libm::sqrtf` we can write simple distance function $ D = \sqrt{\Delta X^2 + \Delta Y^2} $:
+From `libm::sqrtf` we can write simple distance function $ D = \sqrt{(\Delta X^2)+(\Delta Y^2)} $:
 ```rust
 fn distance(a: f32, b: f32) -> f32 {
     sqrtf((a * a) + (b * b))
@@ -465,7 +465,7 @@ Then, lets import the core library's helpful constants for $\pi$ and $\frac{\pi}
 use core::f32::consts::{PI, FRAC_PI_2};
 ```
 
-Because we need to access the player's angle, lets create a method inside of `State` called `horizontal_intersection`.
+Because we need to access the player's angle and position, let's create a method inside of `State` called `horizontal_intersection`.
 This is the most complex function we've written so far, but it mirrors the algorithm I've already described so I'm going to keep my comments *inside* the code for this one.
 ```rust
 impl State {
@@ -531,10 +531,10 @@ impl State {
 ```
 
 ### Vertical Intersections
-Lets also implement vertical intersections before drawing the walls.
+Let's also implement vertical intersections before drawing the walls.
 
 This function is almost identical to the last one.
-Lets add a method inside of `State` called `vertical_intersection` to match `horizontal_intersection`.
+Let's add a method inside of `State` called `vertical_intersection` to match `horizontal_intersection`.
 
 ```rust
 impl State {
@@ -601,25 +601,25 @@ impl State {
 
 ### Creating The View
 So far we haven't written anything we can interact with.
-Well we can *act* on it (move the character), but we can't see what we're doing.
-Lets try drawing the walls.
+Well, we can *act* on it (move the character), but we can't see what we're doing.
+Let's try drawing the walls.
 
 If you remember from the [summary](#summary), we have to draw vertical lines for every column on the window.
 
 We can split this up into two separate jobs: getting the heights of the lines and actually drawing them on the screen.
 Why not do this all at once?
-Well, `vline` is `unsafe` so lets keep it in `fn update`.
+Well, `vline` is `unsafe` so let's keep it in `fn update`.
 Getting the player's view is game logic so it should be kept in `State` where it can avoid using `unsafe`.
 
-Lets do this by defining `State::get_view` which returns a list of all the wall heights.
+Let's do this by defining `State::get_view` which returns a list of all the wall heights.
 Then, on each frame, we can call `State::get_view` from `fn update` and draw all of those vertical lines we just calculated.
 
-`State::get_view` will work by going through each vertical line on screen (all 160), calculating the angle offset from the player's point of view, then finding the distance to the closest horizontal and vertical intersections with walls in the ray's path.
+`State::get_view` will work by going through each vertical line on the screen (all 160), calculating the angle offset from the player's point of view, then finding the distance to the closest horizontal and vertical intersections with walls in the ray's path.
 Then it compares the two distances and turns the smaller of the two into the height of a wall.
 
-I know that sounds complicated so lets go ahead and write out what that looks like.
+I know that sounds complicated so let's go ahead and write out what that looks like.
 
-First, lets create some constants which define our player's perspective.
+First, let's create some constants which define our player's perspective:
 ```rust
 const FOV: f32 = PI / 2.7; // The player's field of view.
 const HALF_FOV: f32 = FOV * 0.5; // Half the player's field of view.
@@ -627,7 +627,7 @@ const ANGLE_STEP: f32 = FOV / 160.0; // The angle between each ray.
 const WALL_HEIGHT: f32 = 100.0; // A magic number.
 ```
 
-Now, lets add `get_view` to our existing `State` impl block.
+Now, let's add `get_view` to our existing `State` impl block:
 ```rust
 impl State {
     /// Returns 160 wall heights from the player's perspective.
@@ -677,7 +677,7 @@ unsafe fn update() {
 }
 ```
 
-Looks good, lets try running it!
+Looks good, let's try running it!
 You can use the arrow keys on your keyboard to move the player around.
 
 {{< loopingvideopreview src="first-attempt.webm" type="video/webm" scale=2 >}}
@@ -692,15 +692,15 @@ Walls seem to bend away from you as if you were looking through a fisheye lens.
 
 {{< figure src="fisheye.png" position="center" caption="This is what it looks like when facing a wall straight on." >}}
 
-This is because our algorithm's assumption that human vision converges on single infinitely small point (the player) is wrong.
-In reality our visual cortex is constantly blending and correcting the perspective of both of our eyes to create depth.
+This is because our algorithm's assumption that human vision converges on a single infinitely small point (the player) is wrong.
+In reality, our visual cortex is constantly blending and correcting the perspective of both of our eyes to create depth.
 
 In this case a much more accurate metaphor is a plane that is perpendicular to our perspective sending out the rays.
 
 **TODO: INSERT GRAPHIC**
 
 This is... *vague*, but if you think of it as "fisheye correction" maybe that'll help.
-In order to apply this "fisheye correction" we have to multiply the distance by the $\cos$ of difference between the ray's angle and the player's angle.
+To apply this "fisheye correction" we have to multiply the distance by the $\cos$ of difference between the ray's angle and the player's angle.
 
 All we have to do to apply this is to modify a single line in the `State::get_view` function:
 ```rust
@@ -711,25 +711,26 @@ All we have to do to apply this is to modify a single line in the `State::get_vi
 
 ## Adding Some Depth
 One thing about the current version of the game is that it is difficult to distinguish between different walls.
-Especially at a distance, walls seem to fade into eachother and it's hard to tell them apart.
+Especially at a distance, walls seem to fade into each other and it's hard to tell them apart.
 
 {{< figure src="nodepth.png" position="center" caption="The walls here aren't very obvious." >}}
 
-In real life we can distinguish walls apart by their shadows.
+In real life, we can distinguish walls apart by their shadows.
 We can try to emulate this in the game by coloring walls differently based on their orientation.
 Luckily for us, we already know which walls are "east/west facing" and which are "north/south facing" because of what axis our rays intersected with them!
 Knowing this, it's fairly easy to assign colors to walls.
 
 WASM-4 has a very unique way of setting which color its functions use: we have to modify some more memory!
-Every time a draw function is called in WASM-4 it decides what color to use based off an index in a bit of memory called `DRAW_COLORS`.
+Every time a draw function is called in WASM-4 it decides what color to use based on an index in a bit of memory called `DRAW_COLORS`.
+WASM-4 makes setting `DRAW_COLORS` easy, we can set it by using simple hex notation.
 
-Lets add `DRAW_COLORS` next to `GAMEPAD1` at the top of our file:
+Let's add `DRAW_COLORS` next to `GAMEPAD1` at the top of our file:
 ```rust
 const DRAW_COLORS: *mut u16 = 0x14 as *mut u16;
 const GAMEPAD1: *const u8 = 0x16 as *const u8;    
 ```
 
-Now, in `State::get_view`, we can rewrite it to pass along if the wall should be drawn "with a shadow" or not.
+Now, in `State::get_view`, we can rewrite it to pass along if the wall should be drawn "with a shadow" or not:
 ```rust
 impl State {
     /// Returns 160 wall heights and their "color" from the player's perspective.
@@ -772,7 +773,7 @@ impl State {
 }
 ```
 
-Now lets make these changes in `fn update`:
+Now let's make these changes in `fn update`:
 ```rust
 #[no_mangle]
 unsafe fn update() {
@@ -817,9 +818,10 @@ If you were to check the size of the program right now, say by calling `du -bh`,
 
 This is nowhere near the 2K executable I promised in the title, so how are we going to get there?
 One way you can reduce the size of `.wasm` files is by using `wasm-opt`.
+You can get `wasm-opt` by installing the {{< newtabref href="https://pkgs.org/download/binaryen" >}}`binaryen`{{</ newtabref >}} package.
 `wasm-opt` was specifically designed to optimize `.wasm` files for size by removing dead code and duplicate instructions that the compiler left behind.
 
-Lets put a `wasm-opt` step in our `Makefile` and while we're at it make it tell us what size the `.wasm` file is:
+Let's put a `wasm-opt` step in our `Makefile` and while we're at it make it tell us what size the `.wasm` file is:
 ```makefile
 all:
 .SILENT:
@@ -847,8 +849,10 @@ Hmmm, not quite enough.
 If you were to look into the executable yourself you'd probably see that most of the space is being taken up by functions from `libm`.
 The final step requires we remove `libm` completely and replace it with our own implementations.
 
-Lets start by removing the old `libm` import statement and removing it from the `Cargo.toml` dependencies.
-Then we can add an approximation of the `sinf` function using {{< newtabref href="https://en.wikipedia.org/wiki/Bhaskara_I%27s_sine_approximation_formula" >}}Bhasksara I's sin approximation{{</ newtabref >}} and redefine `cosf` and `tanf` in terms of `sinf`.
+Let's start by removing the old `libm` import statement and removing it from the `Cargo.toml` dependencies.
+Then we can add an approximation of the `sinf` function using
+{{< newtabref href="https://en.wikipedia.org/wiki/Bhaskara_I%27s_sine_approximation_formula" >}}Bhasksara I's sin approximation{{</ newtabref >}}
+and redefine `cosf` and `tanf` in terms of `sinf`.
 
 First, make sure to also import $\tau$ from the core library and define a constant for $5\pi^2$:
 ```rust
@@ -857,7 +861,7 @@ use core::f32::consts::{FRAC_PI_2, PI, TAU};
 const FIVE_PI_SQUARED: f32 = 5.0 * (PI * PI);
 ```
 
-Then, lets add `sinf`, `cosf`, and `tanf`:
+Then, let's add `sinf`, `cosf`, and `tanf`:
 ```rust
 fn sinf(mut x: f32) -> f32 {
     let y = x / TAU;
@@ -917,7 +921,7 @@ fn fabsf(x: f32) -> f32 {
 }
 ```
 
-Lets compile to and see if it works..... and
+Lets compile to and see if it works... and
 
 ```
 $ make size
@@ -926,8 +930,8 @@ $ make size
 
 ## Conclusion
 1.7K is not the smallest you can make this program.
-You can get this to fit in even smaller sizes and I encourage you try to!
-There are some sections in this code which I've even intentionally made take up slightly more instructions than they need to at the cost of readability just so *you* can optimize it.
+You can get this to fit in even smaller sizes and I encourage you to try!
+There are some sections in this code that I've even intentionally made take up slightly more instructions than they need to at the cost of readability just so *you* can optimize it.
 
 
 [^1]: In this post I call specific the ray casting algorithm used in games like Wolfenstein 3D "ray casting" for the sake of brevity. This is slightly innacurrate as ray casting has a more general meaning in the field of graphics. See the [Wikipedia Article](https://en.wikipedia.org/wiki/Ray_casting).
