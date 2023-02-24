@@ -1,6 +1,6 @@
 +++
 title = "Write a 2KB FPS with Rust"
-description = "Learn about raycasting and discover some elegant math by creating a tiny 4KB game with Rust."
+description = "Learn about ray casting and discover some elegant math by creating a tiny 2KB game with Rust."
 date = "2023-02-18"
 draft = true
 math = true
@@ -13,7 +13,7 @@ In this post we'll uncover an elegant algorithm and create tiny first-person "ga
 My goal here is to show how something that looks complicated can be broken down into simple pieces.
 If I've done my job right, it should feel like you've *discovered* how to make the game.
 
-First I'll walk you through how the algorithm behind the game works, then we'll write it out line by line.
+First we'll explore how the algorithm behind the game works, then we'll write it out line by line.
 I tried to make this as accessible as possible but a healthy understanding of programming as well as Rust and trigonometry will help.
 
 Here's a quick preview of what we'll be making:
@@ -692,8 +692,8 @@ Walls seem to bend away from you as if you were looking through a fisheye lens.
 
 {{< figure src="fisheye.png" position="center" caption="This is what it looks like when facing a wall straight on." >}}
 
-This is because our algorithm's assumption that human vision converges on single infinitely small point (the player).
-In reality our visual cortex is constantly blending and correcting the perspective of our two eyes to create depth.
+This is because our algorithm's assumption that human vision converges on single infinitely small point (the player) is wrong.
+In reality our visual cortex is constantly blending and correcting the perspective of both of our eyes to create depth.
 
 In this case a much more accurate metaphor is a plane that is perpendicular to our perspective sending out the rays.
 
@@ -819,14 +819,16 @@ This is nowhere near the 2K executable I promised in the title, so how are we go
 One way you can reduce the size of `.wasm` files is by using `wasm-opt`.
 `wasm-opt` was specifically designed to optimize `.wasm` files for size by removing dead code and duplicate instructions that the compiler left behind.
 
-Lets put a `wasm-opt` step in our build file and while we're at it make it tell us what size the `.wasm` file is:
+Lets put a `wasm-opt` step in our `Makefile` and while we're at it make it tell us what size the `.wasm` file is:
 ```makefile
 all:
+.SILENT:
 	cargo build --release
 
 	wasm-opt -Oz target/wasm32-unknown-unknown/release/raycaster.wasm \
     -o target/wasm32-unknown-unknown/release/raycaster.wasm
 
+size: all
 	du -bh target/wasm32-unknown-unknown/release/raycaster.wasm
 
 run: all
@@ -834,12 +836,7 @@ run: all
 ```
 
 ```
- $ make
-cargo build --release
-    Finished release [optimized] target(s) in 0.00s
-wasm-opt -Oz target/wasm32-unknown-unknown/release/raycaster.wasm \
-    -o target/wasm32-unknown-unknown/release/raycaster.wasm
-du -bh target/wasm32-unknown-unknown/release/raycaster.wasm
+ $ make size
 7.2K	target/wasm32-unknown-unknown/release/raycaster.wasm
 ```
 
@@ -848,9 +845,9 @@ Hmmm, not quite enough.
 ## Somehow Even Smaller?!
 
 If you were to look into the executable yourself you'd probably see that most of the space is being taken up by functions from `libm`.
-We can actually write our own `libm` functions and save quite a bit of space.
+The final step requires we remove `libm` completely and replace it with our own implementations.
 
-Lets start by removing the old `libm` import statement.
+Lets start by removing the old `libm` import statement and removing it from the `Cargo.toml` dependencies.
 Then we can add an approximation of the `sinf` function using {{< newtabref href="https://en.wikipedia.org/wiki/Bhaskara_I%27s_sine_approximation_formula" >}}Bhasksara I's sin approximation{{</ newtabref >}} and redefine `cosf` and `tanf` in terms of `sinf`.
 
 First, make sure to also import $\tau$ from the core library and define a constant for $5\pi^2$:
@@ -868,7 +865,7 @@ fn sinf(mut x: f32) -> f32 {
     x = z * TAU;
 
     let sinf_imp = |x: f32| -> f32 {
-        // fun magic numbers
+        // magic numbers discovered 1400 years ago.
         (16.0 * x * (PI - x)) / (FIVE_PI_SQUARED - (4.0 * x * (PI - x)))
     };
 
@@ -888,12 +885,13 @@ fn tanf(x: f32) -> f32 {
 }
 ```
 
-Alright, so we've replaced the `libm` trig functions, what about `sqrtf`, `ceilf`, `floorf`, and `absf`?
+Alright, so we've replaced the `libm` trig functions, what about `sqrtf`, `ceilf`, `floorf`, and `fabsf`?
 This is where *nightly* Rust comes into play, so make sure you've "`rustup default nightly`ed yourself" or build the project with nightly features from now on.
 
-Nightly Rust enables a module called `core::intrinsics`. `core::intrinsics` provides us some functions that are "intrinsic" to the architecture we are compiling to, in this case WebAssembly.
+Nightly Rust enables us to use a module named `core::intrinsics`.
+`core::intrinsics` provides us some functions that are "intrinsic" to the architecture we are compiling to, in this case WebAssembly.
 
-In order to turn on the experimental intrinsics feature, enable `#![feature(core_intrinsics)]` at the top of your file:
+In order to turn on the experimental intrinsics feature, add `#![feature(core_intrinsics)]` to the top of your file:
 ```rust
 #![no_std]
 #![feature(core_intrinsics)]
@@ -919,21 +917,18 @@ fn fabsf(x: f32) -> f32 {
 }
 ```
 
-Lets compile and see if it works..... and
+Lets compile to and see if it works..... and
 
 ```
-$ make
-cargo build --release
-    Finished release [optimized] target(s) in 0.00s
-wasm-opt -Oz target/wasm32-unknown-unknown/release/raycaster.wasm \
-    -o target/wasm32-unknown-unknown/release/raycaster.wasm
-du -bh target/wasm32-unknown-unknown/release/raycaster.wasm
+$ make size
 1.7K	target/wasm32-unknown-unknown/release/raycaster.wasm
 ```
 
 ## Conclusion
+1.7K is not the smallest you can make this program.
+You can get this to fit in even smaller sizes and I encourage you try to!
+There are some sections in this code which I've even intentionally made take up slightly more instructions than they need to at the cost of readability just so *you* can optimize it.
 
-TODO
 
 [^1]: In this post I call specific the ray casting algorithm used in games like Wolfenstein 3D "ray casting" for the sake of brevity. This is slightly innacurrate as ray casting has a more general meaning in the field of graphics. See the [Wikipedia Article](https://en.wikipedia.org/wiki/Ray_casting).
 [^2]: To say "extending the ray" is a bit of a misnomer. "vector" is more accurate in this situation but "ray" sounds better.
