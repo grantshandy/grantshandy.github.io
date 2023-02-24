@@ -198,6 +198,9 @@ crate-type = ["cdylib"]
 [profile.release]
 opt-level = "z"
 lto = true
+codegen-units = 1
+strip = true
+panic = "abort"
 
 [dependencies]
 libm = "0.2"
@@ -375,7 +378,7 @@ One of the easier parts of this game is moving the character.
 Because accessing `STATE` from outside is `unsafe`, lets create a method inside of `State` to move the character and pass in the inputs on each frame.
 
 ```rust
-impl Game {
+impl State {
     /// move the character
     pub fn update(&mut self, up: bool, down: bool, left: bool, right: bool) {
         // store our current position in case we might need it later
@@ -444,8 +447,157 @@ unsafe fn update() {
 ### Horizontal Intersections
 Before we draw the walls on the screen we need to implement the core of our algorithm, horizontal and vertical intersection checks.
 
+First, we need to expand our `libm` import statement from earlier:
+```rust
+use libm::{ceilf, cosf, fabsf, floorf, sinf, sqrtf, tanf};
+```
+
+From `libm::sqrtf` we can write simple distance function $ D = \sqrt{\Delta X^2 + \Delta Y^2} $:
+```rust
+fn distance(a: f32, b: f32) -> f32 {
+    sqrtf((a * a) + (b * b))
+}
+```
+
+Then, lets import the core library's helpful constants for $\pi$ and $\frac{\pi}{2}$:
+
+```rust
+use core::f32::consts::{PI, FRAC_PI_2};
+```
+
+Because we need to access the player's angle, lets create a method inside of `State` called `horizontal_intersection`.
+This is the most complex function we've written so far, but it mirrors the algorithm I've already described so I'm going to keep my comments *inside* the code for this one.
+```rust
+impl State {
+    /// Returns the nearest wall on a horizontal grid line.
+    fn horizontal_intersection(&self, angle: f32) -> f32 {
+        // This tells you if the angle is "facing up"
+        // regardless of how big the angle is.
+        let up = fabsf(floorf(angle / PI) % 2.0) != 0.0;
+
+        // first_y and first_x are the first grid intersections
+        // that the ray intersects with. This is the point from 
+        // which all the intersections are added to.
+        let first_y = if up {
+            ceilf(self.player_y) - self.player_y
+        } else {
+            floorf(self.player_y) - self.player_y
+        };
+        let first_x = -first_y / tanf(angle);
+
+        // dy and dx are the "ray extension" values mentioned earlier.
+        let dy = if up { 1.0 } else { -1.0 };
+        let dx = -dy / tanf(angle);
+
+        // next_x and next_y are mutable values which will keep track
+        // of how far away the ray is from the player.
+        let mut next_x = first_x;
+        let mut next_y = first_y;
+
+        // This is the loop where the ray is extended until it hits
+        // the wall. It's not an infinite loop as implied in the
+        // explanation, instead it only goes from 0 to 256.
+        //
+        // This was chosen because if something goes wrong and the
+        // ray never hits a wall (which should never happen) the
+        // loop will eventually quit and the game will keep on running.
+        for _ in 0..256 {
+            // current_x and current_y are where the ray is currently
+            // on the map. While next_x and next_y are relative
+            // coordinates, current_x and current_y are absolute
+            // points.
+            let current_x = next_x + self.player_x;
+            let current_y = if up {
+                next_y + self.player_y
+            } else {
+                next_y + self.player_y - 1.0
+            };
+
+            // Tell the loop to quit if we've just hit a wall.
+            if coord_contains_wall(current_x, current_y) {
+                break;
+            }
+
+            // if we didn't hit a wall on this extension add
+            // dx and dy to our current position and keep going.
+            next_x += dx;
+            next_y += dy;
+        }
+
+        // return the distance of next_x and next_y to the player.
+        distance(next_x, next_y)
+    }
+}
+```
+
 ### Vertical Intersections
-Lets implement vertical intersections too before drawing the walls.
+Lets also implement vertical intersections before drawing the walls.
+
+This function is almost identical to the last one.
+Lets add a method inside of `State` called `vertical_intersection` to match `horizontal_intersection`.
+
+```rust
+impl State {
+    /// Returns the nearest wall the ray intersects with on a vertical grid line.
+    fn vertical_intersection(&self, angle: f32) -> f32 {
+        // This tells you if the angle is "facing up"
+        // regardless of how big the angle is.
+        let right = fabsf(floorf((angle - FRAC_PI_2) / PI) % 2.0) != 0.0;
+
+        // first_y and first_x are the first grid intersections
+        // that the ray intersects with. This is the point from 
+        // which all the intersections are added to.
+        let first_x = if right {
+            ceilf(self.player_x) - self.player_x
+        } else {
+            floorf(self.player_x) - self.player_x
+        };
+        let first_y = -tanf(angle) * first_x;
+
+        // dy and dx are the "ray extension" values mentioned earlier.
+        let dx = if right { 1.0 } else { -1.0 };
+        let dy = dx * -tanf(angle);
+
+        // next_x and next_y are mutable values which will keep track
+        // of how far away the ray is from the player.
+        let mut next_x = first_x;
+        let mut next_y = first_y;
+
+        // This is the loop where the ray is extended until it hits
+        // the wall. It's not an infinite loop as implied in the
+        // explanation, instead it only goes from 0 to 256.
+        //
+        // This was chosen because if something goes wrong and the
+        // ray never hits a wall (which should never happen) the
+        // loop will eventually quit and the game will keep on running.
+        for _ in 0..256 {
+            // current_x and current_y are where the ray is currently
+            // on the map. While next_x and next_y are relative
+            // coordinates, current_x and current_y are absolute
+            // points.
+            let current_x = if right {
+                next_x + self.player_x
+            } else {
+                next_x + self.player_x - 1.0
+            };
+            let current_y = next_y + self.player_y;
+
+            // Tell the loop to quit if we've just hit a wall.
+            if coord_contains_wall(current_x, current_y) {
+                break;
+            }
+
+            // if we didn't hit a wall on this extension add
+            // dx and dy to our current position and keep going.
+            next_x += dx;
+            next_y += dy;
+        }
+
+        // return the distance of next_x and next_y to the player.
+        distance(next_x, next_y)
+    }
+}
+```
 
 ### Creating The View
 So far we haven't written anything we can interact with.
@@ -457,21 +609,21 @@ If you remember from the [summary](#summary), we have to draw vertical lines for
 We can split this up into two separate jobs: getting the heights of the lines and actually drawing them on the screen.
 Why not do this all at once?
 Well, `vline` is `unsafe` so lets keep it in `fn update`.
-Getting the player's view is game logic and should be kept in `State` where it can avoid using `unsafe` to access `STATE`.
+Getting the player's view is game logic so it should be kept in `State` where it can avoid using `unsafe`.
 
 Lets do this by defining `State::get_view` which returns a list of all the wall heights.
 Then, on each frame, we can call `State::get_view` from `fn update` and draw all of those vertical lines we just calculated.
 
-`State::get_view` will work by going through each vertical line on screen (160), calculating the angle offset from the player's point of view, then finding the distance to the closest horizontal and vertical intersections with walls in the ray's path.
+`State::get_view` will work by going through each vertical line on screen (all 160), calculating the angle offset from the player's point of view, then finding the distance to the closest horizontal and vertical intersections with walls in the ray's path.
 Then it compares the two distances and turns the smaller of the two into the height of a wall.
 
-I know that sounds complicated so lets go ahead and "scaffold out" what that looks like:
+I know that sounds complicated so lets go ahead and write out what that looks like.
 
-Then, lets create some constants which define our player's perspective.
+First, lets create some constants which define our player's perspective.
 ```rust
 const FOV: f32 = PI / 2.7; // The player's field of view.
 const HALF_FOV: f32 = FOV * 0.5; // Half the player's field of view.
-const ANGLE_STEP: f32 = FOV / 160.0; // the angle between each ray.
+const ANGLE_STEP: f32 = FOV / 160.0; // The angle between each ray.
 const WALL_HEIGHT: f32 = 100.0; // A magic number.
 ```
 
@@ -485,11 +637,11 @@ impl State {
         // in order to get the ray's starting angle we must
         // add half the FOV to the player's angle to get
         // the edge of their FOV.
-        let starting_angle = self.player_angle + HALF_FOV;
 
+        let starting_angle = self.player_angle + HALF_FOV;
         let mut walls = [0; 160];
 
-        for (idx, wall) in rays.iter_mut().enumerate() {
+        for (idx, wall) in walls.iter_mut().enumerate() {
             // `idx` is what number ray we are, `wall` is
             // a mutable reference to a value in `walls`.
             let angle = starting_angle - idx as f32 * ANGLE_STEP;
@@ -501,10 +653,10 @@ impl State {
 
             // Get the minimum of the two distances and
             // "convert" it into a wall height.
-            *wall = (WALL_HEIGHT / f23::min(h_dist, v_dist)) as i32;
+            *wall = (WALL_HEIGHT / f32::min(h_dist, v_dist)) as i32;
         }
 
-        wall
+        walls
     }
 }
 ```
@@ -525,20 +677,263 @@ unsafe fn update() {
 }
 ```
 
+Looks good, lets try running it!
+You can use the arrow keys on your keyboard to move the player around.
+
+{{< loopingvideopreview src="first-attempt.webm" type="video/webm" scale=2 >}}
+
+Wow, we were able to create the illusion of depth!
+This is pretty impressive for our first try.
+Most tutorials stop here, but there are some problems we need to work out.
+
 ## Getting A New Perspective
-When playing the game you might notice that everything looks... wrong.
+When walking around you might notice that everything looks... wrong.
 Walls seem to bend away from you as if you were looking through a fisheye lens.
 
 {{< figure src="fisheye.png" position="center" caption="This is what it looks like when facing a wall straight on." >}}
 
+This is because our algorithm's assumption that human vision converges on single infinitely small point (the player).
+In reality our visual cortex is constantly blending and correcting the perspective of our two eyes to create depth.
+
+In this case a much more accurate metaphor is a plane that is perpendicular to our perspective sending out the rays.
+
+**TODO: INSERT GRAPHIC**
+
+This is... *vague*, but if you think of it as "fisheye correction" maybe that'll help.
+In order to apply this "fisheye correction" we have to multiply the distance by the $\cos$ of difference between the ray's angle and the player's angle.
+
+All we have to do to apply this is to modify a single line in the `State::get_view` function:
+```rust
+*wall = ( WALL_HEIGHT / (f32::min(h_dist, v_dist) * cosf(angle - self.player_angle)) ) as i32;    
+```
+
+{{< figure src="corrected.png" position="center" caption="Great! now walls are straight." >}}
+
 ## Adding Some Depth
+One thing about the current version of the game is that it is difficult to distinguish between different walls.
+Especially at a distance, walls seem to fade into eachother and it's hard to tell them apart.
+
+{{< figure src="nodepth.png" position="center" caption="The walls here aren't very obvious." >}}
+
+In real life we can distinguish walls apart by their shadows.
+We can try to emulate this in the game by coloring walls differently based on their orientation.
+Luckily for us, we already know which walls are "east/west facing" and which are "north/south facing" because of what axis our rays intersected with them!
+Knowing this, it's fairly easy to assign colors to walls.
+
+WASM-4 has a very unique way of setting which color its functions use: we have to modify some more memory!
+Every time a draw function is called in WASM-4 it decides what color to use based off an index in a bit of memory called `DRAW_COLORS`.
+
+Lets add `DRAW_COLORS` next to `GAMEPAD1` at the top of our file:
+```rust
+const DRAW_COLORS: *mut u16 = 0x14 as *mut u16;
+const GAMEPAD1: *const u8 = 0x16 as *const u8;    
+```
+
+Now, in `State::get_view`, we can rewrite it to pass along if the wall should be drawn "with a shadow" or not.
+```rust
+impl State {
+    /// Returns 160 wall heights and their "color" from the player's perspective.
+    pub fn get_view(&self) -> [(i32, bool); 160] {
+        // The player's FOV is split in half by their viewing angle.
+        //
+        // in order to get the ray's starting angle we must
+        // add half the FOV to the player's angle to get
+        // the edge of their FOV.
+        let starting_angle = self.player_angle + HALF_FOV;
+
+        let mut walls = [(0, false); 160];
+
+        for (idx, wall) in walls.iter_mut().enumerate() {
+            // `idx` is what number ray we are, `wall` is
+            // a mutable reference to a value in `walls`.
+            let angle = starting_angle - idx as f32 * ANGLE_STEP;
+
+            // Get both the closest horizontal and vertical wall
+            // intersections for this angle.
+            let h_dist = self.horizontal_intersection(angle);
+            let v_dist = self.vertical_intersection(angle);
+
+            let (min_dist, shadow) = if h_dist < v_dist {
+                (h_dist, false)
+            } else {
+                (v_dist, true)
+            };
+
+            // Get the minimum of the two distances and
+            // "convert" it into a wall height.
+            *wall = (
+                (WALL_HEIGHT / (min_dist * cosf(angle - self.player_angle))) as i32,
+                shadow,
+            );
+        }
+
+        walls
+    }
+}
+```
+
+Now lets make these changes in `fn update`:
+```rust
+#[no_mangle]
+unsafe fn update() {
+    STATE.update(
+        *GAMEPAD1 & BUTTON_UP != 0,
+        *GAMEPAD1 & BUTTON_DOWN != 0,
+        *GAMEPAD1 & BUTTON_LEFT != 0,
+        *GAMEPAD1 & BUTTON_RIGHT != 0,
+    );
+
+    // go through each column on screen and draw walls in the center.
+    for (x, wall) in STATE.get_view().iter().enumerate() {
+        let (height, shadow) = wall;
+
+        if *shadow {
+            // draw with color 2 for walls with "shadow"
+            *DRAW_COLORS = 0x2;
+        } else {
+            // draw with color 3 for walls without "shadow"
+            *DRAW_COLORS = 0x3;
+        }
+
+        vline(x as i32, 80 - (height / 2), *height as u32);
+    }
+}
+```
+
+Lets try running it:
 
 {{< figure src="depth.png" position="center" caption="Looks better, right!" >}}
 
+Wow, that looks much better.
+Even though shadows in real life don't act like this (besides say, the summer solstice at the equator), it adds some good detail and helps create the illusion of depth.
+
 ## Making It Smaller!
+If you were to check the size of the program right now, say by calling `du -bh`, you might get something like this:
+
+```
+ $ du -bh target/wasm32-unknown-unknown/release/raycaster.wasm
+12K target/wasm32-unknown-unknown/release/raycaster.wasm
+```
+
+This is nowhere near the 2K executable I promised in the title, so how are we going to get there?
+One way you can reduce the size of `.wasm` files is by using `wasm-opt`.
+`wasm-opt` was specifically designed to optimize `.wasm` files for size by removing dead code and duplicate instructions that the compiler left behind.
+
+Lets put a `wasm-opt` step in our build file and while we're at it make it tell us what size the `.wasm` file is:
+```makefile
+all:
+	cargo build --release
+
+	wasm-opt -Oz target/wasm32-unknown-unknown/release/raycaster.wasm \
+    -o target/wasm32-unknown-unknown/release/raycaster.wasm
+
+	du -bh target/wasm32-unknown-unknown/release/raycaster.wasm
+
+run: all
+	w4 run-native target/wasm32-unknown-unknown/release/raycaster.wasm
+```
+
+```
+ $ make
+cargo build --release
+    Finished release [optimized] target(s) in 0.00s
+wasm-opt -Oz target/wasm32-unknown-unknown/release/raycaster.wasm \
+    -o target/wasm32-unknown-unknown/release/raycaster.wasm
+du -bh target/wasm32-unknown-unknown/release/raycaster.wasm
+7.2K	target/wasm32-unknown-unknown/release/raycaster.wasm
+```
+
+Hmmm, not quite enough.
 
 ## Somehow Even Smaller?!
 
+If you were to look into the executable yourself you'd probably see that most of the space is being taken up by functions from `libm`.
+We can actually write our own `libm` functions and save quite a bit of space.
+
+Lets start by removing the old `libm` import statement.
+Then we can add an approximation of the `sinf` function using {{< newtabref href="https://en.wikipedia.org/wiki/Bhaskara_I%27s_sine_approximation_formula" >}}Bhasksara I's sin approximation{{</ newtabref >}} and redefine `cosf` and `tanf` in terms of `sinf`.
+
+First, make sure to also import $\tau$ from the core library and define a constant for $5\pi^2$:
+```rust
+use core::f32::consts::{FRAC_PI_2, PI, TAU};
+
+const FIVE_PI_SQUARED: f32 = 5.0 * (PI * PI);
+```
+
+Then, lets add `sinf`, `cosf`, and `tanf`:
+```rust
+fn sinf(mut x: f32) -> f32 {
+    let y = x / TAU;
+    let z = y - floorf(y);
+    x = z * TAU;
+
+    let sinf_imp = |x: f32| -> f32 {
+        // fun magic numbers
+        (16.0 * x * (PI - x)) / (FIVE_PI_SQUARED - (4.0 * x * (PI - x)))
+    };
+
+    if x > PI {
+        -sinf_imp(x - PI)
+    } else {
+        sinf_imp(x)
+    }
+}
+
+fn cosf(x: f32) -> f32 {
+    sinf(x + FRAC_PI_2)
+}
+
+fn tanf(x: f32) -> f32 {
+    sinf(x) / cosf(x)
+}
+```
+
+Alright, so we've replaced the `libm` trig functions, what about `sqrtf`, `ceilf`, `floorf`, and `absf`?
+This is where *nightly* Rust comes into play, so make sure you've "`rustup default nightly`ed yourself" or build the project with nightly features from now on.
+
+Nightly Rust enables a module called `core::intrinsics`. `core::intrinsics` provides us some functions that are "intrinsic" to the architecture we are compiling to, in this case WebAssembly.
+
+In order to turn on the experimental intrinsics feature, enable `#![feature(core_intrinsics)]` at the top of your file:
+```rust
+#![no_std]
+#![feature(core_intrinsics)]
+```
+
+Now we can create some "safe" wrappers over those functions that WebAssembly provides for us:
+
+```rust
+fn sqrtf(x: f32) -> f32 {
+    unsafe { core::intrinsics::sqrtf32(x) }
+}
+
+fn floorf(x: f32) -> f32 {
+    unsafe { core::intrinsics::floorf32(x) }
+}
+
+fn ceilf(x: f32) -> f32 {
+    unsafe { core::intrinsics::ceilf32(x) }
+}
+
+fn fabsf(x: f32) -> f32 {
+    unsafe { core::intrinsics::fabsf32(x) }
+}
+```
+
+Lets compile and see if it works..... and
+
+```
+$ make
+cargo build --release
+    Finished release [optimized] target(s) in 0.00s
+wasm-opt -Oz target/wasm32-unknown-unknown/release/raycaster.wasm \
+    -o target/wasm32-unknown-unknown/release/raycaster.wasm
+du -bh target/wasm32-unknown-unknown/release/raycaster.wasm
+1.7K	target/wasm32-unknown-unknown/release/raycaster.wasm
+```
+
 ## Conclusion
+
+TODO
+
 [^1]: In this post I call specific the ray casting algorithm used in games like Wolfenstein 3D "ray casting" for the sake of brevity. This is slightly innacurrate as ray casting has a more general meaning in the field of graphics. See the [Wikipedia Article](https://en.wikipedia.org/wiki/Ray_casting).
 [^2]: To say "extending the ray" is a bit of a misnomer. "vector" is more accurate in this situation but "ray" sounds better.
