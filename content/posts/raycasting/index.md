@@ -17,7 +17,7 @@ and if I've done my job right, it should feel like you've *discovered* how the g
 
 First, we'll explore how the algorithm behind the game works, then we'll write it out line by line.
 Afterwards, we'll take a second look at the code to add some features and optimize it for size.
-I've tried to make this as accessible as and friendly as possible but a healthy understanding of programming as well as Rust and basic geometry will help.
+I've tried to make this as accessible and friendly as possible but a healthy understanding of programming as well as Rust and basic geometry will help.
 
 Here's a quick preview of what we'll be making:
 
@@ -61,7 +61,7 @@ It then records the distances of each path before converting it into the height 
 
 {{< figure src="figure-overview.svg" position="center" >}}
 
-From what we know so far about the raycasting algorithm we can deduce that we will need to:
+From what we know so far about the ray casting algorithm we can deduce that we will need to:
 
  - Cast a ray from the player and stop at the nearest wall
  - Calculate the distance from the player to the nearest wall
@@ -960,7 +960,7 @@ There are some sections in this code that I've even intentionally made more read
 I wrote this post because when I was first writing my raycasted game I couldn't find any resources that explained how the algorithm worked in sane code and plain language.
 
 I hope this was interesting and useful for you!
-Ray casting in FPS games was always a mystery to me before I looked into them, I hope you'll agree that the algorthm behind it is surprisingly elegant.
+Ray casting in FPS games was always a mystery to me before I looked into them, I hope you'll agree that the algorithm behind it is surprisingly elegant.
 
-[^1]: In this post I call specific the ray casting algorithm used in games like Wolfenstein 3D "ray casting" for the sake of brevity. This is slightly innacurrate as ray casting has a more general meaning in the field of graphics. See the [Wikipedia Article](https://en.wikipedia.org/wiki/Ray_casting).
+[^1]: In this post I call specific the ray casting algorithm used in games like Wolfenstein 3D "ray casting" for the sake of brevity. This is slightly inaccurate as ray casting has a more general meaning in the field of graphics. See the [Wikipedia Article](https://en.wikipedia.org/wiki/Ray_casting).
 [^2]: To say "extending the ray" is a bit of a misnomer. "vector" is more accurate in this situation but "ray" sounds better and is in the name "ray casting" so I use it in its place.
