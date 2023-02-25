@@ -3,7 +3,7 @@ title = "How to Embed the GeoGebra Calculator App in a Hugo Static Site"
 description = "How to embed interactive geometry demos in Hugo static sites."
 date =  2023-02-25
 toc = false
-draft = true
+draft = false
 +++
 
 One thing I figured out when writing "{{< newtabref href="/posts/raycasting" >}}Write a First Person Game in 2KB With Rust{{</ newtabref >}}" was how to embed the {{< newtabref href="https://geogebra.org" >}}GeoGebra{{</ newtabref >}} calculator into a {{< newtabref href="https://gohugo.io" >}}Hugo{{</ newtabref >}} site.
