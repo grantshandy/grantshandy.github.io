@@ -10,7 +10,7 @@ cover = "cover.png"
 
 ## Introduction
 On first glance, making a first person game without an engine or a graphics API seems like an almost impossible task.
-In this post I'll show you how to do that even without Rust's standard library using an algorithm called ray casting.
+In this post I'll show you how to do that using an algorithm called ray casting.
 
 My goal here is to show how something that looks complicated can be broken down into simple pieces,
 and if I've done my job right, it should feel like you've *discovered* how the game works.
@@ -705,14 +705,18 @@ Walls bend away from you as if you were looking through a fisheye lens.
 {{< imgproc "fisheye.png" Resize 325x center />}}
 
 This is because our algorithm's assumption that human vision converges on a single infinitely small point (the player) is wrong.
-In reality, our visual cortex is constantly blending and correcting the perspective of both of our eyes to create depth.
+In reality, our visual cortex is constantly blending the perspective of both of our eyes to create depth.
 
-In this case a much more accurate metaphor is a plane that is perpendicular to our perspective sending out the rays.
+In this case a much more accurate metaphor is a plane  perpendicular to our perspective sending out the rays:
 
 {{< figure src="./figure-perspective.svg" >}}
 
 Of course this is pretty vague, but if you think of it as "fisheye correction" maybe that'll help.
-To apply this "fisheye correction" we have to multiply the distance by the cosine of difference between the ray's angle and the player's angle.
+To apply this "fisheye correction" we have to multiply the distance by the cosine of difference between the ray's angle and the player's angle:
+
+$$ H= \frac{C}{D \times \cos(\Delta \theta)} $$
+
+Where $H$ is the wall height in pixels, $D$ is the distance to the wall, and $ \Delta\theta$ is the difference between the ray's angle and the player's angle.
 
 All we have to do to apply this is to modify a single line in the `State::get_view` function:
 ```rust
@@ -878,7 +882,7 @@ use core::f32::consts::{FRAC_PI_2, PI, TAU};
 const FIVE_PI_SQUARED: f32 = 5.0 * (PI * PI);
 ```
 
-Then, let's add our new `sinf`:
+Then, let's add our new `sinf`[^3]:
 ```rust
 fn sinf(mut x: f32) -> f32 {
     let y = x / TAU;
@@ -964,3 +968,4 @@ Ray casting in FPS games was always a mystery to me before I looked into them, I
 
 [^1]: In this post I call specific the ray casting algorithm used in games like Wolfenstein 3D "ray casting" for the sake of brevity. This is slightly inaccurate as ray casting has a more general meaning in the field of graphics. See the [Wikipedia Article](https://en.wikipedia.org/wiki/Ray_casting).
 [^2]: To say "extending the ray" is a bit of a misnomer. "vector" is more accurate in this situation but "ray" sounds better and is in the name "ray casting" so I use it in its place.
+[^3]: Thanks to {{< newtabref href="https://github.com/Cyborus04" >}}Cyborus04{{</ newtabref >}} for helping me with this `sinf` function.
