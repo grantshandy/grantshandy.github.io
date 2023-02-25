@@ -4,9 +4,7 @@
   window.addEventListener("load", function() { 
     new GGBApplet({
       appName: "geometry",
-      id: '{{ .Get "name" }}',
-      width: 800,
-      height: 600,
+      id: '{{ .Get "name" | default "geogebra" }}',
       showToolBar: false,
       showZoomButtons: false,
       showAlgebraInput: false,
@@ -19,11 +17,11 @@
         api.setCoordSystem({{ .Get "coords" | safeJS }});  
       },
       filename: '{{ .Site.BaseURL }}{{ .Get "file" }}'
-    }).inject('{{ .Get "name" }}');
+    }).inject('{{ .Get "name" | default "geogebra" }}');
   });
 </script>
 
 <figure class="center">
-  <div id="{{ .Get "name" }}" style="border-radius: 8px; overflow: hidden;"></div>
+  <div id='{{ .Get "name" | default "geogebra" }}' style="border-radius: 8px; overflow: hidden;"></div>
   <figcaption class="center">{{ .Get "caption" | markdownify }}</figcaption>
 </figure>

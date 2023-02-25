@@ -517,7 +517,7 @@ impl State {
         // loop will eventually break and the game will keep on running.
         for _ in 0..256 {
             // current_x and current_y are where the ray is currently
-            // on the map. While next_x and next_y are relative
+            // on the map, while next_x and next_y are relative
             // coordinates, current_x and current_y are absolute
             // points.
             let current_x = next_x + self.player_x;
@@ -585,7 +585,7 @@ impl State {
         // loop will eventually quit and the game will keep on running.
         for _ in 0..256 {
             // current_x and current_y are where the ray is currently
-            // on the map. While next_x and next_y are relative
+            // on the map, while next_x and next_y are relative
             // coordinates, current_x and current_y are absolute
             // points.
             let current_x = if right {
