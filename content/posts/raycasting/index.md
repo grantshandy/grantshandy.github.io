@@ -1,6 +1,6 @@
 +++
 title = "Write a First Person Game in 2KB With Rust"
-description = "Learn about ray casting and discover some elegant math by creating a tiny 2KB game with Rust."
+description = "Learn about ray casting and discover some fun math by creating a tiny 2KB game with Rust."
 date = "2023-02-24"
 draft = false
 math = true
