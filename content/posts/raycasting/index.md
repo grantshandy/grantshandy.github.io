@@ -23,6 +23,8 @@ Here's a quick preview of what we'll be making:
 
 {{< loopingvideopreview src="preview.webm" type="video/webm" scale=2 >}}
 
+If you just want to see the source code, you can check out the {{< newtabref href="https://github.com/grantshandy/wasm4-raycaster" >}}Github repository{{</ newtabref >}}.
+
 My first experience with games like this (though I didn't know at the time), was in middle school with games like {{< newtabref href="https://www.ticalc.org/archives/files/fileinfo/360/36062.html" >}}zDoom{{</ newtabref >}} on my calculator.
 zDoom (while not actually that fun), was fascinating to me because it could (kind of) create the illusion of depth and perspective, something I thought only "real" games could do.
 
