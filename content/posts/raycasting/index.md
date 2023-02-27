@@ -968,6 +968,8 @@ I wrote this post because when I was first writing my raycasted game I couldn't 
 I hope this was interesting and useful for you!
 Ray casting in FPS games was always a mystery to me before I looked into them, I hope you'll agree that the algorithm behind it is surprisingly elegant.
 
+{{< buymeacoffee >}}
+
 [^1]: In this post I call specific the ray casting algorithm used in games like Wolfenstein 3D "ray casting" for the sake of brevity. This is slightly inaccurate as ray casting has a more general meaning in the field of graphics. See the [Wikipedia Article](https://en.wikipedia.org/wiki/Ray_casting).
 [^2]: To say "extending the ray" is a bit of a misnomer. "vector" is more accurate in this situation but "ray" sounds better and is in the name "ray casting" so I use it in its place.
 [^3]: Thanks to {{< newtabref href="https://github.com/Cyborus04" >}}Cyborus04{{</ newtabref >}} for helping me with this `sinf` function.
