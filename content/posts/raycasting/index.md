@@ -370,7 +370,7 @@ static mut STATE: State = State {
 ```
  > *`player_x` and `player_y` are both initially set at 1.5 so the player starts in the center of a cell and not inside a wall.*
 
-Not only is accessing `State` `unsafe` behavior, but most interactions with WASM-4 are also. (dereferencing raw pointers, calling external functions, etc.)
+Not only is accessing `State` `unsafe` behavior, most interactions with are WASM-4 are. (dereferencing raw pointers, calling external functions, etc.)
 
 For those not familiar with Rust, `unsafe` is a keyword/block that you give the compiler when you need to get around its memory safety guarantees.
 Using `unsafe` tells the Rust compiler "I know what I'm doing, don't bother me about it".
@@ -658,6 +658,8 @@ const ANGLE_STEP: f32 = FOV / 160.0; // The angle between each ray.
 const WALL_HEIGHT: f32 = 100.0; // A magic number.
 ```
 
+ > `WALL_HEIGHT` is the height, in pixels, the wall will appear as when it is one unit away.
+
 Now, let's add `get_view` to our existing `State` impl block:
 ```rust
 impl State {
@@ -875,7 +877,7 @@ $$
 $$
 
 This approximation is *extremely* good, especially for the time it was discovered.
-And because we're operating with wall heights only between 0 and 160, any differences between `libm::sinf` and our `sinf` will be indistinguishable.
+And because we're operating with wall heights only between integers 0 and 160, any differences between `libm::sinf` and our `sinf` will be indistinguishable.
 
 First, make sure to also import $\tau$ from the core library and define a constant for $5\pi^2$ which Bhaskara I's approximation uses:
 ```rust
