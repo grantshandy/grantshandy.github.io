@@ -8,6 +8,8 @@ useRelativeCover = true
 cover = "cover.png"
 +++
 
+{{< pageviews key="raycasting" >}}
+
 ## Introduction
 On first glance, making a first person game without an engine or a graphics API seems like an almost impossible task.
 In this post I'll show you how to do that using an algorithm called ray casting.
