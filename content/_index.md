@@ -10,4 +10,5 @@ framed = true
 I'm Grant, this is where I host my project showcase and contact info,
 as well as blog posts where I explore programming concepts and quirks.
 
-Check out my [project showcase](/showcase) and [about page](/about).
+You might want to check out my [project showcase](/showcase) and [about page](/about).
+All my posts are available in [feed](/posts/index.xml) form.
