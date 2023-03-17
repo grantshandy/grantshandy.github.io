@@ -15,9 +15,9 @@ but I also like hiking, running, and camping.
 | Case                | Software                                  |
 |---------------------|-------------------------------------------|
 | Text Editor         | [Helix](https://helix-editor.com)         |
-| Terminal Emulator   | [Kitty](https://sw.kovidgoyal.net/kitty/) |
+| Terminal Emulator   | [Alacritty](https://alacritty.org) |
 | Linux Distro        | [Arch Linux](https://archlinux.org)       |
-| Desktop Environment | [Gnome](https://gnome.org)                |
+| Desktop Environment | [Sway](https://swaywm.org)                |
 
 | Case                 | Language                                                                                                         |
 |----------------------|------------------------------------------------------------------------------------------------------------------|
