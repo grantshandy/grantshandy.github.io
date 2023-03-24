@@ -14,6 +14,16 @@ The site then runs your game in a modified version of the WASM-4 runtime which a
 [View Github Page](https://github.com/grantshandy/wasm4-playground)
 [Visit Site](https://grantshandy.github.io/wasm4-playground)
 
+## Gemway
+
+Gemway is a little HTTP-[Gemini](https://en.wikipedia.org/wiki/Gemini_(protocol)) proxy I threw together in a night.
+Though it's a little rough around the edges, I think the LaTeX style is nice.
+It translates HTTP requests into Gemini requests on the backend and returns a nicely formatted HTML document with translated links.
+
+![screenshot](./gemway-1.png)
+
+[View Github Page](https://github.com/grantshandy/gemway)
+
 ## Maze Wanderer
 
 Maze Wanderer is a first-person "walking simulator" for the [WASM-4](https://wasm4.org) retro game engine.
