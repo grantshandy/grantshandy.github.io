@@ -4,11 +4,14 @@
         <loc>https://grantshandy.github.io/</loc>
     </url>
     <url>
+        <loc>https://grantshandy.github.io/about/</loc>
+    </url>
+    <url>
         <loc>https://grantshandy.github.io/blog/</loc>
     </url>
     <url>
-        <loc>https://grantshandy.github.io/blog/first/</loc>
-        <lastmod>2019-11-27</lastmod>
+        <loc>https://grantshandy.github.io/blog/raycasting/</loc>
+        <lastmod>2023-02-24</lastmod>
     </url>
     <url>
         <loc>https://grantshandy.github.io/projects/</loc>
