@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title | safe }}{% endblock title %}
+{% block path %}{% for path in page.components %}/{{ path }}{% endfor %}{% endblock path %}
+{% block header %}{{ page.title }}{% endblock header  %}
+
+{% block content %}
+
+{% if page.date%}
+  <p class="subtitle"><strong>{{ page.date }}</strong></p>
+{% endif %}
+
+{{ page.content | safe }}
+
+{% endblock content %}

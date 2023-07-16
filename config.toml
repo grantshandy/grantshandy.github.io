@@ -1,38 +1,17 @@
-baseURL = "https://grantshandy.github.io/"
-languageCode = "en-US"
-theme = "friend"
+base_url = "https://grantshandy.github.io"
 title = "grantsh"
-copyright = "&copy; 2023 Grant Handy"
+description = "My Blog"
 
-[params]
-defaultTheme = "dark"
-toc = true
-showMenuItems = 3
-showReadingTime = true
-logo = { logoText = "grantsh" }
+compile_sass = false
+build_search_index = true
+minify_html = true
 
-[languages.en]
-menuMore = "Show more"
-readMore = "Read more"
-readOtherPosts = "Read other posts"
-newerPosts = "Newer posts"
-olderPosts = "Older posts"
-missingContentMessage = "Page not found..."
-missingBackButtonLabel = "Back to home page"
-minuteReadingTime = "min read"
-words = "words"
+[markdown]
+highlight_code = true
 
-[[menu.main]]
-identifier = "showcase"
-name = "Showcase"
-url = "/showcase"
-
-[[menu.main]]
-identifier = "about"
-name = "About"
-url = "/about"
-
-[[menu.main]]
-identifier = "posts"
-name = "Posts"
-url = "/posts"
+[extra]
+copyright = "2023 Grant Handy"
+menus = [
+  { name = "Blog", url = "/blog" },
+  { name = "Projects", url = "/projects" }
+]
