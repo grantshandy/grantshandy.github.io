@@ -1,17 +1,15 @@
 base_url = "https://grantshandy.github.io"
 title = "grantsh"
-description = "My Blog"
-
 compile_sass = false
-build_search_index = true
+build_search_index = false
 minify_html = true
 
 [markdown]
 highlight_code = true
 
 [extra]
-copyright = "2023 Grant Handy"
-menus = [
-  { name = "Blog", url = "/blog" },
-  { name = "Projects", url = "/projects" }
+header_pages = [
+  { name = "Projects", path = "/projects" },
+  { name = "Blog", path = "/blog" },
+  { name = "About", path = "/about" }
 ]

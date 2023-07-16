@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-.title {
+body, html {
+  @apply text-zinc-700 dark:text-zinc-200 bg-zinc-200 dark:bg-zinc-900;
+  @apply h-screen w-screen;
+}
+
+.content {
+  @apply space-y-3;
+}
+
+.content h1 {
+  @apply text-3xl;
+}
+
+.content h2 {
+  @apply text-2xl;
+}
+
+.content h3 {
   @apply text-xl;
 }

@@ -1,5 +1,7 @@
 +++
-title = "Main Page"
+title = "Main"
 +++
 
-*I write a [blog](blog)*...
+![](./cover.jpg)
+
+This is a site where I keep projects and occasional blog posts.
