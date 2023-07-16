@@ -20,9 +20,8 @@ jobs:
     - uses: actions/checkout@master
       with:
         submodules: true
-    - uses: jakejarvis/hugo-build-action@v0.110.0
-      with:
-        args: --minify
+    - name: Zola Buikd
+      uses: crowselectromusic/zola-build@1.2.0
 
     - name: Upload artifacts
       uses: s0/git-publish-subdir-action@develop
