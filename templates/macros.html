@@ -1,0 +1,19 @@
+{% macro katex() %}
+<link rel="stylesheet" href="{{ get_url(path="css/katex.css") }}">
+<script defer src="{{ get_url(path="katex.js")}}"></script>
+<script defer src="{{ get_url(path="auto-render.js") }}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+              {left: "$$", right: "$$", display: true},
+              {left: "$", right: "$", display: false},
+            ]
+        });
+    });
+</script>
+{% endmacro katex %}
+
+{% macro geogebra() %}
+<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+{% endmacro geogebra %}

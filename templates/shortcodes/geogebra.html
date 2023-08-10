@@ -1,0 +1,30 @@
+<script>
+  window.addEventListener("load", function() { 
+    new GGBApplet({
+      appName: "geometry",
+      id: '{{ name }}',
+      showToolBar: false,
+      showZoomButtons: false,
+      showAlgebraInput: false,
+      showLogging: false,
+      enableRightClick: true,
+      enableShiftDragZoom: false,
+      preventFocus: true,
+      showMenuBar: false,
+      appletOnLoad: (api) => {
+				const rect = document.getElementById('{{ name }}-outer').getBoundingClientRect();
+
+				api.setWidth(rect.right - rect.left);
+        api.setCoordSystem({{ coords }});  
+      },
+      filename: '{{ file | safe }}'
+    }).inject('{{ name }}')
+  });
+</script>
+
+<figure class="mx-auto space-y-2 w-full">
+	<div class="w-full" id='{{ name }}-outer'>
+	  <div id='{{ name }}' class="rounded-md overflow-hidden w-full"></div>
+	</div>
+  <figcaption class="text-center italic">{{ caption }}</figcaption>
+</figure>

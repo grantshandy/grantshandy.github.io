@@ -1,8 +1,53 @@
 {% extends "base.html" %}
 
 {% block title %}{{ page.title }}{% endblock title %}
+{% block description %}{{ page.description }}{% endblock description %}
+
+{% block head %}
+
+{% if page.extra.katex %}
+  {{ macros::katex() }}
+{% endif %}
+
+{% if page.extra.geogebra %}
+  {{ macros::geogebra() }}
+{% endif %}
+
+{% endblock head %}
 
 {% block content %}
-<h2>{{ page.title | safe }}</h2>
-{{ page.content | safe }}
+<div class="space-y-6">
+  <div>
+    <h1 class="font-bold text-2xl">{{ page.title | safe }}</h1>
+    {% if page.date %}
+    <p class="text-sm italic">Written {{ page.date | safe }}</p>
+    {% endif %}
+  </div>
+
+  {% if page.extra.cover %}
+  <img class="mx-auto rounded-md shadow-2xl" src="{{ page.permalink }}{{ page.extra.cover }}">
+  {% endif %}
+
+  {% if page.toc %}
+  <div class="space-y-2">
+    <h2 class="text-xl font-semibold">Table of Contents</h2>
+    <ol class="list-decimal space-y-2 ml-2">
+    {% for h1 in page.toc %}
+      <li><a href="{{ h1.permalink | safe }}" class="hover:underline">{{ h1.title }}</a></li>
+      {% if h1.children %}
+      <ul class="list-disc pl-6">
+        {% for h2 in h1.children %}
+          <li><a href="{{ h2.permalink | safe }}" class="hover:underline">{{ h2.title }}</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    {% endfor %}
+    </ol>
+  </div>
+  {% endif %}
+</div>
+
+<div class="w-full border-b border-dotted"></div>
+
+<div class="content">{{ page.content | safe }}</div>
 {% endblock content %}

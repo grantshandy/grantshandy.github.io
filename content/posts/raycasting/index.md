@@ -1,14 +1,16 @@
 +++
-title = "Write a First Person Game in 2KB With Rust"
+title = "Write a First Person Game in 2KB (With Rust)"
 description = "Learn about ray casting and discover some fun math by creating a tiny 2KB game with Rust."
 date = 2023-02-24
 draft = false
-math = true
-useRelativeCover = true
+
+[extra]
 cover = "cover.png"
+katex = true
+geogebra = true
 +++
 
-## Introduction
+## [Introduction](#introduction)
 On first glance, making a first person game without an engine or a graphics API seems like an almost impossible task.
 In this post I'll show you how to do that using an algorithm called ray casting.
 
@@ -21,7 +23,7 @@ I've tried to make this as accessible and friendly as possible but a healthy und
 
 Here's a quick preview of what we'll be making:
 
-{{< loopingvideopreview src="preview.webm" type="video/webm" scale=2 >}}
+{{ loopingvideopreview(src="preview.webm" type="video/webm") }}
 
 If you just want to see the source code, you can check out the [Github repository](https://github.com/grantshandy/wasm4-raycaster).
 
@@ -32,7 +34,7 @@ zDoom (while not actually that fun), was fascinating to me because it could (kin
 
 zDoom was only an imitation of the original game Doom, in reality, it was much closer to Doom's predecessor, Wolfenstein 3D.
 
-### Wolfenstein 3D
+### [Wolfenstein 3D](#wolfenstein-3d)
 Famously, [Wolfenstein 3D](https://en.wikipedia.org/wiki/Wolfenstein_3D), released in 1992, was one of the first 3D first-person games to run on consumer PCs.
 Back then, computers didn't have hardware 3D acceleration, let alone dedicated graphics cards, so how was this done?
 
@@ -51,8 +53,8 @@ To add to that, all the levels were composed of single floors of buildings with 
 Also, all walls were perfectly straight with corners placed at even intervals (something that will absolutely not come up later).
 These design features were all put here because of some of the essential restrictions of its simple ray-casting algorithm.
 
-## The Algorithm
-### The Basics
+## [The Algorithm](#the-algorithm)
+### [The Basics](#the-basics)
 At the most fundamental level, ray casting depends on the simple fact that objects that are further away from us appear smaller while objects that are closer appear larger.
 Ray casting uses this fact to draw walls at shorter heights the further away they are from the player and at taller heights the closer they are.
 
@@ -70,7 +72,7 @@ From what we know so far about the ray casting algorithm we can deduce that we w
  - Convert that distance into the height of a wall and draw it on the screen
  - Repeat that for each column on the screen ↺
 
-### Digging Deeper
+### [Digging Deeper](#digging-deeper)
 The hardest part of this is "cast a ray from the player and stop at the nearest wall".
 This seems simple on paper but in practice, it can be [pretty difficult](https://en.wikipedia.org/wiki/Collision_detection).
 If you had to come up with a ray casting implementation yourself, how would you approach it?
@@ -102,15 +104,15 @@ Then we repeatedly extend it by these widths and heights to get the closest "ver
 
 I admit this is a bit confusing so I'll explain what this means in more depth:
 
-### Horizontal Intersections
+### [Horizontal Intersections](#horizontal-intersections)
 Here's an example diagram of what it looks like when a player looks at a "horizontal wall".
 This diagram is interactive, try dragging around the player!
 
-{{< geogebra
+{{ geogebra(
     file="ggb/horizontal.ggb"
     name="horizontal"
     caption="Notice how only the *width* between extensions changes when the player moves."
-    coords="-2.78, 13.18, -4.48, 7.48" >}}
+    coords="-2.78, 13.18, -4.48, 7.48") }}
 
 In horizontal wall intersections the height between "extensions" is always one, while the width between extensions can be derived from the angle of the ray.
 We always move up or down by exactly one and right or left by an amount determined by the angle of the ray.
@@ -123,15 +125,15 @@ I'm going to save you the work and just give you the definition:
 $$ \Delta H = \begin{cases} 1 &\text{if "facing up"} \\\ -1 &\text{if "facing down"} \end{cases} $$
 $$ \Delta W = \frac{\Delta H}{\tan(\theta)} $$
 
-### Vertical Intersections
+### [Vertical Intersections](#vertical-intersections)
 Here's another interactive diagram of what it looks like when a ray intersects with a "vertical wall".
 
-{{< geogebra
+{{ geogebra(
     file="ggb/vertical.ggb"
     name="vertical"
     caption="Here the *height* between extensions changes while the width stays the same."
-    coords="-3.097, 8.238, 2.274, 10.769"
->}}
+    coords="-3.097, 8.238, 2.274, 10.769")
+}}
 
 Vertical grid intersections are the same as horizontal grid intersections, just rotated 90°.
 In vertical grid intersections the *width* between our "ray extensions" is constant while the *height* is created from the angle of the ray.
@@ -140,7 +142,7 @@ Like last time, I'm going to skip ahead and define our variables for you.
 $$ \Delta W = \begin{cases} 1 &\text{if "facing right"} \\\ -1 &\text{if "facing left"} \end{cases} $$
 $$ \Delta H = \Delta W * \tan(\theta) $$
 
-### Summary
+### [Summary](#summary)
 Now that we know pretty much exactly how we'll do this we can compile it into a more detailed step-by-step list for our program to execute on each frame.
 
 For each column on the screen:
@@ -151,7 +153,7 @@ For each column on the screen:
    - Calculate the distance to the wall from the closest of those two.
 3. Convert that distance into the height of a wall on the screen and then draw it.
 
-## Implementation
+## [Implementation](#implementation)
 Now that we understand how the underlying algorithm works we can write a program that implements it using WASM-4.
 
 Wait why WASM-4?
@@ -165,14 +167,7 @@ WASM-4 is *extremely* minimal, the "4" in "WASM-4" is there because you can only
 I'll be using Rust, but you could follow along with any language that can compile to WebAssembly.
 If you're more familiar with JavaScript I recommend [AssemblyScript](https://assemblyscript.org).
 
-{{< mermaid >}}
-graph LR
-    source[lib.rs] --> compiler[rustc] --> wasm
-    subgraph wasm4[WASM-4]
-        wasm[game.wasm]
-    end
-    wasm4--> player[Player]
-{{< /mermaid >}}
+![](./img/wasm4-demo.svg)
 
 WASM-4 will let us create *tiny* games because it provides a simple platform to build off.
 WASM-4 handles windowing, graphics rendering, and gamepad input, we have to do everything else.
@@ -193,7 +188,7 @@ If you want to see what people are able to create with it, check out the [WASM-4
 I'll probably make a more in-depth post on WASM-4 in the future, but for now, this explanation should be good enough for our case.
 All you need to run WASM-4 games is to [download and install the minimal runtime](https://wasm4.org/docs/getting-started/setup).
 
-### Project Setup
+### [Project Setup](#project-setup)
 Because WASM-4 runs WebAssembly files we have to configure our project to create one.
 
 ```sh
@@ -267,18 +262,18 @@ Here's a little explanation of the code here for those who aren't familiar with 
  - `#![no_std]` prohibits the program from accessing the Rust standard library.
 This is essential in almost all WASM-4 games because the standard library is large and might put our game over the 64KB size limit.
 
- - {{< newtabref href="https://wasm4.org/docs/reference/memory#gamepads" >}}`GAMEPAD1`{{</ newtabref >}} is a pointer to the current state of the first gamepad (the arrow keys in our case).
+ - [`GAMEPAD1`](https://wasm4.org/docs/reference/memory#gamepads) is a pointer to the current state of the first gamepad (the arrow keys in our case).
 The runtime will update this section of memory with the state of our gamepad (keyboard) on each frame.
 
  - The constants `BUTTON_LEFT` through `BUTTON_DOWN` describe the bits in the gamepad which describe each button.
 We can use these to check if `GAMEPAD1` says that a button is down, that's what we're doing when we call `*GAMEPAD1 & BUTTON_UP != 0`.
 
- - `extern "C" fn vline` links our game to an external function WASM-4 provides for us, {{< newtabref href="https://wasm4.org/docs/reference/functions/#vlinex-y-len" >}}`vline`{{</ newtabref >}}.
+ - `extern "C" fn vline` links our game to an external function WASM-4 provides for us, [`vline`](https://wasm4.org/docs/reference/functions/#vlinex-y-len).
 `vline` draws a vertical line on the window at `x`, `y` and extends it down `len` pixels.
 
  - `#[panic_handler] fn phandler` is a little bit of boilerplate that Rust requires we provide if we choose to use `#![no_std]`. This function will run when the program panics. Because WASM-4 is such a restrictive environment the only thing we can really do is call `wasm32::unreachable()`.
 
- - {{< newtabref href="https://wasm4.org/docs/reference/functions/#update-" >}}`unsafe fn update`{{</ newtabref >}} is the main entry point into our program, WASM-4 calls this function on each frame.
+ - [`unsafe fn update`](https://wasm4.org/docs/reference/functions/#update) is the main entry point into our program, WASM-4 calls this function on each frame.
 
 To compile our game we can build it just like any other crate:
 ```sh
@@ -292,7 +287,7 @@ And to run it we can use `w4 run-native`:
 
 This will launch an empty window, and if we press the up arrow on the keyboard a vertical line will appear in all its green Gameboy-ish style.
 
-{{< imgproc "screenshot-one.png" Resize 300x center />}}
+![](screenshot-one.png)
 
 It's alive!
 
@@ -308,7 +303,7 @@ run: all
 
 Great, now that we've got the workflow down we can get to writing the game.
 
-### Storing The Map
+### [Storing The Map](#storing-the-map)
 The simplest way to store the map is a grid of wall or no wall. One way we could store the map as `[[bool; WIDTH]; HEIGHT]` and access it through `map[][]`.
 Storing the map this way wouldn't be very elegant because we'd have to type out each cell individually as a `true` or `false`.
 
@@ -344,12 +339,12 @@ fn point_in_wall(x: f32, y: f32) -> bool {
 Because our map is surrounded by walls it's safe to tell the caller of this function that there is a wall if it calls for a coordinate that is out of bounds.
 
  > One thing to note about `point_in_wall` is that the Y axis is "flipped" meaning $ y = 0 $ is at the top.
-This is not only faster but reflects the {{< newtabref href="http://www.e-cartouche.ch/content_reg/cartouche/graphics/en/html/Screen_learningObject3.html" >}}coordinate system software most commonly uses{{</ newtabref >}}.
+This is not only faster but reflects the [coordinate system software most commonly uses](http://www.e-cartouche.ch/content_reg/cartouche/graphics/en/html/Screen_learningObject3.html).
 
-### Maintaining Game State
+### [Maintaining Game State](#maintaining-game-state)
 The map stays constant throughout the runtime of the program, but the player's position and angle change.
-Because WASM-4 calls `update` on each frame the only way to store our game state across frames is via something like Rust's {{< newtabref href="https://doc.rust-lang.org/reference/items/static-items.html">}}`static mut`{{</ newtabref >}}.
-Because `static mut` is {{< newtabref href="https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html" >}}`unsafe`{{</ newtabref >}} we should consolidate our game logic and state in a single `struct` so we minimize the number of times we modify our state through `static mut`.
+Because WASM-4 calls `update` on each frame the only way to store our game state across frames is via something like Rust's [`static mut`](https://doc.rust-lang.org/reference/items/static-items.html).
+Because `static mut` is [`unsafe`](https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html) we should consolidate our game logic and state in a single `struct` so we minimize the number of times we modify our state through `static mut`.
 
 Only three variables are required to describe the player's view: the X and Y position and viewing angle.
 ```rust
@@ -380,16 +375,9 @@ Because of this, best practice is to keep `unsafe` usage to a minimum.
 If we consolidate `unsafe` behavior into `fn update` and game logic into `State` we isolate our state and give some structure to our program.
 This gives us a pretty clear line: `unsafe` I/O with WASM-4 in `fn update`, safe game logic in `State`.
 
-{{< mermaid >}}
-flowchart
-    subgraph unsafe
-        w[WASM-4] --> f[fn update]
-    end
+![](./img/unsafe-flow.svg)
 
-    f --> u[struct State]
-{{</ mermaid >}}
-
-### Moving the Character
+### [Moving the Character](#moving-the-character)
 One of the easier parts of this game is moving the character.
 Because accessing our `STATE` from outside is `unsafe`, let's create a method inside of `State` to move the character and pass in the inputs on each frame.
 
@@ -461,7 +449,7 @@ unsafe fn update() {
 }
 ```
 
-### Horizontal Intersections
+### [Horizontal Intersections](#horizontal-intersections-1)
 Before we draw the walls on the screen we need to implement the core of our algorithm: horizontal and vertical intersection checks.
 
 First, we need to expand our `libm` import statement from earlier:
@@ -546,7 +534,7 @@ impl State {
 }
 ```
 
-### Vertical Intersections
+### [Vertical Intersections](#vertical-intersections-1)
 Let's also implement vertical intersections before drawing the walls.
 
 You'll notice that this function is almost identical to the last one.
@@ -614,7 +602,7 @@ impl State {
 }
 ```
 
-### Getting The View
+### [Getting The View](#getting-the-view)
 So far we haven't written anything we can interact with.
 Well, we can *act* on it (move the character), but we can't see what we're doing.
 Let's try drawing the walls.
@@ -696,13 +684,13 @@ impl State {
 Looks good, let's try running it!
 You can use the arrow keys on your keyboard to move the player around.
 
-{{< loopingvideopreview src="first-attempt.webm" type="video/webm" scale=2 >}}
+{{ loopingvideopreview(src="first-attempt.webm" type="video/webm") }}
 
 Wow, we were able to create the illusion of depth!
 This is pretty impressive for our first try.
 Most tutorials stop here, but there are some problems we need to work out.
 
-## Fixing The Perspective
+## [Fixing The Perspective](#fixing-the-perspective)
 When walking around you might notice that everything looks... wrong.
 Walls bend away from you as if you were looking through a fisheye lens.
 
@@ -727,11 +715,11 @@ All we have to do to apply this is to modify a single line in the `State::get_vi
 *wall = ( WALL_HEIGHT / (f32::min(h_dist, v_dist) * cosf(angle - self.player_angle)) ) as i32;    
 ```
 
-{{< imgproc "corrected.png" Resize 325x center />}}
+![](corrected.png)
 
 Great! Now the walls are straight.
 
-## Adding Some Depth
+## [Adding Some Depth](#adding-some-depth)
 One thing about the current version of the game is that it is difficult to distinguish between different walls.
 Especially at a distance, walls seem to fade into each other and it's hard to tell them apart.
 
@@ -829,7 +817,7 @@ Lets try running it:
 Wow, that looks much better.
 Even though shadows in real life don't act like this it adds some good detail and helps create the illusion of depth.
 
-## Making It Smaller!
+## [Making It Smaller!](#making-it-smaller)
 If you were to check the size of the program right now, say by calling `du -bh`, you might get something like this:
 
 ```
@@ -838,7 +826,7 @@ If you were to check the size of the program right now, say by calling `du -bh`,
 
 This is nowhere near the 2K executable I promised in the title, so how are we going to get there?
 One way you can reduce the size of `.wasm` files is by using `wasm-opt`.
-You can usually get `wasm-opt` by installing the {{< newtabref href="https://pkgs.org/download/binaryen" >}}`binaryen`{{</ newtabref >}} package.
+You can usually get `wasm-opt` by installing the [`binaryen`](https://pkgs.org/download/binaryen) package.
 `wasm-opt` was specifically designed to optimize `.wasm` files for size by removing dead code and duplicate instructions that the compiler left behind.
 
 Let's put a `wasm-opt` step in our `Makefile` and while we're at it let's make it tell us what size the `.wasm` file is:
@@ -864,13 +852,13 @@ run: all
 
 Hmmm, not quite enough.
 
-## Somehow Even Smaller?!
+## [Somehow Even Smaller?!](#somehow-even-smaller)
 
 If you were to look into the executable you'd probably see that most of the space is being taken up by functions we imported from `libm`.
 The final step requires we remove `libm` completely and replace it with our own implementation.
 
 Let's start by deleting the old `libm` import statement and removing it from `Cargo.toml`.
-After that we can add an approximation of the `sinf` function using {{< newtabref href="https://en.wikipedia.org/wiki/Bhaskara_I%27s_sine_approximation_formula" >}}Bhasksara I's sin approximation{{</ newtabref >}} and redefine `cosf` and `tanf` in terms of it.
+After that we can add an approximation of the `sinf` function using [Bhasksara I's sin approximation](https://en.wikipedia.org/wiki/Bhaskara_I%27s_sine_approximation_formula) and redefine `cosf` and `tanf` in terms of it.
 
 $$
 \sin(x) \approx \frac{16x(\pi-x)}{5\pi^2-4x(\pi-x)} \text{ when } (0 \le x \le \pi)
@@ -960,7 +948,7 @@ $ make size
 1.7K	target/wasm32-unknown-unknown/release/raycaster.wasm
 ```
 
-## Conclusion
+## [Conclusion](#conclusion)
 1.7K is not the smallest you can make this program.
 You can get this to fit in even smaller sizes and I encourage you to try!
 There are some sections in this code that I've even intentionally made more readable at the cost of taking up slightly more instructions than they need to just so *you* can optimize it.
@@ -970,8 +958,8 @@ I wrote this post because when I was first writing my raycasted game I couldn't 
 I hope this was interesting and useful for you!
 Ray casting in FPS games was always a mystery to me before I looked into them, I hope you'll agree that the algorithm behind it is surprisingly elegant.
 
-{{< buymeacoffee >}}
+{{ buymeacoffee() }}
 
-[^1]: In this post I call specific the ray casting algorithm used in games like Wolfenstein 3D "ray casting" for the sake of brevity. This is slightly inaccurate as ray casting has a more general meaning in the field of graphics. See the [Wikipedia Article](https://en.wikipedia.org/wiki/Ray_casting).
-[^2]: To say "extending the ray" is a bit of a misnomer. "vector" is more accurate in this situation but "ray" sounds better and is in the name "ray casting" so I use it in its place.
-[^3]: Thanks to [Cyborus04](https://github.com/Cyborus04) for helping me with this `sinf` function.
+ - [^1]: In this post I call specific the ray casting algorithm used in games like Wolfenstein 3D "ray casting" for the sake of brevity. This is slightly inaccurate as ray casting has a more general meaning in the field of graphics. See the [Wikipedia Article](https://en.wikipedia.org/wiki/Ray_casting).
+ - [^2]: To say "extending the ray" is a bit of a misnomer. "vector" is more accurate in this situation but "ray" sounds better and is in the name "ray casting" so I use it in its place.
+ - [^3]: Thanks to [Cyborus04](https://github.com/Cyborus04) for helping me with this `sinf` function.

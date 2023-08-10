@@ -2,23 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
-body, html {
+html, body {
   @apply text-zinc-700 dark:text-zinc-200 bg-zinc-200 dark:bg-zinc-900;
-  @apply h-screen w-screen;
 }
 
 .content {
-  @apply space-y-3;
+  @apply space-y-6;
 }
 
 .content h1 {
-  @apply text-3xl;
+  @apply text-3xl hover:underline cursor-pointer;
 }
 
 .content h2 {
-  @apply text-2xl;
+  @apply text-2xl hover:underline cursor-pointer;
 }
 
 .content h3 {
-  @apply text-xl;
+  @apply text-xl hover:underline cursor-pointer;
+}
+
+.content pre {
+  @apply overflow-x-auto rounded-md p-2;
+}
+
+.content img {
+  @apply mx-auto rounded-md shadow-md w-3/4;
+}
+
+.content ul {
+  @apply list-disc ml-3;
+}
+
+.content ol {
+  @apply list-decimal ml-3;
+}
+
+.content p {
+  @apply leading-relaxed;
+}
+
+.content blockquote {
+  @apply bg-zinc-100 dark:bg-zinc-800 p-4;
+}
+
+:not(pre) > code {
+  @apply px-1 rounded-md bg-zinc-100 dark:bg-zinc-800;
 }
