@@ -18,13 +18,10 @@
       <h1 class="grow text-2xl font-semibold">
         <a href="{{ config.base_url }}">{{ config.title }}</a>
       </h1>
-      <nav class="flex">
-      {{ macros::themeswitcher() }}
+      <nav class="flex divide-x divide-dotted divide-black dark:divide-white">
       {% for page in config.extra.header_pages %}
         <div class="p-3">
-          <a href="{{ config.base_url }}{{ page.path }}">
-            {{ page.name }}
-          </a>
+          <a href="{{ config.base_url }}{{ page.path }}">{{ page.name }}</a>
         </div>
       {% endfor %}
       </nav>

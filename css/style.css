@@ -6,6 +6,19 @@ html, body {
   @apply text-zinc-700 dark:text-zinc-200 bg-zinc-300 dark:bg-zinc-900;
 }
 
+*::-webkit-scrollbar {
+    width: 1rem;
+    height: 0.35rem;
+}
+
+*::-webkit-scrollbar-track {
+  @apply bg-zinc-300 dark:bg-zinc-900;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-zinc-700 dark:bg-zinc-200 rounded-sm;
+}
+
 pre {
   padding: 1rem;
   overflow: auto;
@@ -33,10 +46,6 @@ pre mark {
 pre table {
   width: 100%;
   border-collapse: collapse;
-}
-
-pre::-webkit-scrollbar {
-  width: 50px;
 }
 
 .content {

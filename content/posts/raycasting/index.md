@@ -12,7 +12,7 @@ geogebra = true
 
 ## Introduction
 On first glance, making a first person game without an engine or a graphics API seems like an almost impossible task.
-In this post I'll show you how to do that using an algorithm called ray casting.
+In this post I'll show you how to do that using a simple variant of a method called ray casting.
 
 My goal here is to show how something that looks complicated can be broken down into simple pieces,
 and if I've done my job right, it should feel like you've *discovered* how the game works.
@@ -173,7 +173,6 @@ WASM-4 will let us create *tiny* games because it provides a simple platform to 
 WASM-4 handles windowing, graphics rendering, and gamepad input, we have to do everything else.
 
 Here are the specs for the WASM-4 "fantasy console" from the website:
-
  >  - Display: 160x160 pixels, 4 customizable colors, updated at 60 Hz.
  >  - Memory: 64 KB linear RAM, memory-mapped I/O, save states.
  >  - Cartridge Size Limit: 64 KB.
@@ -181,44 +180,44 @@ Here are the specs for the WASM-4 "fantasy console" from the website:
  >  - Audio: 2 pulse wave channels, 1 triangle wave channel, 1 noise channel.
  >  - Disk Storage: 1024 bytes.
 
-If you know a bit about computer hardware you'll know this is an *incredibly* restrictive environment for a game to run in.
+If you know a bit about computer hardware you'll know this is an incredibly restrictive environment for a game to run in.
 That's the fun of it though, seeing how much you can cram into 160x160px, 4 colors, and 64KB of disk space.
-If you want to see what people are able to create with it, check out the [WASM-4 site](https://wasm4.org/play) for some very impressive games (including a flight simulator!).
+If you want to see what people are able to create with it, check out the [WASM-4 site](https://wasm4.org/play) for some very impressive games (including a [flight simulator](https://wasm4.org/play/taufl)!).
 
 I'll probably make a more in-depth post on WASM-4 in the future, but for now, this explanation should be good enough for our case.
 All you need to run WASM-4 games is to [download and install the minimal runtime](https://wasm4.org/docs/getting-started/setup).
 
 ### Project Setup
-Because WASM-4 runs WebAssembly files we have to configure our project to create one.
+First, make sure the Rust toolchain for `wasm32-unknown-unknown` is installed:
+```bash
+ $ rustup target add wasm32-unknown-unknown   
+```
 
-```sh
-$ cargo new raycaster --lib && cd raycaster
+Because WASM-4 runs WebAssembly files we have to configure our project to create one.
+```bash
+ $ cargo new raycaster && cd raycaster
 ```
 
 Add this to to `Cargo.toml`:
 ```toml
-[lib]
-crate-type = ["cdylib"]
-
 [profile.release]
-opt-level = "z"
-lto = true
-codegen-units = 1
-strip = true
-panic = "abort"
+opt-level = "z"         # optimize end .wasm file for size
+lto = true              # enable link time optimizations
+codegen-units = 1       # compile crates one after another so the compiler can optimize better
+strip = true            # strip expensive panic clean-up logic
+panic = "abort"         # remove debug symbols
 
 [dependencies]
-libm = "0.2"
+libm = "0.2"            # import libm for no_std math functions
 ```
-This will tell cargo that we want to produce a C-like dynamic library (`.wasm`), and optimize the binary for size.
-We also import [`libm`](https://crates.io/crates/libm), a library that will provide us with some `no_std` implementations of functions we need like `sin`, `tan`, and `floor`. (more on that later)
 
-In our crate configuration file `.cargo/config.toml` let's add:
+In the crate configuration file `.cargo/config.toml`, add:
 ```toml
 [build]
 target = "wasm32-unknown-unknown"
 
 [target.wasm32-unknown-unknown]
+runner = "w4 run-native"
 rustflags = [
     "-C", "link-arg=--import-memory",
     "-C", "link-arg=--initial-memory=65536",
@@ -226,10 +225,11 @@ rustflags = [
     "-C", "link-arg=-zstack-size=14752",
 ]
 ```
-This will tell cargo to use WebAssembly by default and to pass some flags to rustc which tells our program to reserve some memory for the game.
+This will tell cargo to use WebAssembly as the default target and to pass some flags to rustc that tells our program to reserve some memory for WASM-4.
 
-Now, let's add some simple boilerplate to our source file `src/lib.rs`:
+Now, let's add some simple WASM-4 boilerplate to the main source file `src/main.rs`:
 ```rust
+#![no_main]
 #![no_std]
 
 use core::{arch::wasm32, panic::PanicInfo};
@@ -307,7 +307,7 @@ Great, now that we've got the workflow down we can get to writing the game.
 The simplest way to store the map is a grid of wall or no wall. One way we could store the map as `[[bool; WIDTH]; HEIGHT]` and access it through `map[][]`.
 Storing the map this way wouldn't be very elegant because we'd have to type out each cell individually as a `true` or `false`.
 
-Because the boolean value (wall or no wall) can be represented by a single bit we can use the bits inside of a number to represent the map: `[u16; HEIGHT]`.
+Because the boolean value (wall or no wall) can be represented by a single bit we can use the bits inside of a number to represent the map: `[<int>; HEIGHT]`.
 In this case, `[u16; HEIGHT]` can represent a map with a width of 16 cells and an arbitrary height of our choosing.
 Using Rust's integer literal syntax we can represent our map pretty simply by writing a `1` where there is a wall and a `0` where there is no wall:
 
@@ -858,13 +858,13 @@ If you were to look into the executable you'd probably see that most of the spac
 The final step requires we remove `libm` completely and replace it with our own implementation.
 
 Let's start by deleting the old `libm` import statement and removing it from `Cargo.toml`.
-After that we can add an approximation of the `sinf` function using [Bhasksara I's sin approximation](https://en.wikipedia.org/wiki/Bhaskara_I%27s_sine_approximation_formula) and redefine `cosf` and `tanf` in terms of it.
+After that we can add an approximation of the `sinf` function using [Bhaskara I's sin approximation](https://en.wikipedia.org/wiki/Bhaskara_I%27s_sine_approximation_formula) and redefine `cosf` and `tanf` in terms of it.
 
 $$
 \sin(x) \approx \frac{16x(\pi-x)}{5\pi^2-4x(\pi-x)} \text{ when } (0 \le x \le \pi)
 $$
 
-This approximation is *extremely* good, especially for the time it was discovered.
+This approximation is very good, especially for the time it was discovered :).
 And because we're operating with wall heights only between integers 0 and 160, any differences between `libm::sinf` and our `sinf` will be indistinguishable.
 
 First, make sure to also import $\tau$ from the core library and define a constant for $5\pi^2$ which Bhaskara I's approximation uses:
