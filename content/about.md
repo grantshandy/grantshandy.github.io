@@ -2,10 +2,10 @@
 title = "About Me"
 +++
 
-```rust
-// insert picture here...
+```
+// insert picture here
 ```
 
-I'm a student at the University of Utah.
+I'm a Computer Science/Mechanical Engineering student at the University of Utah.
 
 I enjoy programming, running, hiking, and cycling.

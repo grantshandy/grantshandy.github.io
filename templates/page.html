@@ -24,14 +24,14 @@
     {% endif %}
   </div>
 
-  {% if page.extra.cover %}
-  <img class="mx-auto rounded-md shadow-2xl" src="{{ page.permalink }}{{ page.extra.cover }}">
-  {% endif %}
-
-  {% if page.toc %}
-  <div class="space-y-2">
-    <h2 class="text-xl font-semibold">Table of Contents</h2>
-    <ol class="list-decimal space-y-2 ml-2">
+  <div class="flex flex-col space-y-4 md:space-y-0 md:flex-row-reverse">
+    {% if page.extra.cover %}
+    <div>
+      <img class="mx-auto rounded-md shadow-2xl" src="{{ page.permalink }}{{ page.extra.cover }}"> 
+    </div>
+    {% endif %}
+    {% if page.toc %}
+    <ol class="list-decimal space-y-1 ml-4">
     {% for h1 in page.toc %}
       <li><a href="{{ h1.permalink | safe }}" class="hover:underline">{{ h1.title }}</a></li>
       {% if h1.children %}
@@ -43,8 +43,8 @@
       {% endif %}
     {% endfor %}
     </ol>
-  </div>
-  {% endif %}
+    {% endif %}
+    </div>  
 </div>
 
 <div class="w-full border-b border-dotted"></div>

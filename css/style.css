@@ -6,8 +6,41 @@ html, body {
   @apply text-zinc-700 dark:text-zinc-200 bg-zinc-200 dark:bg-zinc-900;
 }
 
+pre {
+  padding: 1rem;
+  overflow: auto;
+  background-color: #18181b !important;
+}
+
+pre[data-linenos] {
+  padding: 1rem 0;
+}
+
+pre table td {
+  padding: 0;
+}
+
+pre table td:nth-of-type(1) {
+  text-align: center;
+  user-select: none;
+}
+
+pre mark {
+  display: block;
+  background-color: rgba(254, 252, 232, 0.9);
+}
+
+pre table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+::-webkit-scrollbar {
+  width: 50px;
+}
+
 .content {
-  @apply space-y-6;
+  @apply space-y-4;
 }
 
 .content h1 {
@@ -27,7 +60,7 @@ html, body {
 }
 
 .content img {
-  @apply mx-auto rounded-md shadow-md w-3/4;
+  @apply mx-auto rounded-md shadow-2xl w-3/4 my-3;
 }
 
 .content ul {
@@ -43,9 +76,13 @@ html, body {
 }
 
 .content blockquote {
-  @apply bg-zinc-100 dark:bg-zinc-800 p-4;
+  @apply bg-zinc-100 dark:bg-zinc-700 p-4 rounded-md shadow-2xl italic border;
 }
 
 :not(pre) > code {
-  @apply px-1 rounded-md bg-zinc-100 dark:bg-zinc-800;
+  @apply px-2 py-1 rounded-md bg-zinc-300 dark:bg-zinc-900;
+}
+
+.content a {
+  @apply underline;
 }

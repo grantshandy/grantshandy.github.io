@@ -276,12 +276,12 @@ We can use these to check if `GAMEPAD1` says that a button is down, that's what 
  - [`unsafe fn update`](https://wasm4.org/docs/reference/functions/#update) is the main entry point into our program, WASM-4 calls this function on each frame.
 
 To compile our game we can build it just like any other crate:
-```sh
+```bash
  $ cargo build --release
 ```
 
 And to run it we can use `w4 run-native`:
-```sh
+```bash
  $ w4 run-native target/wasm32-unknown-unknown/release/raycaster.wasm
 ```
 
@@ -911,7 +911,7 @@ fn tanf(x: f32) -> f32 {
 ```
 
 Alright, now that we've replaced the `libm` trig functions, what about `sqrtf`, `ceilf`, `floorf`, and `fabsf`?
-This is where *nightly* Rust comes into play, so make sure you've "`rustup default nightly`ed yourself" or build the project with nightly features enabled from now on.
+This is where *nightly* Rust is required, so make sure you've switched to `rustup default nightly` or build each time with `+nightly`.
 
 Nightly Rust enables us to use an experimental module in the core library named `core::intrinsics`.
 `core::intrinsics` provides us some functions that the compiler knows how to optimize so we don't have to write them ourself.
@@ -924,6 +924,8 @@ In order to turn on the experimental intrinsics feature, add `#![feature(core_in
 Now we can create some "safe" wrappers over the unsafe functions that `core::intrinsics` provides for us:
 
 ```rust
+// >:)
+
 fn sqrtf(x: f32) -> f32 {
     unsafe { core::intrinsics::sqrtf32(x) }
 }
@@ -943,7 +945,7 @@ fn fabsf(x: f32) -> f32 {
 
 Lets compile to and see if it works... and
 
-```
+```bash
 $ make size
 1.7K	target/wasm32-unknown-unknown/release/raycaster.wasm
 ```

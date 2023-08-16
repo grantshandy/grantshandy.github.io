@@ -3,13 +3,18 @@
 {% block title %}{{ section.title }}{% endblock title %}
 
 {% block content %}
-  <h2>{{ section.title | safe }}</h2>
+  <h2 class="text-3xl font-bold">{{ section.title | safe }}</h2>
 
-  {{ section.content | safe }}
+  <main class="content">
+    {{ section.content | safe }}
+  </main>
 
   <ul class="list-disc ml-3">
     {% for post in section.pages %}
-      <li><a href="{{ post.permalink }}" class="link">{{ post.title }}</a></li>
+      <li>
+        <a href="{{ post.permalink }}" class="text-2xl hover:underline">{{ post.title }}</a>
+        <p class="text-sm italic">{{ post.description }}</p>
+      </li>
     {% endfor %}
-  </ul
+  </ul>
 {% endblock content %}
