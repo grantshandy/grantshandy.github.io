@@ -24,12 +24,7 @@
     {% endif %}
   </div>
 
-  <div class="flex flex-col space-y-4 md:space-y-0 md:flex-row-reverse">
-    {% if page.extra.cover %}
-    <div>
-      <img class="mx-auto rounded-md shadow-2xl" src="{{ page.permalink }}{{ page.extra.cover }}"> 
-    </div>
-    {% endif %}
+  <div class="flex flex-col-reverse md:flex-row">
     {% if page.toc %}
     <ol class="list-decimal space-y-1 ml-4">
     {% for h1 in page.toc %}
@@ -44,10 +39,15 @@
     {% endfor %}
     </ol>
     {% endif %}
-    </div>  
+    {% if page.extra.cover %}
+    <div>
+      <img class="mx-auto rounded-md mb-3" src="{{ page.permalink }}{{ page.extra.cover }}"> 
+    </div>
+    {% endif %}
+  </div>  
 </div>
 
-<div class="w-full border-b border-dotted"></div>
+<div class="w-full border-b border-dotted border-black dark:border-white"></div>
 
 <div class="content">{{ page.content | safe }}</div>
 {% endblock content %}

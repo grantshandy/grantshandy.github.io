@@ -17,3 +17,34 @@
 {% macro geogebra() %}
 <script src="{{ get_url(path="js/geogebra.js") }}"></script>
 {% endmacro geogebra %}
+
+{% macro themeswitcher() %}
+<button id="theme-switcher" class="" onclick="toggle();"></button>
+<script>
+    const btn = document.getElementById('theme-switcher');
+
+    const updateText = () => {
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            localStorage.setItem('theme', 'dark');
+            document.documentElement.classList.add('dark')
+            btn.innerHTML = '🌞';
+        } else {
+            localStorage.setItem('theme', 'light');
+            document.documentElement.classList.remove('dark')
+            btn.innerHTML = '🌙';
+        }
+    };
+
+    const toggle = () => {
+        if (localStorage.theme === 'dark') {
+            localStorage.theme = 'light';
+        } else {
+            localStorage.theme = 'dark';
+        }
+
+        updateText();
+    }
+
+    updateText();
+</script>
+{% endmacro themeswitcher %}

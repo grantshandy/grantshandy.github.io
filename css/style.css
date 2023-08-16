@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html, body {
-  @apply text-zinc-700 dark:text-zinc-200 bg-zinc-200 dark:bg-zinc-900;
+  @apply text-zinc-700 dark:text-zinc-200 bg-zinc-300 dark:bg-zinc-900;
 }
 
 pre {
@@ -35,7 +35,7 @@ pre table {
   border-collapse: collapse;
 }
 
-::-webkit-scrollbar {
+pre::-webkit-scrollbar {
   width: 50px;
 }
 
@@ -60,7 +60,7 @@ pre table {
 }
 
 .content img {
-  @apply mx-auto rounded-md shadow-2xl w-3/4 my-3;
+  @apply mx-auto rounded-md w-3/4 my-6;
 }
 
 .content ul {
@@ -76,7 +76,7 @@ pre table {
 }
 
 .content blockquote {
-  @apply bg-zinc-100 dark:bg-zinc-700 p-4 rounded-md shadow-2xl italic border;
+  @apply bg-zinc-100 dark:bg-zinc-700 p-4 rounded-md italic border;
 }
 
 :not(pre) > code {
