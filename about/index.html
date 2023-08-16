@@ -1,26 +1,2 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta content="width=device-width,initial-scale=1.0"name=viewport><title>grantsh | About Me</title><meta name=description><link href=/css/style.css rel=stylesheet><body class=min-h-screen><div class="flex flex-col py-8 px-4 md:w-[46.2em] mx-auto min-h-full"><header class="flex items-center border-b border-dotted border-black dark:border-white"><h1 class="grow text-2xl font-semibold"><a href=https://grantshandy.github.io>grantsh</a></h1><nav class=flex><button id=theme-switcher onclick=toggle();></button><script>const btn = document.getElementById('theme-switcher');
-
-    const updateText = () => {
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            localStorage.setItem('theme', 'dark');
-            document.documentElement.classList.add('dark')
-            btn.innerHTML = '🌞';
-        } else {
-            localStorage.setItem('theme', 'light');
-            document.documentElement.classList.remove('dark')
-            btn.innerHTML = '🌙';
-        }
-    };
-
-    const toggle = () => {
-        if (localStorage.theme === 'dark') {
-            localStorage.theme = 'light';
-        } else {
-            localStorage.theme = 'dark';
-        }
-
-        updateText();
-    }
-
-    updateText();</script><div class=p-3><a href=https://grantshandy.github.io/projects> Projects </a></div><div class=p-3><a href=https://grantshandy.github.io/posts> Blog </a></div><div class=p-3><a href=https://grantshandy.github.io/about> About </a></div></nav></header><section class="px-4 py-6 space-y-3 bg-zinc-200 dark:bg-zinc-800"><div class=space-y-6><div><h1 class="font-bold text-2xl">About Me</h1></div><div class="flex flex-col-reverse md:flex-row"></div></div><div class="w-full border-b border-dotted border-black dark:border-white"></div><div class=content><pre style=background-color:#2b303b;color:#c0c5ce;><code><span>// insert picture here
+<!doctype html><html lang=en><head><meta charset=utf-8><meta content="width=device-width,initial-scale=1.0"name=viewport><title>grantsh | About Me</title><meta name=description><link href=/css/style.css rel=stylesheet><body class=min-h-screen><div class="flex flex-col py-8 px-4 md:w-[46.2em] mx-auto min-h-full"><header class="flex items-center border-b border-dotted border-black dark:border-white"><h1 class="grow text-2xl font-semibold"><a href=https://grantshandy.github.io>grantsh</a></h1><nav class="flex divide-x divide-dotted divide-black dark:divide-white"><div class=p-3><a href=https://grantshandy.github.io/projects>Projects</a></div><div class=p-3><a href=https://grantshandy.github.io/posts>Blog</a></div><div class=p-3><a href=https://grantshandy.github.io/about>About</a></div></nav></header><section class="px-4 py-6 space-y-3 bg-zinc-200 dark:bg-zinc-800"><div class=space-y-6><div><h1 class="font-bold text-2xl">About Me</h1></div><div class="flex flex-col-reverse md:flex-row"></div></div><div class="w-full border-b border-dotted border-black dark:border-white"></div><div class=content><pre style=background-color:#2b303b;color:#c0c5ce;><code><span>// insert picture here
 </span></code></pre><p>I'm a Computer Science/Mechanical Engineering student at the University of Utah.<p>I enjoy programming, running, hiking, and cycling.</div></section><footer class="w-full p-2 flex justify-center border-t border-dotted border-black dark:border-white"><p class="italic text-sm">© 2023 Grant Handy</footer></div>
