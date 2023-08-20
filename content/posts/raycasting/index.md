@@ -275,31 +275,14 @@ We can use these to check if `GAMEPAD1` says that a button is down, that's what 
 
  - [`unsafe fn update`](https://wasm4.org/docs/reference/functions/#update) is the main entry point into our program, WASM-4 calls this function on each frame.
 
-To compile our game we can build it just like any other crate:
+To compile and run our game we can build it just like any other crate:
 ```bash
- $ cargo build --release
-```
-
-And to run it we can use `w4 run-native`:
-```bash
- $ w4 run-native target/wasm32-unknown-unknown/release/raycaster.wasm
+ $ cargo run --release
 ```
 
 This will launch an empty window, and if we press the up arrow on the keyboard a vertical line will appear in all its green Gameboy-ish style.
 
 ![](screenshot-one.png)
-
-It's alive!
-
-One thing I like to do in a situation with commands like this that we’re going to call often is to put these commands in a simple Makefile so we don’t have to re-type the commands or overuse the up arrow.
-After that all we have to do to build and run the program is type `make run`.
-```makefile
-all:
-    cargo build --release
-
-run: all
-    w4 run-native target/wasm32-unknown-unknown/release/raycaster.wasm
-```
 
 Great, now that we've got the workflow down we can get to writing the game.
 
@@ -337,9 +320,6 @@ fn point_in_wall(x: f32, y: f32) -> bool {
 }
 ```
 Because our map is surrounded by walls it's safe to tell the caller of this function that there is a wall if it calls for a coordinate that is out of bounds.
-
- > One thing to note about `point_in_wall` is that the Y axis is "flipped" meaning $ y = 0 $ is at the top.
-This is not only faster but reflects the [coordinate system software most commonly uses](http://www.e-cartouche.ch/content_reg/cartouche/graphics/en/html/Screen_learningObject3.html).
 
 ### Maintaining Game State
 The map stays constant throughout the runtime of the program, but the player's position and angle change.
@@ -820,7 +800,8 @@ Even though shadows in real life don't act like this it adds some good detail an
 ## Making It Smaller!
 If you were to check the size of the program right now, say by calling `du -bh`, you might get something like this:
 
-```
+```bash
+ $ du -bh target/wasm32-unknown-unknown/release/raycaster.wasm
 12K  target/wasm32-unknown-unknown/release/raycaster.wasm
 ```
 
@@ -829,25 +810,15 @@ One way you can reduce the size of `.wasm` files is by using `wasm-opt`.
 You can usually get `wasm-opt` by installing the [`binaryen`](https://pkgs.org/download/binaryen) package.
 `wasm-opt` was specifically designed to optimize `.wasm` files for size by removing dead code and duplicate instructions that the compiler left behind.
 
-Let's put a `wasm-opt` step in our `Makefile` and while we're at it let's make it tell us what size the `.wasm` file is:
-```makefile
-all:
-.SILENT:
-	cargo build --release
-
-	wasm-opt -Oz target/wasm32-unknown-unknown/release/raycaster.wasm \
+Let's try using `wasm-opt` to reduce the size of the `.wasm`:
+```bash
+ $ wasm-opt -Oz target/wasm32-unknown-unknown/release/raycaster.wasm \
     -o target/wasm32-unknown-unknown/release/raycaster.wasm
-
-size: all
-	du -bh target/wasm32-unknown-unknown/release/raycaster.wasm
-
-run: all
-	w4 run-native target/wasm32-unknown-unknown/release/raycaster.wasm
 ```
 
-```
- $ make size
-7.2K  target/wasm32-unknown-unknown/release/raycaster.wasm
+```bash
+ $ du -bh target/wasm32-unknown-unknown/release/raycaster.wasm
+7.4K  target/wasm32-unknown-unknown/release/raycaster.wasm
 ```
 
 Hmmm, not quite enough.
@@ -894,6 +865,8 @@ fn sinf(mut x: f32) -> f32 {
 }
 ```
 
+ > Thanks to [Cyborus04](https://github.com/Cyborus04) for helping me with this `sinf` function.
+
 Now we can create `cosf` and `tanf` functions from their definitions relating to `sinf`:
 
 $\cos(x) = \sin(x + \frac{\pi}{2})$
@@ -911,12 +884,19 @@ fn tanf(x: f32) -> f32 {
 ```
 
 Alright, now that we've replaced the `libm` trig functions, what about `sqrtf`, `ceilf`, `floorf`, and `fabsf`?
-This is where *nightly* Rust is required, so make sure you've switched to `rustup default nightly` or build each time with `+nightly`.
+This is where *nightly* Rust is required, so make sure you've switched you've installed `wasm32-unknown-unknown` for nightly and build on nightly each time with `+nightly`:
+```shell
+ $ rustup +nightly install wasm32-unknown-unknown
+```
+```shell
+ $ cargo +nightly build --release
+```
 
 Nightly Rust enables us to use an experimental module in the core library named `core::intrinsics`.
 `core::intrinsics` provides us some functions that the compiler knows how to optimize so we don't have to write them ourself.
 In order to turn on the experimental intrinsics feature, add `#![feature(core_intrinsics)]` to the top of your file:
 ```rust
+#![no_main]
 #![no_std]
 #![feature(core_intrinsics)]
 ```
@@ -946,8 +926,9 @@ fn fabsf(x: f32) -> f32 {
 Lets compile to and see if it works... and
 
 ```bash
-$ make size
-1.7K	target/wasm32-unknown-unknown/release/raycaster.wasm
+# after `cargo +nightly b -r` and `wasm-opt`
+$ du -bh target/wasm32-unknown-unknown/release/raycaster.wasm
+2.0K	target/wasm32-unknown-unknown/release/raycaster.wasm
 ```
 
 {{ loopingvideopreview(src="preview.webm" type="video/webm") }}
@@ -955,15 +936,11 @@ $ make size
 ## Conclusion
 1.7K is not the smallest you can make this program.
 You can get this to fit in even smaller sizes and I encourage you to try!
-There are some sections in this code that I've even intentionally made more readable at the cost of taking up slightly more instructions than they need to just so you can optimize it :).
+There are some sections in this code that I've even intentionally made more readable at the cost of taking up slightly more instructions than they need to just so you can optimize it :)
 
 I wrote this post because when I was first writing my raycasted game I couldn't find any resources that explained how the algorithm worked in sane code and plain language.
 
 I hope this was interesting and useful for you!
-Ray casting in FPS games was always a mystery to me before I looked into them, I hope you'll agree that the algorithm behind it is surprisingly elegant.
+Ray casting (like in this simple way) in FPS games was always a mystery to me before I looked into them, I hope you'll agree that the algorithm behind it is surprisingly elegant.
 
 {{ buymeacoffee() }}
-
- - [^1]: In this post I call specific the ray casting algorithm used in games like Wolfenstein 3D "ray casting" for the sake of brevity. This is slightly inaccurate as ray casting has a more general meaning in the field of graphics. See the [Wikipedia Article](https://en.wikipedia.org/wiki/Ray_casting).
- - [^2]: To say "extending the ray" is a bit of a misnomer. "vector" is more accurate in this situation but "ray" sounds better and is in the name "ray casting" so I use it in its place.
- - [^3]: Thanks to [Cyborus04](https://github.com/Cyborus04) for helping me with this `sinf` function.
