@@ -16,7 +16,7 @@
 {% endblock head %}
 
 {% block content %}
-<div class="space-y-6">
+<div>
   <div>
     <h1 class="font-bold text-2xl">{{ page.title | safe }}</h1>
     {% if page.date %}
@@ -24,25 +24,27 @@
     {% endif %}
   </div>
 
-  <div class="flex flex-col-reverse md:flex-row">
-    {% if page.toc %}
-    <ol class="list-decimal space-y-1 ml-4">
-    {% for h1 in page.toc %}
-      <li><a href="{{ h1.permalink | safe }}" class="hover:underline">{{ h1.title }}</a></li>
-      {% if h1.children %}
-      <ul class="list-disc pl-6">
-        {% for h2 in h1.children %}
-          <li><a href="{{ h2.permalink | safe }}" class="hover:underline">{{ h2.title }}</a></li>
-        {% endfor %}
-      </ul>
+  <div class="flex flex-col-reverse md:flex-row mt-3">
+    {% if not page.extra.notoc %}
+      {% if page.toc %}
+      <ol class="list-decimal space-y-1 ml-4">
+      {% for h1 in page.toc %}
+        <li><a href="{{ h1.permalink | safe }}" class="hover:underline">{{ h1.title }}</a></li>
+        {% if h1.children %}
+        <ul class="list-disc pl-6">
+          {% for h2 in h1.children %}
+            <li><a href="{{ h2.permalink | safe }}" class="hover:underline">{{ h2.title }}</a></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      {% endfor %}
+      </ol>
       {% endif %}
-    {% endfor %}
-    </ol>
-    {% endif %}
-    {% if page.extra.cover %}
-    <div>
-      <img class="mx-auto rounded-md mb-3" src="{{ page.permalink }}{{ page.extra.cover }}"> 
-    </div>
+      {% if page.extra.cover %}
+      <div>
+        <img class="mx-auto rounded-md mb-3" src="{{ page.permalink }}{{ page.extra.cover }}"> 
+      </div>
+      {% endif %}
     {% endif %}
   </div>  
 </div>

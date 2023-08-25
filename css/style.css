@@ -95,3 +95,19 @@ pre table {
 .content a {
   @apply underline;
 }
+
+.content tr {
+  @apply border divide-x;
+}
+
+.content td {
+  @apply p-2;
+}
+
+.content td > img {
+  @apply m-0;
+}
+
+.pfp {
+  @apply rounded-full w-64 !important;
+}
