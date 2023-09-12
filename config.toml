@@ -11,5 +11,5 @@ highlight_code = true
 header_pages = [
   { name = "Projects", path = "/projects" },
   { name = "Blog", path = "/posts" },
-  { name = "About", path = "/about" }
+  { name = "About", path = "/about" },
 ]
