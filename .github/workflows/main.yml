@@ -18,15 +18,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-      with:
-        submodules: true
-    - name: Zola Buikd
-      uses: crowselectromusic/zola-build@1.2.0
+    - uses: crowselectromusic/zola-build@1.2.0
+
+    - name: Build Site
+      run: nix --extra-experimental-features nix-command --extra-experimental-features flakes build
 
     - name: Upload artifacts
       uses: s0/git-publish-subdir-action@develop
       env:
         REPO: self
         BRANCH: site
-        FOLDER: ./public
+        FOLDER: ./result/
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

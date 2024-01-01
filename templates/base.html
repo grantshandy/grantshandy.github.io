@@ -1,37 +1,20 @@
 {% import "macros.html" as macros %}
 
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ config.title }} | {% block title %}{% endblock title %}</title>
-  <meta name="description" content="{% block description %}{% endblock description %}">
-  <link rel="icon" type="image/jpeg" href="https://avatars.githubusercontent.com/u/45475651?v=4">
-  <link rel="stylesheet" href="/css/style.css"/>
-  {% block head %}{% endblock head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ get_url(path="css/styles.css") | safe }}" />
+    <link rel="icon" type="image/jpeg" href="https://avatars.githubusercontent.com/u/45475651?v=4">
+    {% block head %}{% endblock head %}
+
+    <title>{% if section -%}{{ section.title }} | {% endif %} {{ config.title }}</title>
 </head>
-
-<body class="min-h-screen">
-  <div class="flex flex-col py-8 px-4 md:w-[46.2em] mx-auto min-h-full">
-    <header class="flex items-center border-b border-dotted border-black dark:border-white">
-      <h1 class="grow text-2xl font-semibold pl-2">
-        <a href="{{ config.base_url }}">{{ config.title }}</a>
-      </h1>
-      <nav class="flex divide-x divide-dotted divide-black dark:divide-white">
-      {% for page in config.extra.header_pages %}
-        <div class="p-3">
-          <a href="{{ config.base_url }}{{ page.path }}">{{ page.name }}</a>
-        </div>
-      {% endfor %}
-      </nav>
-    </header>
-    <section class="px-4 py-6 space-y-3 bg-zinc-200 dark:bg-zinc-800">{% block content %}{% endblock content %}</section>
-    <footer class="w-full p-2 flex justify-center border-t border-dotted border-black dark:border-white">
-      <p class="italic text-sm">&copy; 2023 Grant Handy</p>
-    </footer>
-  </div>
+<body>
+    <div class="w-full min-h-screen lg:max-w-xl lg:mx-auto pb-4 bg-base-100">
+        {% block content -%}
+        {% endblock content -%}
+    </div>
 </body>
-
 </html>

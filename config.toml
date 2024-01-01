@@ -1,6 +1,6 @@
+title = "Grant Handy"
+
 base_url = "https://grantshandy.github.io"
-title = "grantsh"
-compile_sass = false
 build_search_index = false
 minify_html = true
 
@@ -8,8 +8,4 @@ minify_html = true
 highlight_code = true
 
 [extra]
-header_pages = [
-  { name = "Projects", path = "/projects" },
-  { name = "Blog", path = "/posts" },
-  { name = "About", path = "/about" },
-]
+# Put all your custom variables here
