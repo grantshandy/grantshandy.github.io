@@ -22,7 +22,7 @@
             ln -s ${nodeDependencies}/lib/node_modules ./node_modules
             export PATH="${nodeDependencies}/.bin:$PATH"
 
-            tailwindcss -i styles/styles.css -o static/css/styles.css
+            npx tailwindcss -i styles/styles.css -o static/css/styles.css
           '';
 
         website = pkgs.stdenv.mkDerivation rec {
