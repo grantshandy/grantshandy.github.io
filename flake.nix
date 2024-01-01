@@ -18,6 +18,12 @@
         ];
 
         nodeDependencies = (pkgs.callPackage ./tailwindcss.nix {}).nodeDependencies;
+        buildPhase = ''
+            ln -s ${nodeDependencies}/lib/node_modules ./node_modules
+            export PATH="${nodeDependencies}/.bin:$PATH"
+
+            tailwindcss -i styles/styles.css -o static/css/styles.css
+          '';
 
         website = pkgs.stdenv.mkDerivation rec {
           version = "0.0.1";
@@ -37,21 +43,17 @@
             "config.toml"
           ];
 
-          inherit buildInputs;
+          inherit buildInputs buildPhase;
 
           checkPhase = "zola check";
-          buildPhase = ''
-            ln -s ${nodeDependencies}/lib/node_modules ./node_modules
-            export PATH="${nodeDependencies}/bin:$PATH"
-
-            npx tailwindcss -i styles/styles.css -o static/css/styles.css
-          '';
           installPhase = "zola build -o $out";
         };
       in {
         defaultPackage = website;
 
         devShell = pkgs.mkShell {
+          shellHook = buildPhase;
+
           inherit buildInputs;
         };
       });
