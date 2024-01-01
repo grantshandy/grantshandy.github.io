@@ -44,7 +44,7 @@
             ln -s ${nodeDependencies}/lib/node_modules ./node_modules
             export PATH="${nodeDependencies}/bin:$PATH"
 
-            npx tailwindcss -i styles/styles.css -o static/css/style.css
+            npx tailwindcss -i styles/styles.css -o static/css/styles.css
           '';
           installPhase = "zola build -o $out";
         };
