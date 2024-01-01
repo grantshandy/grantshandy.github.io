@@ -4,4 +4,5 @@ package-lock.json
 result/
 .direnv/
 static/css/styles.css
-result/
+result
+result*
