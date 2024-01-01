@@ -1,55 +1,29 @@
 {% extends "base.html" %}
 
-{% block title %}{{ page.title }}{% endblock title %}
-{% block description %}{{ page.description }}{% endblock description %}
-
 {% block head %}
-
 {% if page.extra.katex %}
-  {{ macros::katex() }}
+{{ macros::katex() }}
 {% endif %}
-
 {% if page.extra.geogebra %}
-  {{ macros::geogebra() }}
+{{ macros::geogebra() }}
 {% endif %}
-
 {% endblock head %}
 
 {% block content %}
-<div>
-  <div>
-    <h1 class="font-bold text-2xl">{{ page.title | safe }}</h1>
+<div class="h-full space-y-6 p-6">
+    <p class="italic underline text-xs"><a href="/">Return to main page</a></p>
+    <h1 class="font-bold text-lg">{{ page.title | safe }}</h1>
     {% if page.date %}
-    <p class="text-sm italic">Written {{ page.date | safe }}</p>
+        <span class="text-sm italic font-normal">Written {{ page.date | safe }}</span>
     {% endif %}
-  </div>
-
-  <div class="flex flex-col-reverse md:flex-row mt-3">
-    {% if not page.extra.notoc %}
-      {% if page.toc %}
-      <ol class="list-decimal space-y-1 ml-4">
-      {% for h1 in page.toc %}
-        <li><a href="{{ h1.permalink | safe }}" class="hover:underline">{{ h1.title }}</a></li>
-        {% if h1.children %}
-        <ul class="list-disc pl-6">
-          {% for h2 in h1.children %}
-            <li><a href="{{ h2.permalink | safe }}" class="hover:underline">{{ h2.title }}</a></li>
-          {% endfor %}
-        </ul>
-        {% endif %}
-      {% endfor %}
-      </ol>
-      {% endif %}
-      {% if page.extra.cover %}
-      <div>
-        <img class="mx-auto rounded-md mb-3" src="{{ page.permalink }}{{ page.extra.cover }}"> 
-      </div>
-      {% endif %}
+    {% if page.description %}
+    <blockquote class="italic">
+        Summary: {{ page.description | safe }}
+    </blockquote>
+    <hr>
     {% endif %}
-  </div>  
+    <article class="prose mx-auto">
+        {{ page.content | safe }}
+    </article>
 </div>
-
-<div class="w-full border-b border-dotted border-black dark:border-white"></div>
-
-<div class="content">{{ page.content | safe }}</div>
 {% endblock content %}

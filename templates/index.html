@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}{{ section.title }}{% endblock title %}
-
 {% block content %}
-<div class="content">{{ section.content | safe }}</div>
+<div class="h-full hero pt-2 pb-4">
+    <div class="hero-content flex flex-col">
+        <img src="{{ section.extra.cover | safe }}" class="max-w-sm rounded-lg shadow-2xl mx-auto" />
+        <main class="w-full prose">
+            {{ section.content | safe }}
+        </main>
+    </div>
+</div>
 {% endblock content %}
