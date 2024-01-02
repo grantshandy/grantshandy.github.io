@@ -22,10 +22,10 @@
             ln -s ${nodeDependencies}/lib/node_modules ./node_modules
             export PATH="${nodeDependencies}/.bin:$PATH"
 
-            npx tailwindcss -i styles/styles.css -o static/css/styles.css
+            npx tailwindcss --minify -i styles/styles.css -o static/css/styles.css
           '';
-
-        website = pkgs.stdenv.mkDerivation rec {
+      in {
+        defaultPackage = pkgs.stdenv.mkDerivation rec {
           version = "0.0.1";
           name = "website";
           src = pkgs.lib.sourceByRegex ./. [
@@ -48,8 +48,6 @@
           checkPhase = "zola check";
           installPhase = "zola build -o $out";
         };
-      in {
-        defaultPackage = website;
 
         devShell = pkgs.mkShell {
           shellHook = buildPhase;
