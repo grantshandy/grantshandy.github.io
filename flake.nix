@@ -1,58 +1,56 @@
 {
-  description = "A very basic flake";
-
   inputs = {
-    flake-utils.url = "github:numtide/flake-utils";
+    utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:nixos/nixpkgs";
   };
 
-  outputs = { nixpkgs, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem (system: 
+  outputs = { nixpkgs, utils, ... }:
+    utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
 
-        buildInputs = with pkgs; [
-          zola
-          nodePackages.npm
-          nodejs_21
-        ];
+        tailwindcss = pkgs.nodePackages.tailwindcss.overrideAttrs
+          (oa: {
+            plugins = [
+              pkgs.nodePackages."@tailwindcss/aspect-ratio"
+              pkgs.nodePackages."@tailwindcss/forms"
+              pkgs.nodePackages."@tailwindcss/line-clamp"
+              pkgs.nodePackages."@tailwindcss/typography"
+              (import ./daisyui.nix { inherit pkgs; })
+            ];
+          });
 
-        nodeDependencies = (pkgs.callPackage ./tailwindcss.nix {}).nodeDependencies;
-        buildPhase = ''
-            ln -s ${nodeDependencies}/lib/node_modules ./node_modules
-            export PATH="${nodeDependencies}/.bin:$PATH"
-
-            npx tailwindcss --minify -i styles/styles.css -o static/css/styles.css
+        buildCss = pkgs.writeShellScriptBin "build_css"
+          ''
+            ${tailwindcss}/bin/tailwindcss --minify -i styles/styles.css -o static/css/styles.css
           '';
-      in {
-        defaultPackage = pkgs.stdenv.mkDerivation rec {
-          version = "0.0.1";
-          name = "website";
-          src = pkgs.lib.sourceByRegex ./. [
-            "^content"
-            "^content/.*"
-            "^static"
-            "^static/.*"
-            "^templates"
-            "^templates/.*"
-            "^templates/macros"
-            "^templates/macros.*"
-            "^styles"
-            "^styles/.*\.css"
-            "tailwind.config.js"
-            "config.toml"
-          ];
 
-          inherit buildInputs buildPhase;
+        buildInputs = [ pkgs.zola buildCss ];
+      in
+      {
+        defaultPackage = pkgs.stdenv.mkDerivation {
+          inherit buildInputs;
+
+          version = "0.0.1";
+          name = "grantshandy.github.io";
+          src = ./.;
 
           checkPhase = "zola check";
-          installPhase = "zola build -o $out";
+
+          buildPhase = ''
+            build_css
+            zola build
+          '';
+          installPhase = ''
+            mkdir -p $out/site
+            cp -r public/* $out/site/
+          '';
         };
 
         devShell = pkgs.mkShell {
-          shellHook = buildPhase;
-
           inherit buildInputs;
         };
+
+        formatter = pkgs.nixpkgs-fmt;
       });
 }
