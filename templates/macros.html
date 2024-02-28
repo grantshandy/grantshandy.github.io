@@ -1,7 +1,7 @@
 {% macro katex() %}
-<link rel="stylesheet" href="{{ get_url(path="css/katex.css") }}">
-<script defer src="{{ get_url(path="js/katex.js")}}"></script>
-<script defer src="{{ get_url(path="js/auto-render.js") }}"></script>
+<link rel="stylesheet" href="{{ get_url(path="katex/katex.css") }}">
+<script defer src="{{ get_url(path="katex/katex.js")}}"></script>
+<script defer src="{{ get_url(path="auto-render.js") }}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         renderMathInElement(document.body, {
@@ -15,5 +15,5 @@
 {% endmacro katex %}
 
 {% macro geogebra() %}
-<script src="{{ get_url(path="js/geogebra.js") }}"></script>
+<script src="{{ get_url(path="geogebra.js") }}"></script>
 {% endmacro geogebra %}

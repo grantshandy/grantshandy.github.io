@@ -17,12 +17,20 @@
             ];
           });
 
-        buildCss = pkgs.writeShellScriptBin "build_css"
+        build_css = pkgs.writeShellScriptBin "build_css"
           ''
-            ${tailwindcss}/bin/tailwindcss --minify -i styles/styles.css -o static/css/styles.css
+            ${tailwindcss}/bin/tailwindcss --minify -i styles/styles.css -o static/styles.css
           '';
 
-        buildInputs = [ pkgs.zola buildCss ];
+        link_katex = let src = pkgs.fetchzip {
+          url = "https://github.com/KaTeX/KaTeX/releases/download/v0.16.9/katex.zip";
+          hash = "sha256-Nca52SW4Q0P5/fllDFQEaOQyak7ojCs0ShlqJ1mWZOM=";
+        }; in pkgs.writeShellScriptBin "link_katex"
+          ''
+            ln -s ${src} static/katex
+          '';
+      
+        buildInputs = [ pkgs.zola build_css link_katex ];
       in
       {
         defaultPackage = pkgs.stdenv.mkDerivation {
@@ -36,6 +44,7 @@
 
           buildPhase = ''
             build_css
+            link_katex
             zola build
           '';
           installPhase = ''
@@ -45,6 +54,11 @@
         };
 
         devShell = pkgs.mkShell {
+          shellHook = ''
+            build_css
+            link_katex
+          '';
+        
           inherit buildInputs;
         };
 
