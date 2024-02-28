@@ -12,9 +12,6 @@
         tailwindcss = pkgs.nodePackages.tailwindcss.overrideAttrs
           (oa: {
             plugins = [
-              pkgs.nodePackages."@tailwindcss/aspect-ratio"
-              pkgs.nodePackages."@tailwindcss/forms"
-              pkgs.nodePackages."@tailwindcss/line-clamp"
               pkgs.nodePackages."@tailwindcss/typography"
               (import ./daisyui.nix { inherit pkgs; })
             ];
