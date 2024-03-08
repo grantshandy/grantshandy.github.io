@@ -22,19 +22,20 @@
             ${tailwindcss}/bin/tailwindcss --minify -i styles/styles.css -o static/styles.css
           '';
 
-        link_katex = let src = pkgs.fetchzip {
-          url = "https://github.com/KaTeX/KaTeX/releases/download/v0.16.9/katex.zip";
-          hash = "sha256-Nca52SW4Q0P5/fllDFQEaOQyak7ojCs0ShlqJ1mWZOM=";
-        }; in pkgs.writeShellScriptBin "link_katex"
-          ''
-            ln -s ${src} static/katex
-          '';
-        
-        build_cmd = pkgs.writeShellScriptBin "build"
-          ''
-            ${build_css}/bin/build_css && ${pkgs.zola}/bin/zola serve
-          '';
-      
+        # let me know if there's a better way to do this :)
+        link_katex =
+          let
+            src = pkgs.fetchzip {
+              url = "https://github.com/KaTeX/KaTeX/releases/download/v0.16.9/katex.zip";
+              hash = "sha256-Nca52SW4Q0P5/fllDFQEaOQyak7ojCs0ShlqJ1mWZOM=";
+            };
+          in
+          pkgs.writeShellScriptBin "link_katex"
+            ''
+              rm static/katex
+              ln -s ${src} static/katex
+            '';
+
         buildInputs = [ pkgs.zola build_css link_katex ];
       in
       {
@@ -52,6 +53,7 @@
             link_katex
             zola build
           '';
+
           installPhase = ''
             mkdir -p $out/site
             cp -r public/* $out/site/
@@ -59,14 +61,13 @@
         };
 
         devShell = pkgs.mkShell {
-
-          
-          buildInputs = buildInputs ++ [
+          shellHook = "${link_katex}/bin/link_katex";
+          inherit buildInputs;
+          nativeBuildInputs = [
             (pkgs.writeShellScriptBin "develop"
               ''
-                ${pkgs.watchexec}/bin/watchexec -r -e html,md -- ${build_cmd}/bin/build
+                ${pkgs.watchexec}/bin/watchexec -r -e html,md -- "${build_css}/bin/build_css && ${pkgs.zola}/bin/zola serve"
               '')
-            build_cmd
           ];
         };
 

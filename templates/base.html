@@ -1,19 +1,17 @@
 {% import "macros.html" as macros %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="night">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="my blog">
     <link rel="stylesheet" href="{{ get_url(path="styles.css") | safe }}" />
     <link rel="icon" type="image/jpeg" href="https://avatars.githubusercontent.com/u/45475651?v=4">
     {% block head %}{% endblock head %}
 
     <title>{% if section -%}{{ section.title }} | {% endif %} {{ config.title }}</title>
-</head>
-
-<body>
     <script>
         window.addEventListener("DOMContentLoaded", () => {
             const themeController = document.getElementById("theme-controller");
@@ -23,7 +21,7 @@
                 themeController.checked = !dark;
 
                 if (dark) {
-                    document.documentElement.setAttribute("data-theme", "dark");
+                    document.documentElement.setAttribute("data-theme", "night");
                     localStorage.theme = "dark";
                 } else {
                     document.documentElement.setAttribute("data-theme", "light");
@@ -38,6 +36,9 @@
             })
         });
     </script>
+</head>
+
+<body>
     <div class="absolute right-2 top-2">
         <label class="swap swap-rotate">
             <input type="checkbox" class="theme-controller" id="theme-controller" />

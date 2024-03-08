@@ -9,14 +9,9 @@ cover = "cover.jpg"
 +++
 
 # Grant Handy
-This is a little site that I use to host my [blog articles](#blog-posts), [project portfolio](./projects/), and [contact information](#contact-information).
+This is a little site that I use to host my [blog posts](./posts/), [project portfolio](./projects/), and [contact information](#contact-information).
 
 I'm a Computer Science student at the University of Utah. I like writing small projects in [Rust](https://rust-lang.org), [Nix](https://nixos.org), [Svelte](https://svelte.dev/), and [TailwindCSS](https://tailwindcss.com/) for fun.
-
-## Blog Posts
- - [Write a First Person Game in 2KB (with Rust)](./raycasting/)
-
-*more to come hopefully :)*
 
 ## Contact Information
  - GitHub: [`grantshandy`](https://github.com/grantshandy)

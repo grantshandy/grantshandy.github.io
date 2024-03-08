@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "mkhl.direnv",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "jnoortheen.nix-ide"
     ]
 }

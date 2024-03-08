@@ -3,7 +3,7 @@
 {% block content %}
 <div class="h-full hero pt-2 pb-4">
     <div class="hero-content flex flex-col">
-        <img src="{{ section.extra.cover | safe }}" class="max-w-sm rounded-lg shadow-2xl mx-auto mb-4" />
+        <img alt="cover image" src="{{ section.extra.cover | safe }}" class="max-w-sm rounded-lg shadow-2xl mx-auto mb-4" />
         <main class="w-full prose">
             {{ section.content | safe }}
         </main>

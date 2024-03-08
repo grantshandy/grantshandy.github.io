@@ -10,37 +10,44 @@
 {% endblock head %}
 
 {% block content %}
-<div class="h-full space-y-6 p-6">
+<div class="h-full p-6">
     <p class="italic underline text-xs"><a href="/">Return to main page</a></p>
-    <h1 class="font-bold text-lg">{{ page.title | safe }}</h1>
-    {% if page.date %}
-    <span class="text-sm italic font-normal">Written {{ page.date | safe }}</span>
-    {% endif %}
-    {% if page.description %}
-    <blockquote class="italic">{{ page.description | safe }}</blockquote>
-    {% endif %}
-    {% if page.toc %}
-    <div class="border rounded-md p-6">
-        <h1 class="text-lg font-bold">Table of Contents</h1>
-        <ol class="list-decimal ml-6">
-        {% for h1 in page.toc %}
-            <li>
-                <a href="{{ h1.permalink | safe }}" class="text-sm link">{{ h1.title }}</a>
-                {% if h1.children %}
+    <h1 class="font-bold text-lg py-4">{{ page.title | safe }}</h1>
+    <div class="w-full flex space-x-2">
+        <div class="space-y-2">
+            {% if page.date %}
+            <span class="text-sm italic font-normal">Written {{ page.date | safe }}</span>
+            {% endif %}
+            {% if page.description %}
+            <blockquote class="italic">{{ page.description | safe }}</blockquote>
+            {% endif %}
+        </div>
+
+        {% if page.toc %}
+        <div class="flex-none border border-dashed rounded-md px-6 py-4 space-y-2">
+            <h1 class="text-lg font-bold">Table of Contents</h1>
+            <ol class="list-decimal ml-6">
+                {% for h1 in page.toc %}
+                <li>
+                    <a href="{{ h1.permalink | safe }}" class="text-sm link">{{ h1.title }}</a>
+                    {% if h1.children %}
                     <ul>
                         {% for h2 in h1.children %}
-                            <li>
-                                <a href="{{ h2.permalink | safe }}" class="text-xs link italic">{{ h2.title }}</a>
-                            </li>
+                        <li>
+                            <a href="{{ h2.permalink | safe }}" class="text-xs link italic">{{ h2.title }}</a>
+                        </li>
                         {% endfor %}
                     </ul>
-                {% endif %}
-            </li>
-        {% endfor %}
-        </ol>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
-    <hr>
+
+    <hr class="my-6">
+
     <article class="prose mx-auto">
         {{ page.content | safe }}
     </article>
