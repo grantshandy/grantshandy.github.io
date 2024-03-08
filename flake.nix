@@ -29,6 +29,11 @@
           ''
             ln -s ${src} static/katex
           '';
+        
+        build_cmd = pkgs.writeShellScriptBin "build"
+          ''
+            ${build_css}/bin/build_css && ${pkgs.zola}/bin/zola serve
+          '';
       
         buildInputs = [ pkgs.zola build_css link_katex ];
       in
@@ -54,12 +59,15 @@
         };
 
         devShell = pkgs.mkShell {
-          shellHook = ''
-            build_css
-            link_katex
-          '';
-        
-          inherit buildInputs;
+
+          
+          buildInputs = buildInputs ++ [
+            (pkgs.writeShellScriptBin "develop"
+              ''
+                ${pkgs.watchexec}/bin/watchexec -r -e html,md -- ${build_cmd}/bin/build
+              '')
+            build_cmd
+          ];
         };
 
         formatter = pkgs.nixpkgs-fmt;

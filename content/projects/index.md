@@ -1,8 +1,7 @@
 +++
 title = "Project Showcase"
+description = "Here's a short list of some of the more complete things I've put on the internet."
 +++
-
-Here's a short list of some of the more complete things I've put on the internet.
 
 ## Artist Constellations
 ![screenshot](artist-constellations.png)

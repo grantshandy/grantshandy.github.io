@@ -1,6 +1,6 @@
 +++
-title = "Write a First Person Game in 2KB (With Rust)"
-description = "Learn about ray casting and discover some fun math by creating a tiny 2KB game with Rust."
+title = "Write a First Person Game in 2KB (with Rust)"
+description = "Learn about simple ray casting and discover some fun math by creating a tiny 2KB game with Rust & WebAssembly."
 date = 2023-02-24
 draft = false
 
@@ -695,7 +695,7 @@ All we have to do to apply this is to modify a single line in the `State::get_vi
 *wall = ( WALL_HEIGHT / (f32::min(h_dist, v_dist) * cosf(angle - self.player_angle)) ) as i32;    
 ```
 
-![](corrected.png)
+![corrected](corrected.png)
 
 Great! Now the walls are straight.
 
@@ -703,7 +703,7 @@ Great! Now the walls are straight.
 One thing about the current version of the game is that it is difficult to distinguish between different walls.
 Especially at a distance, walls seem to fade into each other and it's hard to tell them apart.
 
-![nodepth.png](nodepth.png)
+![nodepth](nodepth.png)
 
 In real life, we can distinguish walls apart by their shadows.
 We can try to emulate this in the game by coloring walls differently based on their orientation.
@@ -885,10 +885,10 @@ fn tanf(x: f32) -> f32 {
 
 Alright, now that we've replaced the `libm` trig functions, what about `sqrtf`, `ceilf`, `floorf`, and `fabsf`?
 This is where *nightly* Rust is required, so make sure you've switched you've installed `wasm32-unknown-unknown` for nightly and build on nightly each time with `+nightly`:
-```shell
+```bash
  $ rustup +nightly install wasm32-unknown-unknown
 ```
-```shell
+```bash
  $ cargo +nightly build --release
 ```
 
