@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="my blog">
     <link rel="stylesheet" href="{{ get_url(path='styles.css') | safe }}" />
-    <link rel="icon" type="image/jpeg" href="{{ get_url(path='pfp.jpg') | safe }}">
+    <link rel="icon" type="image/jpeg" href="{{ get_url(path='img/pfp.jpg') | safe }}">
     {% block head %}{% endblock head %}
 
     <title>{% if section -%}{{ section.title }} | {% endif %} {{ config.title }}</title>

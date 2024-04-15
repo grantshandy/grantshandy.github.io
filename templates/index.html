@@ -4,7 +4,7 @@
 {% block content %}
 <div class="flex flex-col md:flex-row items-center mb-6 md:mb-8 gap-6">
     <div>
-        <img src="{{ section.extra.cover | safe }}" class="w-48 md:w-64 rounded-2xl shadow-2xl" />
+        <img src="{{  get_url(path=section.extra.cover) | safe }}" class="w-48 md:w-64 rounded-2xl shadow-2xl" />
     </div>
     <div class="md:order-first text-center md:text-right space-y-4 max-w-sm">
         <h1 class="text-5xl md:text-6xl font-extrabold">{{ section.extra.name }}</h1>
@@ -19,13 +19,13 @@
         {% for page in section.pages %}
         <li class="bg-base-200 rounded-xl shadow-md border border-base-300 flex">
             {% if page.extra.cover %}
-            <img src="{{ page.permalink }}{{ page.extra.cover }}" class="rounded-l-xl w-32">
+            <img src="{{ get_url(path=page.colocated_path ~ page.extra.cover) | safe }}" class="rounded-l-xl w-32">
             {% endif %}
             <div class="p-4 space-y-2">
                 <h2 class="my-0 text-xl font-semibold underline underline-offset-2">
                     <a href="{{ page.permalink }}">{{ page.title }}</a>
                 </h2>
-                <p>{{ page.description }}</p>
+                <p class="text-lg">{{ page.description }}</p>
             </div>
         </li>
         {% endfor %}
