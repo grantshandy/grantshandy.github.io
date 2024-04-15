@@ -22,11 +22,9 @@
   });
 </script>
 
-<div class="w-full">
-  <figure class="mx-auto space-y-2">
-  	<div class="w-full" id='{{ name }}-outer'>
-  	  <div id='{{ name }}' class="rounded-md overflow-hidden w-full"></div>
-  	</div>
-    <figcaption class="text-center italic">{{ caption }}</figcaption>
-  </figure>
+<div class="space-y-2 w-full">
+  <div class="w-full border rounded-md overflow-none" id='{{ name }}-outer'>
+    <div id='{{ name }}' class="rounded-md overflow-hidden w-full"></div>
+  </div>
+  <p class="text-center italic mx-auto">{{ caption | markdown | safe }}</p>
 </div>

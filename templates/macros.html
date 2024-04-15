@@ -1,5 +1,5 @@
 {% macro katex() %}
-<link rel="stylesheet" href="{{ get_url(path="katex/katex.css") }}">
+<link rel="stylesheet" href="{{ get_url(path='katex/katex.css') }}">
 <script defer src="{{ get_url(path="katex/katex.js")}}"></script>
 <script defer src="{{ get_url(path="auto-render.js") }}"></script>
 <script>
@@ -15,5 +15,9 @@
 {% endmacro katex %}
 
 {% macro geogebra() %}
-<script src="{{ get_url(path="geogebra.js") }}"></script>
+<script src="{{ get_url(path='geogebra.js') }}"></script>
 {% endmacro geogebra %}
+
+{% macro break() %}
+<hr class="mt-2 mb-6 border border-dashed">
+{% endmacro break %}

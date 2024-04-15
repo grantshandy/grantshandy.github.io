@@ -1,12 +1,78 @@
 {% extends "base.html" %}
+{% import "macros.html" as macros %}
 
 {% block content %}
-<div class="h-full hero pt-2 pb-4">
-    <div class="hero-content flex flex-col">
-        <img alt="cover image" src="{{ section.extra.cover | safe }}" class="max-w-sm rounded-lg shadow-2xl mx-auto mb-4" />
-        <main class="w-full prose">
-            {{ section.content | safe }}
-        </main>
+<div class="flex flex-col md:flex-row items-center mb-6 md:mb-8 gap-6">
+    <div>
+        <img src="{{ section.extra.cover | safe }}" class="w-48 md:w-64 rounded-2xl shadow-2xl" />
+    </div>
+    <div class="md:order-first text-center md:text-right space-y-4 max-w-sm">
+        <h1 class="text-5xl md:text-6xl font-extrabold">{{ section.extra.name }}</h1>
+        <p>{{ section.description | safe }}</p>
     </div>
 </div>
+<main class="prose pt-2 index-page">
+    {% if section.pages %}
+    {{ macros::break() }}
+    <h1>Articles</h1>
+    <ul class="space-y-4 not-prose">
+        {% for page in section.pages %}
+        <li class="bg-base-200 rounded-xl shadow-md border border-base-300 flex">
+            {% if page.extra.cover %}
+            <img src="{{ page.permalink }}{{ page.extra.cover }}" class="rounded-l-xl w-32">
+            {% endif %}
+            <div class="p-4 space-y-2">
+                <h2 class="my-0 text-xl font-semibold underline underline-offset-2">
+                    <a href="{{ page.permalink }}">{{ page.title }}</a>
+                </h2>
+                <p>{{ page.description }}</p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    <p class="mb-8"><i>(more to come!)</i></p>
+    {% endif %}
+
+    {% if section.extra.projects %}
+    {{ macros::break() }}
+    <h1>Projects</h1>
+    {% if section.extra.project_desc %}
+    <p class="my-0"><i>{{ section.extra.project_desc | safe }}</i></p>
+    {% endif %}
+    <p><i></i></p>
+    <div class="not-prose grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-4 place-items-start mt-4 mb-8">
+        {% for project in section.extra.projects %}
+        <div class="bg-base-200 rounded-xl shadow-md border border-base-300 project">
+            <img src="{{ get_url(path=project.img) | safe }}" alt="screenshot" class="rounded-t-xl" />
+            <div class="p-4 space-y-3">
+                <h2 class="grow text-2xl font-bold">
+                    <a href="{{ project.link }}" target="_blank" class="underline underline-offset-2">{{ project.name
+                        }}</a>
+                </h2>
+                <p>{{ project.desc | markdown | safe }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if section.extra.contacts %}
+    {{ macros::break() }}
+    <h1>Contact Information</h1>
+    <ul class="my-0">
+        {% for contact in section.extra.contacts %}
+        <li>
+            {{ contact.kind }}:
+            {% if contact.link%}
+            <a href="{{ contact.link }}" target="_blank"><code>{{ contact.name }}</code></a>
+            {% else %}
+            <code>{{ contact.name }}</code>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {{ section.content | safe }}
+</main>
 {% endblock content %}

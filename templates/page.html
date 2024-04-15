@@ -10,46 +10,19 @@
 {% endblock head %}
 
 {% block content %}
-<div class="h-full p-6">
-    <p class="italic underline text-xs"><a href="/">Return to main page</a></p>
-    <h1 class="font-bold text-lg py-4">{{ page.title | safe }}</h1>
-    <div class="w-full flex space-x-2">
-        <div class="space-y-2">
-            {% if page.date %}
-            <span class="text-sm italic font-normal">Written {{ page.date | safe }}</span>
-            {% endif %}
-            {% if page.description %}
-            <blockquote class="italic">{{ page.description | safe }}</blockquote>
-            {% endif %}
-        </div>
+<p class="absolute top-2 left-2 italic underline text-sm"><a href="/">Return to main page</a></p>
 
-        {% if page.toc %}
-        <div class="flex-none border border-dashed rounded-md px-6 py-4 space-y-2">
-            <h1 class="text-lg font-bold">Table of Contents</h1>
-            <ol class="list-decimal ml-6">
-                {% for h1 in page.toc %}
-                <li>
-                    <a href="{{ h1.permalink | safe }}" class="text-sm link">{{ h1.title }}</a>
-                    {% if h1.children %}
-                    <ul>
-                        {% for h2 in h1.children %}
-                        <li>
-                            <a href="{{ h2.permalink | safe }}" class="text-xs link italic">{{ h2.title }}</a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-                </li>
-                {% endfor %}
-            </ol>
-        </div>
+<article class="prose">
+    <h1 class="mb-1">{{ page.title | safe }}</h1>
+    <div class="space-y-2 mb-8">
+        {% if page.date %}
+        <span class="text-sm italic font-normal">Written {{ page.date | safe }}</span>
+        {% endif %}
+        {% if page.description %}
+        <blockquote class="italic">{{ page.description | safe }}</blockquote>
         {% endif %}
     </div>
-
-    <hr class="my-6">
-
-    <article class="prose mx-auto">
-        {{ page.content | safe }}
-    </article>
-</div>
+    {{ macros::break() }}
+    {{ page.content | safe }}
+</article>
 {% endblock content %}

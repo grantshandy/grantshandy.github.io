@@ -62,12 +62,12 @@
 
         devShell = pkgs.mkShell {
           shellHook = "${link_katex}/bin/link_katex";
-          inherit buildInputs;
-          nativeBuildInputs = [
+          buildInputs = buildInputs ++ [
             (pkgs.writeShellScriptBin "develop"
               ''
-                ${pkgs.watchexec}/bin/watchexec -r -e html,md -- "${build_css}/bin/build_css && ${pkgs.zola}/bin/zola serve"
+                ${pkgs.watchexec}/bin/watchexec -r -e html,md,css,json -- "${build_css}/bin/build_css && ${pkgs.zola}/bin/zola serve"
               '')
+              tailwindcss
           ];
         };
 

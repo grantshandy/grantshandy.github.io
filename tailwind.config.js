@@ -20,22 +20,6 @@ module.exports = {
         ],
       },
   
-      fontSize: {
-        'xs': '.75rem',   
-        'sm': '.875rem',
-        'base': '1.125rem',
-        'lg': '1.4625rem',
-        'xl': '2.925rem',
-        '2xl': '3.15rem',
-      },
-  
-      fontWeight: {
-        light: '300',
-        'regular': '400',
-        bold: '600',
-        extrabold: '800',
-      },
-  
       borderWidth: {
         DEFAULT: '1px',
         '0': '0',

@@ -1,6 +1,6 @@
 +++
-title = "Write a First Person Game in 2KB (with Rust)"
-description = "Learn about simple ray casting and discover some fun math by creating a tiny 2KB game with Rust & WebAssembly."
+title = "A First-Person Game in 2KB"
+description = "Create a simple ray caster in a tiny 2KB game with Rust and WASM-4."
 date = 2023-02-24
 draft = false
 
