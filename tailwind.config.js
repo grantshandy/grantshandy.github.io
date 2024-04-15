@@ -34,7 +34,7 @@ module.exports = {
         require("daisyui")
     ],
     daisyui: {
-        themes: ["light", "night"],
+        themes: ["light", "dim"],
     }
   }
   

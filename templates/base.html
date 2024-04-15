@@ -3,8 +3,11 @@
 {% if section %}{% set toc = section.toc %}{% endif %}
 {% if page %}{% set toc = page.toc %}{% endif %}
 
+{% set dark = "dim" %}
+{% set light = "light" %}
+
 <!DOCTYPE html>
-<html lang="en" data-theme="night">
+<html lang="en" data-theme="{{ dark }}">
 
 <head>
     <meta charset="UTF-8">
@@ -18,17 +21,17 @@
     <script>
         window.addEventListener("DOMContentLoaded", () => {
             const themeController = document.getElementById("theme-controller");
-            let theme = localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            let theme = localStorage.theme === '{{ dark }}' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
             const updateTheme = (dark) => {
                 themeController.checked = !dark;
 
                 if (dark) {
-                    document.documentElement.setAttribute("data-theme", "night");
-                    localStorage.theme = "dark";
+                    document.documentElement.setAttribute("data-theme", '{{ dark }}');
+                    localStorage.theme = '{{ dark }}';
                 } else {
-                    document.documentElement.setAttribute("data-theme", "light");
-                    localStorage.theme = "light";
+                    document.documentElement.setAttribute("data-theme", '{{ light }}');
+                    localStorage.theme = '{{ light }}';
                 }
             };
             updateTheme(theme);
