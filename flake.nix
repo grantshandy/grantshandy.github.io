@@ -2,9 +2,13 @@
   inputs = {
     utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:nixos/nixpkgs";
+    katex = {
+      url = "https://github.com/KaTeX/KaTeX/releases/download/v0.16.9/katex.zip";
+      flake = false;
+    };
   };
 
-  outputs = { nixpkgs, utils, ... }:
+  outputs = { nixpkgs, utils, katex, ... }:
     utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
@@ -13,7 +17,7 @@
           (oa: {
             plugins = [
               pkgs.nodePackages."@tailwindcss/typography"
-              (import ./daisyui.nix { inherit pkgs; })
+              (import ./nix/daisyui.nix { inherit pkgs; })
             ];
           });
 
@@ -23,18 +27,11 @@
           '';
 
         # let me know if there's a better way to do this :)
-        link_katex =
-          let
-            src = pkgs.fetchzip {
-              url = "https://github.com/KaTeX/KaTeX/releases/download/v0.16.9/katex.zip";
-              hash = "sha256-Nca52SW4Q0P5/fllDFQEaOQyak7ojCs0ShlqJ1mWZOM=";
-            };
-          in
-          pkgs.writeShellScriptBin "link_katex"
-            ''
-              rm static/katex
-              ln -s ${src} static/katex
-            '';
+        link_katex = pkgs.writeShellScriptBin "link_katex"
+          ''
+            rm static/katex
+            ln -s ${katex} static/katex
+          '';
 
         buildInputs = [ pkgs.zola build_css link_katex ];
       in
@@ -67,7 +64,7 @@
               ''
                 ${pkgs.watchexec}/bin/watchexec -r -e html,md,css,json -- "${build_css}/bin/build_css && ${pkgs.zola}/bin/zola serve"
               '')
-              tailwindcss
+            tailwindcss
           ];
         };
 

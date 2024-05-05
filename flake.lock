@@ -1,5 +1,18 @@
 {
   "nodes": {
+    "katex": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1696277469,
+        "narHash": "sha256-Nca52SW4Q0P5/fllDFQEaOQyak7ojCs0ShlqJ1mWZOM=",
+        "type": "tarball",
+        "url": "https://github.com/KaTeX/KaTeX/releases/download/v0.16.9/katex.zip"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://github.com/KaTeX/KaTeX/releases/download/v0.16.9/katex.zip"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1704070741,
@@ -17,6 +30,7 @@
     },
     "root": {
       "inputs": {
+        "katex": "katex",
         "nixpkgs": "nixpkgs",
         "utils": "utils"
       }

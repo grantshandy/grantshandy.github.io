@@ -9,21 +9,6 @@ cover = "pfp-large.jpg"
 name = "Grant Handy"
 project_desc = "An incomplete list of some of the more polished things I've put on the web."
 
-# CONTACTS
-[[extra.contacts]]
-kind = "GitHub"
-name = "grantshandy"
-link = "https://github.com/grantshandy"
-
-[[extra.contacts]]
-kind = "Discord"
-name = "grantsh"
-
-[[extra.contacts]]
-kind = "Email"
-name = "granthandy@proton.me"
-link = "mailto://granthandy@proton.me"
-
 # PROJECTS
 [[extra.projects]]
 name = "Artist Constellations"
@@ -61,5 +46,11 @@ desc = "An automatic [GUI](https://en.wikipedia.org/wiki/Graphical_user_interfac
 img = "projects/claui.png"
 link = "https://github.com/grantshandy/claui"
 +++
+
+# Contact Information
+
+ - Github: [`grantshandy`](https://github.com/grantshandy)
+ - Discord: `grantsh`
+ - Email: [`granthandy@proton.me`](mailto://granthandy@proton.me)
 
 [*buy me a coffee?*](https://buymeacoffee.com/granthandy)

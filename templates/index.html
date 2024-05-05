@@ -2,6 +2,7 @@
 {% import "macros.html" as macros %}
 
 {% block content %}
+<!-- Header -->
 <div class="flex flex-col md:flex-row items-center mb-6 md:mb-8 gap-6">
     <div>
         <img src="{{  get_url(path=section.extra.cover) | safe }}" class="w-48 md:w-64 rounded-2xl shadow-2xl" />
@@ -11,68 +12,55 @@
         <p>{{ section.description | safe }}</p>
     </div>
 </div>
+
 <main class="prose pt-2 index-page">
+    <!-- Articles -->
     {% if section.pages %}
     {{ macros::break() }}
     <h1>Articles</h1>
-    <ul class="space-y-4 not-prose">
+    <ul class="space-y-6 not-prose">
         {% for page in section.pages %}
-        <li class="bg-base-200 rounded-xl shadow-md border border-base-300 flex">
-            {% if page.extra.cover %}
-            <img src="{{ get_url(path=page.colocated_path ~ page.extra.cover) | safe }}" class="rounded-l-xl w-32">
-            {% endif %}
-            <div class="p-4 space-y-2">
-                <h2 class="my-0 text-xl font-semibold underline underline-offset-2">
-                    <a href="{{ page.permalink }}">{{ page.title }}</a>
-                </h2>
-                <p class="text-lg">{{ page.description }}</p>
-            </div>
-        </li>
+        {% if page.extra.cover %}
+        {{ self::item(cover=page.colocated_path ~ page.extra.cover, link=page.permalink, title=page.title,
+        description=page.description) }}
+        {% else %}
+        {{ self::item(link=page.permalink, title=page.title, description=page.description) }}
+        {% endif %}
         {% endfor %}
     </ul>
     <p class="mb-8"><i>(more to come!)</i></p>
     {% endif %}
 
+    <!-- Projects -->
     {% if section.extra.projects %}
     {{ macros::break() }}
     <h1>Projects</h1>
     {% if section.extra.project_desc %}
-    <p class="my-0"><i>{{ section.extra.project_desc | safe }}</i></p>
+    <p><i>{{ section.extra.project_desc | safe }}</i></p>
     {% endif %}
-    <p><i></i></p>
-    <div class="not-prose grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-4 place-items-start mt-4 mb-8">
+    <ul class="space-y-6 not-prose">
         {% for project in section.extra.projects %}
-        <div class="bg-base-200 rounded-xl shadow-md border border-base-300 project">
-            <img src="{{ get_url(path=project.img) | safe }}" alt="screenshot" class="rounded-t-xl" />
-            <div class="p-4 space-y-3">
-                <h2 class="grow text-2xl font-bold">
-                    <a href="{{ project.link }}" target="_blank" class="underline underline-offset-2">{{ project.name
-                        }}</a>
-                </h2>
-                <p>{{ project.desc | markdown | safe }}</p>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-
-    {% if section.extra.contacts %}
-    {{ macros::break() }}
-    <h1>Contact Information</h1>
-    <ul class="my-0">
-        {% for contact in section.extra.contacts %}
-        <li>
-            {{ contact.kind }}:
-            {% if contact.link%}
-            <a href="{{ contact.link }}" target="_blank"><code>{{ contact.name }}</code></a>
-            {% else %}
-            <code>{{ contact.name }}</code>
-            {% endif %}
-        </li>
+        {{ self::item(cover=project.img, link=project.link, title=project.name, description=project.desc) }}
         {% endfor %}
     </ul>
     {% endif %}
 
+    <!-- Content -->
+    {{ macros::break() }}
     {{ section.content | safe }}
 </main>
 {% endblock content %}
+
+{% macro item(cover, link, title, description) %}
+<li class="bg-base-200 rounded-xl shadow-md border border-base-300 flex">
+    {% if cover %}
+    <img src="{{ get_url(path=cover) | safe }}" class="rounded-l-xl w-32">
+    {% endif %}
+    <div class="p-4 space-y-2">
+        <h2 class="my-0 text-xl font-semibold underline underline-offset-2">
+            <a href="{{ link }}">{{ title }}</a>
+        </h2>
+        <p class="text-lg">{{ description | markdown | safe }}</p>
+    </div>
+</li>
+{% endmacro item %}
