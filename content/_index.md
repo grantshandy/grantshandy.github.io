@@ -7,9 +7,9 @@ description = "I make things sometimes :)"
 [extra]
 cover = "pfp-large.jpg" 
 name = "Grant Handy"
+thought_desc = "More to come!"
 project_desc = "An incomplete list of some of the more polished things I've put on the web."
 
-# PROJECTS
 [[extra.projects]]
 name = "Artist Constellations"
 img = "projects/artist-constellations.png"
@@ -52,5 +52,3 @@ link = "https://github.com/grantshandy/claui"
  - Github: [`grantshandy`](https://github.com/grantshandy)
  - Discord: `grantsh`
  - Email: [`granthandy@proton.me`](mailto://granthandy@proton.me)
-
-[*buy me a coffee?*](https://buymeacoffee.com/granthandy)

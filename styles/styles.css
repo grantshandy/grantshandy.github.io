@@ -12,11 +12,11 @@ body {
     @apply p-0 m-0 min-h-screen;
 }
 
-img.prose:not(.not-prose)  {
-    @apply rounded-xl shadow-xl mt-0 mx-auto !important;
+img:not(.not-prose) {
+    @apply mx-auto rounded-xl;
 }
 
-.project a {
+.item a {
     @apply underline !important;
 }
 

@@ -942,5 +942,3 @@ I wrote this post because when I was first writing my raycasted game I couldn't 
 
 I hope this was interesting and useful for you!
 Ray casting (like in this simple way) in FPS games was always a mystery to me before I looked into them, I hope you'll agree that the algorithm behind it is surprisingly elegant.
-
-[*buy me a coffee?*](https://buymeacoffee.com/granthandy)

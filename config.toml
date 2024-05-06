@@ -4,8 +4,4 @@ base_url = "https://grantshandy.github.io"
 build_search_index = false
 minify_html = true
 
-[markdown]
-highlight_code = true
-
 [extra]
-# Put all your custom variables here

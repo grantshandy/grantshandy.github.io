@@ -9,8 +9,12 @@
 {% endif %}
 {% endblock head %}
 
+{% macro mainpage() %}
+<a href="/">return to main page</a>
+{% endmacro mainpage %}
+
 {% block content %}
-<p class="absolute top-2 left-2 italic underline text-sm"><a href="/">Return to main page</a></p>
+<p class="absolute top-2 left-2 italic underline text-sm">{{ self::mainpage() }}</p>
 
 <article class="prose">
     <h1 class="mb-1">{{ page.title | safe }}</h1>
@@ -24,5 +28,9 @@
     </div>
     {{ macros::break() }}
     {{ page.content | safe }}
+    <footer class="w-full flow-root">
+        <i class="float-left">{{ macros::buymeacoffee() }}</i>
+        <i class="float-right">{{ self::mainpage() }}</i>
+    </footer>
 </article>
 {% endblock content %}

@@ -1,8 +1,9 @@
 public/
-node_modules
+node_modules/
 package-lock.json
-result/
-.direnv/
+
 static/styles.css
-result
 static/katex
+
+result
+.direnv/

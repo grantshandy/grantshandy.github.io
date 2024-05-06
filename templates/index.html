@@ -3,9 +3,10 @@
 
 {% block content %}
 <!-- Header -->
-<div class="flex flex-col md:flex-row items-center mb-6 md:mb-8 gap-6">
+<div class="flex flex-col md:flex-row items-center mb-6 gap-6">
     <div>
-        <img src="{{  get_url(path=section.extra.cover) | safe }}" class="w-48 md:w-64 rounded-2xl shadow-2xl" />
+        <img src="{{  get_url(path=section.extra.cover) | safe }}" class="w-48 md:w-64 rounded-2xl shadow-2xl"
+            alt="a picture of me" />
     </div>
     <div class="md:order-first text-center md:text-right space-y-4 max-w-sm">
         <h1 class="text-5xl md:text-6xl font-extrabold">{{ section.extra.name }}</h1>
@@ -18,6 +19,9 @@
     {% if section.pages %}
     {{ macros::break() }}
     <h1>Thoughts</h1>
+    {% if section.extra.thought_desc %}
+    <p class="mt-0"><i>{{ section.extra.thought_desc | safe }}</i></p>
+    {% endif %}
     <ul class="space-y-6 not-prose">
         {% for page in section.pages %}
         {% if page.extra.cover %}
@@ -28,7 +32,6 @@
         {% endif %}
         {% endfor %}
     </ul>
-    <p class="mb-8"><i>(more to come!)</i></p>
     {% endif %}
 
     <!-- Projects -->
@@ -36,7 +39,7 @@
     {{ macros::break() }}
     <h1>Projects</h1>
     {% if section.extra.project_desc %}
-    <p><i>{{ section.extra.project_desc | safe }}</i></p>
+    <p class="mt-0"><i>{{ section.extra.project_desc | safe }}</i></p>
     {% endif %}
     <ul class="space-y-6 not-prose">
         {% for project in section.extra.projects %}
@@ -48,18 +51,17 @@
     <!-- Content -->
     {{ macros::break() }}
     {{ section.content | safe }}
+    <p>{{ macros::buymeacoffee() }}</p>
 </main>
 {% endblock content %}
 
 {% macro item(cover, link, title, description) %}
-<li class="bg-base-200 rounded-xl shadow-md border border-base-300 flex">
+<li class="bg-base-200 rounded-xl shadow-md border border-base-300 flex item">
     {% if cover %}
-    <img src="{{ get_url(path=cover) | safe }}" class="rounded-l-xl w-32">
+    <img src="{{ get_url(path=cover) | safe }}" class="rounded-l-xl w-32 not-prose" alt="project cover">
     {% endif %}
     <div class="p-4 space-y-2">
-        <h2 class="my-0 text-xl font-semibold underline underline-offset-2">
-            <a href="{{ link }}">{{ title }}</a>
-        </h2>
+        <h2 class="my-0 text-xl font-semibold underline underline-offset-2"><a href="{{ link }}">{{ title }}</a></h2>
         <p class="text-lg">{{ description | markdown | safe }}</p>
     </div>
 </li>

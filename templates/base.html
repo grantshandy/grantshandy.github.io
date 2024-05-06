@@ -1,7 +1,7 @@
 {% import "macros.html" as macros %}
 
-{% if section %}{% set toc = section.toc %}{% endif %}
-{% if page %}{% set toc = page.toc %}{% endif %}
+{% if section and section.ancestors | length != 0 %}{% set toc = section.toc %}{% endif %}
+{% if page and page.ancestors | length != 0 %}{% set toc = page.toc %}{% endif %}
 
 {% set dark = "dim" %}
 {% set light = "light" %}
@@ -15,24 +15,16 @@
     <meta name="description" content="my blog">
     <link rel="stylesheet" href="{{ get_url(path='styles.css') | safe }}" />
     <link rel="icon" type="image/jpeg" href="{{ get_url(path='img/pfp.jpg') | safe }}">
-    {% block head %}{% endblock head %}
-
-    <title>{% if section -%}{{ section.title }} | {% endif %} {{ config.title }}</title>
     <script>
         window.addEventListener("DOMContentLoaded", () => {
             const themeController = document.getElementById("theme-controller");
             let theme = localStorage.theme === '{{ dark }}' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
             const updateTheme = (dark) => {
+                const name = dark ? '{{ dark }}' : '{{ light }}';
                 themeController.checked = !dark;
-
-                if (dark) {
-                    document.documentElement.setAttribute("data-theme", '{{ dark }}');
-                    localStorage.theme = '{{ dark }}';
-                } else {
-                    document.documentElement.setAttribute("data-theme", '{{ light }}');
-                    localStorage.theme = '{{ light }}';
-                }
+                document.documentElement.setAttribute("data-theme", name);
+                localStorage.theme = name;
             };
             updateTheme(theme);
 
@@ -42,6 +34,8 @@
             })
         });
     </script>
+    {% block head %}{% endblock head %}
+    <title>{% if section -%}{{ section.title }} | {% endif %} {{ config.title }}</title>
 </head>
 
 <body>
@@ -51,7 +45,7 @@
 
         <!-- Floating Buttons -->
         <div class="fixed right-2 top-2 flex flex-col gap-2">
-            <label class="btn btn-circle swap swap-rotate">
+            <label class="btn btn-circle swap swap-rotate" for="theme-controller">
                 <input type="checkbox" class="theme-controller" id="theme-controller" />
                 <svg class="swap-off fill-current w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
