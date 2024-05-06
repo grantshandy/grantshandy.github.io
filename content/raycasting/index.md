@@ -1,6 +1,6 @@
 +++
 title = "A First-Person Game in 2KB"
-description = "Create a simple ray caster in a tiny 2KB game with Rust and WASM-4."
+description = "Create a tiny game in 2KB with Rust and WASM-4."
 date = 2023-02-24
 draft = false
 
