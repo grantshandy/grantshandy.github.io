@@ -29,7 +29,7 @@
         # let me know if there's a better way to do this :)
         link_katex = pkgs.writeShellScriptBin "link_katex"
           ''
-            rm static/katex
+            rm -rf static/katex
             ln -s ${katex} static/katex
           '';
 
