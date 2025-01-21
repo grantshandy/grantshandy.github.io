@@ -23,14 +23,14 @@ I've tried to make this as accessible and friendly as possible but a healthy und
 
 Here's a quick preview of what we'll be making:
 
-![preview](preview.gif)
+![preview](img/preview.gif)
 
 If you just want to see the source code, you can check out the [Github repository](https://github.com/grantshandy/wasm4-raycaster).
 
 My first experience with games like this (though I didn't know at the time), was in middle school with games like [zDoom](https://www.ticalc.org/archives/files/fileinfo/360/36062.html) on my calculator.
 zDoom (while not actually that fun), was fascinating to me because it could (kind of) create the illusion of depth and perspective, something I thought only "real" games could do.
 
-![zDoom](zdoom.png)
+![zDoom](img/zdoom.png)
 
 zDoom was only an imitation of the original game Doom, in reality, it was much closer to Doom's predecessor, Wolfenstein 3D.
 
@@ -47,7 +47,7 @@ All the game entities were located at simple x and y positions on the map and co
 Upon release, I'm sure that this didn't matter, but with our current standards, it shows its age.
 The player could not look up or down, let alone crouch or jump.
 
-![A top-down view of the first level of Wolfenstein 3D](wolfenstein-map.png)
+![A top-down view of the first level of Wolfenstein 3D](img/wolfenstein-map.png)
 
 To add to that, all the levels were composed of single floors of buildings with no windows.
 Also, all walls were perfectly straight with corners placed at even intervals (something that will absolutely not come up later).
@@ -63,7 +63,7 @@ Just this simple idea alone creates a convincing illusion of depth and allows us
 Ray casting *works* by tracing a path from the player to the closest wall for each column in the player's view.
 It then records the distances of each path before converting it into the height of a wall and drawing it on the screen as a vertical line.
 
-![figure overview](figure-overview.svg)
+![figure overview](img/figure-overview.svg)
 
 From what we know so far about the ray casting algorithm we can deduce that we will need to:
 
@@ -77,13 +77,13 @@ The hardest part of this is "cast a ray from the player and stop at the nearest 
 This seems simple on paper but in practice, it can be [pretty difficult](https://en.wikipedia.org/wiki/Collision_detection).
 If you had to come up with a ray casting implementation yourself, how would you approach it?
 
-![The Intersection Problem](figure-question.svg)
+![The Intersection Problem](img/figure-question.svg)
 
 The first idea most people would probably have is to repeatedly extend the ray[^2] a small amount and stop when it hits a wall.
 This is problematic because we might skip over the wall entirely when extending the ray.
 And if the ray does hit the wall correctly it will have very low accuracy because it won't know exactly where the wall started, just that it landed in one.
 
-![The Naive Solution](figure-naive.svg)
+![The Naive Solution](img/figure-naive.svg)
 
 What we need is to find a way that we can *guarantee* that the ray will intersect with a wall and that it will stop right on the border of that wall.
 In math land, we might be able to do this by extending the ray an infinitely small distance infinitely many times.
@@ -92,7 +92,7 @@ Sadly, we're not in math land so we can't do that.
 The solution to this, as you might have guessed from the earlier foreshadowing, is to align all the walls to a grid. 
 If we know that the walls fall at predictable intervals we can calculate a reliable distance to extend our ray each time.
 
-![Notice a pattern?](figure-solution.svg)
+![Notice a pattern?](img/figure-solution.svg)
 
 But how will the ray jump to the wall?
 
@@ -109,7 +109,7 @@ Here's an example diagram of what it looks like when a player looks at a "horizo
 This diagram is interactive, try dragging around the player!
 
 {{ geogebra(
-    file="horizontal.ggb"
+    file="/ggb/horizontal.ggb"
     name="horizontal"
     caption="Notice how only the *width* between extensions changes when the player moves."
     coords="-2.78, 13.18, -4.48, 7.48") }}
@@ -129,7 +129,7 @@ $$ \Delta W = \frac{\Delta H}{\tan(\theta)} $$
 Here's another interactive diagram of what it looks like when a ray intersects with a "vertical wall".
 
 {{ geogebra(
-    file="vertical.ggb"
+    file="/ggb/vertical.ggb"
     name="vertical"
     caption="Here the *height* between extensions changes while the width stays the same."
     coords="-3.097, 8.238, 2.274, 10.769")
@@ -167,7 +167,7 @@ WASM-4 is *extremely* minimal, the "4" in "WASM-4" is there because you can only
 I'll be using Rust, but you could follow along with any language that can compile to WebAssembly.
 If you're more familiar with JavaScript I recommend [AssemblyScript](https://assemblyscript.org).
 
-![](wasm4-demo.svg)
+![](img/wasm4-demo.svg)
 
 WASM-4 will let us create *tiny* games because it provides a simple platform to build off.
 WASM-4 handles windowing, graphics rendering, and gamepad input, we have to do everything else.
@@ -282,7 +282,7 @@ To compile and run our game we can build it just like any other crate:
 
 This will launch an empty window, and if we press the up arrow on the keyboard a vertical line will appear in all its green Gameboy-ish style.
 
-![](screenshot-one.png)
+![](img/screenshot-one.png)
 
 Great, now that we've got the workflow down we can get to writing the game.
 
@@ -355,7 +355,7 @@ Because of this, best practice is to keep `unsafe` usage to a minimum.
 If we consolidate `unsafe` behavior into `fn update` and game logic into `State` we isolate our state and give some structure to our program.
 This gives us a pretty clear line: `unsafe` I/O with WASM-4 in `fn update`, safe game logic in `State`.
 
-![](unsafe-flow.svg)
+![](img/unsafe-flow.svg)
 
 ### Moving the Character
 One of the easier parts of this game is moving the character.
@@ -664,7 +664,7 @@ impl State {
 Looks good, let's try running it!
 You can use the arrow keys on your keyboard to move the player around.
 
-![first attempt](first-attempt.gif)
+![first attempt](img/first-attempt.gif)
 
 Wow, we were able to create the illusion of depth!
 This is pretty impressive for our first try.
@@ -674,14 +674,14 @@ Most tutorials stop here, but there are some problems we need to work out.
 When walking around you might notice that everything looks... wrong.
 Walls bend away from you as if you were looking through a fisheye lens.
 
-![](fisheye.png)
+![](img/fisheye.png)
 
 This is because our algorithm's assumption that human vision converges on a single infinitely small point (the player) is wrong.
 In reality, our visual cortex is constantly blending the perspective of both of our eyes to create depth.
 
 In this case a much more accurate metaphor is a plane  perpendicular to our perspective sending out the rays:
 
-![](figure-perspective.svg)
+![](img/figure-perspective.svg)
 
 Of course this is pretty vague, but if you think of it as "fisheye correction" maybe that'll help.
 To apply this "fisheye correction" we have to multiply the distance by the cosine of difference between the ray's angle and the player's angle:
@@ -695,7 +695,7 @@ All we have to do to apply this is to modify a single line in the `State::get_vi
 *wall = ( WALL_HEIGHT / (f32::min(h_dist, v_dist) * cosf(angle - self.player_angle)) ) as i32;    
 ```
 
-![corrected](corrected.png)
+![corrected](img/corrected.png)
 
 Great! Now the walls are straight.
 
@@ -703,7 +703,7 @@ Great! Now the walls are straight.
 One thing about the current version of the game is that it is difficult to distinguish between different walls.
 Especially at a distance, walls seem to fade into each other and it's hard to tell them apart.
 
-![nodepth](nodepth.png)
+![nodepth](img/nodepth.png)
 
 In real life, we can distinguish walls apart by their shadows.
 We can try to emulate this in the game by coloring walls differently based on their orientation.
@@ -792,7 +792,7 @@ unsafe fn update() {
 
 Lets try running it:
 
-![depth.png](depth.png)
+![depth.png](img/depth.png)
 
 Wow, that looks much better.
 Even though shadows in real life don't act like this it adds some good detail and helps create the illusion of depth.
@@ -931,7 +931,7 @@ $ du -bh target/wasm32-unknown-unknown/release/raycaster.wasm
 2.0K	target/wasm32-unknown-unknown/release/raycaster.wasm
 ```
 
-![preview](preview.gif)
+![preview](img/preview.gif)
 
 ## Conclusion
 1.7K is not the smallest you can make this program.

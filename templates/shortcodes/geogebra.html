@@ -19,7 +19,7 @@
           api.setWidth(rect.right - rect.left);
           api.setCoordSystem({{ coords }});
         },
-        filename: '{{ file | safe }}'
+        filename: '{{ get_url(path=file) | safe }}'
       })
       .inject('{{ name }}');
 
