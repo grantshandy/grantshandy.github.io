@@ -1,76 +1,15 @@
 {% extends "base.html" %}
-{% import "macros.html" as macros %}
 
 {% block content %}
-<!-- Header -->
-<div class="flex flex-col md:flex-row items-center mb-6 gap-6">
+<header>
     <div>
-        <img src="{{  get_url(path=section.extra.cover) | safe }}" class="w-48 md:w-64 rounded-2xl shadow-2xl"
-            alt="a picture of me" />
-    </div>
-    <div class="md:order-first text-center md:text-right space-y-4 max-w-sm">
-        <h1 class="text-5xl md:text-6xl font-extrabold">{{ section.extra.name }}</h1>
-        <p>{{ section.description | safe }}</p>
-    </div>
-</div>
-
-<main class="pt-2 index-page lg:px-6">
-    <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-6">
-        <!-- Articles -->
-        {% if section.pages %}
-        <section class="prose lg:max-w-xl">
-            <h1>Thoughts</h1>
-            {% if section.extra.thought_desc %}
-            <p class="mt-0"><i>{{ section.extra.thought_desc | safe }}</i></p>
-            {% endif %}
-            <ul class="space-y-6 not-prose">
-                {% for page in section.pages %}
-                    {{ self::item(cover=page.colocated_path ~ page.extra.cover, link=page.permalink, title=page.title,
-                        description=page.description, date=page.date) }}
-                {% endfor %}
-            </ul>
-        </section>
-        {% endif %}
-
-        <!-- Projects -->
-        {% if section.extra.projects %}
-        <section class="prose lg:max-w-xl">
-            <div class="lg:hidden">{{ macros::break() }}</div>
-
-            <h1>Projects</h1>
-            {% if section.extra.project_desc %}
-            <p class="mt-0"><i>{{ section.extra.project_desc | safe }}</i></p>
-            {% endif %}
-            <ul class="space-y-6 not-prose">
-                {% for project in section.extra.projects %}
-                {{ self::item(cover=project.img, link=project.link, title=project.name, description=project.desc, date="") }}
-                {% endfor %}
-            </ul>
-        </section>
-        {% endif %}
+        <h1>{{ section.title }}</h1>
+        <p><i>{{ section.description }}</i></p>
     </div>
 
-    <!-- Content -->
-    <div class="prose mx-auto">
-        {{ macros::break() }}
-        {{ section.content | safe }}
-        <p>{{ macros::buymeacoffee() }}</p>
-    </div>
-</main>
+    <img src="{{ section.extra.cover }}" width="75" height="75" />
+</header>
+
+{{ section.content | safe }}
+
 {% endblock content %}
-
-{% macro item(cover, link, title, description, date) %}
-<li class="bg-base-200 rounded-xl shadow-md border border-base-300 item flex flex-col sm:flex-row">
-    {% if cover %}
-    <img src="{{ get_url(path=cover) | safe }}" class="rounded-t-xl sm:rounded-l-xl sm:rounded-t-none sm:w-32 not-prose" alt="project cover">
-    {% endif %}
-    <div class="grow p-4 space-y-2">
-        <div class="w-full md:flow-root">
-            <h2 class="md:float-left my-0 text-xl font-semibold underline underline-offset-4"><a href="{{ link }}">{{ title }}</a></h2>
-            <i class="md:float-right text-sm my-auto">{{ date }}</i>    
-        </div>
-
-        {{ description | markdown | safe }}
-    </div>
-</li>
-{% endmacro item %}

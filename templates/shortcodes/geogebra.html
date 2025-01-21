@@ -28,10 +28,10 @@
   }
 </script>
 
-<div class="flex flex-col items-center w-full border rounded-md overflow-hidden">
-  <button class="btn btn-sm mt-5" onclick="load_{{ name }}()" id="{{ name }}-load-btn">Load Demo</button>
-  <div class="w-full rounded-t-md overflow-hidden hidden" id='{{ name }}-outer'>
-    <div id='{{ name }}' class="rounded-t-md overflow-hidden w-full"></div>
+<div>
+  <button onclick="load_{{ name }}()" id="{{ name }}-load-btn">Load Demo</button>
+  <div id='{{ name }}-outer'>
+    <div id='{{ name }}'></div>
   </div>
   {{ caption | markdown | safe }}
 </div>

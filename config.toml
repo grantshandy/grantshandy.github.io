@@ -1,7 +1,13 @@
-title = "Grant Handy"
-
 base_url = "https://grantshandy.github.io"
 build_search_index = false
-minify_html = true
+
+[markdown]
+highlight_code = true
+highlight_theme = "1337"
 
 [extra]
+links = [
+    { name = "Email", url = "mailto://granthandy@pm.me" },
+    { name = "Github", url = "https://github.com/grantshandy" },
+    { name = "Donate", url = "https://buymeacoffee.com/granthandy" }
+]

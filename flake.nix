@@ -13,19 +13,6 @@
       let
         pkgs = import nixpkgs { inherit system; };
 
-        tailwindcss = pkgs.nodePackages.tailwindcss.overrideAttrs
-          (oa: {
-            plugins = [
-              pkgs.nodePackages."@tailwindcss/typography"
-              (import ./nix/daisyui.nix { inherit pkgs; })
-            ];
-          });
-
-        build_css = pkgs.writeShellScriptBin "build_css"
-          ''
-            ${tailwindcss}/bin/tailwindcss --minify -i styles/styles.css -o static/styles.css
-          '';
-
         # let me know if there's a better way to do this :)
         link_katex = pkgs.writeShellScriptBin "link_katex"
           ''
@@ -33,7 +20,7 @@
             ln -s ${katex} static/katex
           '';
 
-        buildInputs = [ pkgs.zola build_css link_katex ];
+        buildInputs = [ pkgs.zola link_katex ];
       in
       {
         defaultPackage = pkgs.stdenv.mkDerivation {
@@ -46,7 +33,6 @@
           checkPhase = "zola check";
 
           buildPhase = ''
-            build_css
             link_katex
             zola build
           '';
@@ -58,16 +44,10 @@
         };
 
         devShell = pkgs.mkShell {
-          shellHook = "${link_katex}/bin/link_katex";
-          buildInputs = buildInputs ++ [
-            (pkgs.writeShellScriptBin "develop"
-              ''
-                ${pkgs.watchexec}/bin/watchexec -r -e html,md,css,json -- "${build_css}/bin/build_css && ${pkgs.zola}/bin/zola serve"
-              '')
-            tailwindcss
-          ];
+          shellHook = "link_katex";
+          inherit buildInputs;
         };
 
-        formatter = pkgs.nixpkgs-fmt;
+        formatter = pkgs.nixfmt-rfc-style;
       });
 }

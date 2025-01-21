@@ -23,7 +23,7 @@ I've tried to make this as accessible and friendly as possible but a healthy und
 
 Here's a quick preview of what we'll be making:
 
-{{ loopingvideopreview(src="preview.webm" type="video/webm") }}
+![preview](preview.gif)
 
 If you just want to see the source code, you can check out the [Github repository](https://github.com/grantshandy/wasm4-raycaster).
 
@@ -664,7 +664,7 @@ impl State {
 Looks good, let's try running it!
 You can use the arrow keys on your keyboard to move the player around.
 
-{{ loopingvideopreview(src="first-attempt.webm" type="video/webm") }}
+![first attempt](first-attempt.gif)
 
 Wow, we were able to create the illusion of depth!
 This is pretty impressive for our first try.
@@ -931,7 +931,7 @@ $ du -bh target/wasm32-unknown-unknown/release/raycaster.wasm
 2.0K	target/wasm32-unknown-unknown/release/raycaster.wasm
 ```
 
-{{ loopingvideopreview(src="preview.webm" type="video/webm") }}
+![preview](preview.gif)
 
 ## Conclusion
 1.7K is not the smallest you can make this program.

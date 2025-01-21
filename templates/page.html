@@ -9,28 +9,13 @@
 {% endif %}
 {% endblock head %}
 
-{% macro mainpage() %}
-<a href="/">return to main page</a>
-{% endmacro mainpage %}
+{% block nav %}
+<ul>
+    <li><a href="/">Main Page</a></li>
+</ul>
+{% endblock nav %}
 
 {% block content %}
-<p class="absolute top-2 left-2 italic underline text-sm">{{ self::mainpage() }}</p>
-
-<article class="prose">
-    <h1 class="mb-1">{{ page.title | safe }}</h1>
-    <div class="space-y-2 mb-8">
-        {% if page.date %}
-        <span class="text-sm italic font-normal">Written {{ page.date | safe }}</span>
-        {% endif %}
-        {% if page.description %}
-        <blockquote class="italic">{{ page.description | safe }}</blockquote>
-        {% endif %}
-    </div>
-    {{ macros::break() }}
-    {{ page.content | safe }}
-    <footer class="w-full flow-root">
-        <i class="float-left">{{ macros::buymeacoffee() }}</i>
-        <i class="float-right">{{ self::mainpage() }}</i>
-    </footer>
-</article>
+<h1>{{ page.title }}</h1>
+{{ page.content | safe }}
 {% endblock content %}
