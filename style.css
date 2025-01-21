@@ -1,0 +1,125 @@
+/* Thanks to https://goblin-heart.net/sadgrl/webmastery/layouts/ */
+
+:root {
+    --bg-color: #DCE2BD;
+    /* light green */
+    --pg-color: #f9fcea;
+    /* very light green */
+    --accent: #93C0A4;
+    /* dark green */
+    --accent-2: #8E9B90;
+    /* gray */
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    font-family: sans-serif;
+    font-size: 0.85em;
+    /* here is where you'd add a background image */
+}
+
+body {
+    background-color: var(--bg-color);
+}
+
+#container {
+    background-color: var(--pg-color);
+    width: 60%;
+    border-left: 100px solid var(--accent);
+    border-right: 1px solid var(--accent-2);
+    position: relative;
+}
+
+main {
+    border-left: 4px dotted var(--accent-2);
+    margin-left: 100px;
+}
+
+nav {
+    background-color: var(--accent);
+    position: absolute;
+    top: 100px;
+    left: 50px;
+    border: 1px solid var(--bg-color);
+    width: 120px;
+    /* height: 200px; */
+    z-index: 9;
+}
+
+article {
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
+    padding-top: 25px;
+    line-height: 1.7em;
+}
+
+article>p>img {
+    width: 65%;
+}
+
+pre {
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+h2 {
+    font-size: 15px;
+    border-bottom: 1px solid var(--accent-2);
+    padding-bottom: 8px;
+}
+
+nav>ul {
+    background-color: var(--accent-2);
+    margin: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+nav>ul>li {
+    border-bottom: 1px solid white;
+    text-align: center;
+}
+
+nav>ul>li:last-child {
+    border-bottom: none;
+    text-align: center;
+}
+
+nav>ul>li>a {
+    font-size: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: inline-block;
+    color: white;
+}
+
+header {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+header>img {
+    margin-left: 2rem;
+}
+
+@media only screen and (max-width: 850px) {
+    nav {
+        left: 0;
+    }
+
+    #container {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    main {
+        margin-left: 0;
+    }
+}
