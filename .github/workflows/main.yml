@@ -23,10 +23,13 @@ jobs:
     - name: Build Site
       run: nix --extra-experimental-features nix-command --extra-experimental-features flakes build
 
-    - name: Upload artifacts
-      uses: s0/git-publish-subdir-action@develop
-      env:
-        REPO: self
-        BRANCH: site
-        FOLDER: ./result/site/
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        # Upload dist repository
+        path: './result/site/'
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v1
