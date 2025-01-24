@@ -29,8 +29,7 @@ body {
 
 #container {
     background-color: var(--pg-color);
-    width: 60%;
-    border-left: 100px solid var(--accent);
+    width: 65%;
     border-right: 1px solid var(--accent-2);
     position: relative;
 }
@@ -42,12 +41,8 @@ main {
 
 nav {
     background-color: var(--accent);
-    position: absolute;
-    top: 100px;
-    left: 50px;
     border: 1px solid var(--bg-color);
     width: 120px;
-    /* height: 200px; */
     z-index: 9;
 }
 
@@ -60,7 +55,7 @@ article {
 }
 
 article>p>img {
-    width: 65%;
+    width: 75%;
 }
 
 pre {
@@ -109,7 +104,7 @@ header>img {
     margin-left: 2rem;
 }
 
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 950px) {
     nav {
         left: 0;
     }
@@ -121,5 +116,17 @@ header>img {
 
     main {
         margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 420px) {
+    #container {
+        border-left: 100px solid var(--accent);
+    }
+
+    nav {
+        position: absolute;
+        top: 100px;
+        left: 50px;
     }
 }
