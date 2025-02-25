@@ -26,10 +26,19 @@ It compiles WebAssembly in the browser with the compiler running in a Web Worker
 
 
 ### Egui Themer ([repo](https://github.com/grantshandy/egui-themer))
-A graphical tool for interactively designing compile-time [egui](https://lib.rs/crates/egui) themes.
+A graphical tool for interactively designing zero-overhead [egui](https://lib.rs/crates/egui) themes.
 
 ![preview](/projects/egui-themer.gif)
 
+### Free Guessing ([site](https://grantshandy.github.io/free-guessing))
+Guess the location of random street views across the world, inspired by geoguessr.
+
+![preview](/projects/free-guessing.png)
+
+### True Size of Anything ([site](https://grantshandy.github.io/true-size-of-anything))
+Inspired by "The True Size Of...", this website lets you accurately compare the size of any region on OpenStreetMap.
+
+![preview](/projects/tsoa.png)
 
 ### Force Directed Graph ([repo](https://github.com/grantshandy/fdg))
 A [force-directed graph drawing](https://en.wikipedia.org/wiki/Force-directed_graph_drawing) library for [petgraph](https://lib.rs/crates/petgraph).
