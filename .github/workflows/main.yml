@@ -24,12 +24,12 @@ jobs:
       run: nix --extra-experimental-features nix-command --extra-experimental-features flakes build
 
     - name: Setup Pages
-      uses: actions/configure-pages@v3
+      uses: actions/configure-pages@v4
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v1
+      uses: actions/upload-pages-artifact@v3
       with:
-        # Upload dist repository
+        # Upload dist folder
         path: './result/site/'
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v1
+      uses: actions/deploy-pages@v4
